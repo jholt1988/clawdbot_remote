@@ -23,5 +23,6 @@
 - Wake: usually 5:00–5:30 AM; wants 4:30 AM.
 - Pain points: money stress; time management.
 - PMS focus: MVP demo / AI inspection workflow; wants ~2–4 hrs/day, every day.
+- Preferred PMS work window: midday or evening.
 - Singing: 3×20-min sessions + ~10-min warmup; plus 1–2 hrs repertoire work.
 - Workout preference: home-only bodyweight (for now).
