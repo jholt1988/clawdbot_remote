@@ -5,7 +5,7 @@
 - **Name:** Jordan Alexander Holt
 - **What to call them:** Jordan (confirm)
 - **Pronouns:** 
-- **Timezone:** (unknown; ask)
+- **Timezone:** America/Chicago (Wichita, Kansas; CST/CDT)
 - **Notes:** Born July 11, 1988. Oldest sibling. Mom (Mia Nylette Morris) passed ~4 years ago. Dog: Bentley (Yorkie, ~4–5 years old). KU graduate (2010) — BA Theatre Performance, minor in Dance. Identifies as actor/dancer/singer/performing artist/writer/entrepreneur/developer. Wants help establishing routines and finishing projects.
 
 ## Context

@@ -15,5 +15,6 @@
 - Stationery + business card selection.
 
 ## Working style
+- Timezone: Wichita, Kansas (Central Time; America/Chicago).
 - Requested a 5–7 day orientation.
 - Wants twice-daily check-ins with 5–10 questions; also okay with random questions.
