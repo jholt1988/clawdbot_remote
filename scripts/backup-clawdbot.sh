@@ -12,6 +12,15 @@ BACKUP_DIR="$WORKDIR/backups"
 STAMP="$(date -u +%Y-%m-%dT%H-%M-%SZ)"
 ARCHIVE="$BACKUP_DIR/clawdbot-state-$STAMP.tar.gz"
 
+# Optional config file for Drive destination/account.
+# Create /home/jordanh316/clawd/.backup.env with e.g.:
+#   DRIVE_FOLDER_ID="<google-drive-folder-id>"
+#   GOG_ACCOUNT="you@gmail.com"
+if [ -f "$WORKDIR/.backup.env" ]; then
+  # shellcheck disable=SC1090
+  source "$WORKDIR/.backup.env"
+fi
+
 mkdir -p "$BACKUP_DIR"
 
 log() { printf "[%s] %s\n" "$(date -u +%FT%TZ)" "$*"; }
