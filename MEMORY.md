@@ -24,6 +24,8 @@
 - Pain points: money stress; time management.
 - PMS focus: MVP demo / AI inspection workflow; wants ~2–4 hrs/day, every day.
   - MVP demo target: ideally predictive maintenance; fallback: AI generates work plan + cost + timeline.
+  - MVP UX: user presses a button to generate the estimate.
+  - Checklist editing: requiresAction toggle + condition + notes; manual save with form cache; save per room; all-or-nothing per room.
 - Preferred PMS work window: midday or evening.
 - Preferred PMS blocks: 12:30–2:30 PM and 7:00–9:00 PM.
 - If only one PMS block happens: evening is the priority.
