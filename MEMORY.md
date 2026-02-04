@@ -23,6 +23,7 @@
 - Wake: usually 5:00–5:30 AM; wants 4:30 AM.
 - Pain points: money stress; time management.
 - PMS focus: MVP demo / AI inspection workflow; wants ~2–4 hrs/day, every day.
+  - MVP demo target: ideally predictive maintenance; fallback: AI generates work plan + cost + timeline.
 - Preferred PMS work window: midday or evening.
 - Preferred PMS blocks: 12:30–2:30 PM and 7:00–9:00 PM.
 - If only one PMS block happens: evening is the priority.
