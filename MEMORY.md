@@ -25,5 +25,6 @@
 - PMS focus: MVP demo / AI inspection workflow; wants ~2–4 hrs/day, every day.
 - Preferred PMS work window: midday or evening.
 - Preferred PMS blocks: 12:30–2:30 PM and 7:00–9:00 PM.
+- If only one PMS block happens: evening is the priority.
 - Singing: 3×20-min sessions + ~10-min warmup; plus 1–2 hrs repertoire work.
 - Workout preference: home-only bodyweight (for now).
