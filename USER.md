@@ -23,6 +23,9 @@ Current priorities/projects:
 Working style request:
 - 5–7 day “orientation period.”
 - Twice daily check-ins with ~5–10 questions; random questions okay.
+- Product preference: refined/subtly impressive UX; avoid flashy/gaudy features without substance.
+- When ambiguous, prefer the option that most improves UX while staying pragmatic for maintainability/scalability.
+- After finishing a feature/workflow, produce a markdown or PDF changelog explaining what changed and why.
 
 ---
 
