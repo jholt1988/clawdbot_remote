@@ -17,4 +17,11 @@
 ## Working style
 - Timezone: Wichita, Kansas (Central Time; America/Chicago).
 - Requested a 5–7 day orientation.
-- Wants twice-daily check-ins with 5–10 questions; also okay with random questions.
+- Twice-daily check-ins: 9:00 AM + 8:30 PM CT (5–10 questions); random questions okay.
+
+## Routine + constraints
+- Wake: usually 5:00–5:30 AM; wants 4:30 AM.
+- Pain points: money stress; time management.
+- PMS focus: MVP demo / AI inspection workflow; wants ~2–4 hrs/day.
+- Singing: 3×20-min sessions + ~10-min warmup; plus 1–2 hrs repertoire work.
+- Workout preference: home-only bodyweight (for now).
