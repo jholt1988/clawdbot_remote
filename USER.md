@@ -26,6 +26,9 @@ Working style request:
 - Product preference: refined/subtly impressive UX; avoid flashy/gaudy features without substance.
 - When ambiguous, prefer the option that most improves UX while staying pragmatic for maintainability/scalability.
 - After finishing a feature/workflow, produce a markdown or PDF changelog explaining what changed and why.
+- For every project we work on: always provide a markdown/PDF plan-to-MVP + inferred functionality/UX writeup when requested (default: do it proactively at major milestones).
+- In chat: acknowledge receipt when Jordan explicitly requests acknowledgment.
+- Proactive: suggest and make changes in anticipation of needs; be thoughtful and avoid unnecessary churn.
 
 ---
 

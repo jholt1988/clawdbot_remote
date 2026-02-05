@@ -1,0 +1,17 @@
+{
+  "deviceID": "WVXH7OL-25AZJFS-7LIGD4R-UDCW6VS-OUGJ6ZD-BEN2NJA-AAJRURT-IE4ZJAS",
+  "name": "Jordan Laptop",
+  "addresses": ["dynamic"],
+  "compression": "metadata",
+  "introducer": false,
+  "skipIntroductionRemovals": false,
+  "introducedBy": "",
+  "paused": false,
+  "allowedNetworks": [],
+  "autoAcceptFolders": false,
+  "maxSendKbps": 0,
+  "maxRecvKbps": 0,
+  "ignoredFolders": [],
+  "pendingFolders": [],
+  "maxRequestKiB": 0
+}
