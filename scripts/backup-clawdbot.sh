@@ -45,10 +45,19 @@ else
   log "WARN: no git remote 'origin' configured; skipping push"
 fi
 
-# 3) Archive ~/.clawdbot
+# 3) Archive ~/.clawdbot (+ briefings)
+# Include /home/jordanh316/clawd/briefings so daily briefs and artifacts are preserved.
 if [ -d "$STATE_DIR" ]; then
-  log "Archiving $STATE_DIR -> $ARCHIVE"
-  tar -czf "$ARCHIVE" -C "$HOME" ".clawdbot"
+  log "Archiving $STATE_DIR (+ briefings) -> $ARCHIVE"
+
+  # tar supports multiple -C switches; include both paths if present.
+  if [ -d "$WORKDIR/briefings" ]; then
+    tar -czf "$ARCHIVE" \
+      -C "$HOME" ".clawdbot" \
+      -C "$WORKDIR" "briefings"
+  else
+    tar -czf "$ARCHIVE" -C "$HOME" ".clawdbot"
+  fi
 else
   log "WARN: $STATE_DIR not found; skipping"
 fi
