@@ -1,0 +1,26 @@
+{
+  "name": "clawd",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jholt1988/clawdbot_remote.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jholt1988/clawdbot_remote/issues"
+  },
+  "homepage": "https://github.com/jholt1988/clawdbot_remote#readme",
+  "devDependencies": {
+    "playwright": "^1.58.2"
+  },
+  "dependencies": {
+    "marked": "^17.0.1"
+  }
+}
