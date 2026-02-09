@@ -58,7 +58,7 @@ Sub-agent must respond with:
 - Establish weekly Research + Writer cadence with strict oversight; produce actionable memos + docs to support PMS delivery.
 
 ## Cadence (Weekly)
-Time zone: America/Chicago (confirm)
+Time zone: America/Chicago (confirmed). Target delivery time: 9:00 AM CT.
 
 - **Mon (Research):** upcoming work risk scan (security/permissions + migrations)
 - **Tue (Writer):** changelog + release notes for prior week; draft SOPs for anything we touched
@@ -70,6 +70,15 @@ Conductor action: open 1â€“2 tickets/day max; keep each ticket timeboxed to 20â€
 
 ## Tickets
 ### Backlog
+- **20260209-0100-subagent-runtime-fix**
+  - Objective: Fix sub-agent runtime config so Planner/Ops can reliably run without 401 errors and produce complete reports.
+  - Context: sub-agent transcripts showing "Incorrect API key" errors; sessions_spawn defaults.
+  - Constraints: STRICT mode; Conductor applies any config changes.
+  - Deliverables: Root cause + proposed fix steps (config/env/model override) + verification plan.
+  - Definition of Done: New sub-agent run returns a full 6-section report.
+  - Timebox: 30 minutes
+  - Output format: Standard report format
+
 - **20260209-0054-research-lane**
   - Objective: Define the Research sub-agent workflow (lanes, triggers, output standards) and propose a first 2-week research cadence for the PMS project.
   - Context: AGENT-BOARD.md; current PMS work in /home/jordanh316/clawd/pms-master/
