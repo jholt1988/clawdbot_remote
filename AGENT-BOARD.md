@@ -55,7 +55,18 @@ Sub-agent must respond with:
 - Output: ready-to-paste Markdown (and optional PDF outline if asked).
 
 ## Current Goal
-- (unset)
+- Establish weekly Research + Writer cadence with strict oversight; produce actionable memos + docs to support PMS delivery.
+
+## Cadence (Weekly)
+Time zone: America/Chicago (confirm)
+
+- **Mon (Research):** upcoming work risk scan (security/permissions + migrations)
+- **Tue (Writer):** changelog + release notes for prior week; draft SOPs for anything we touched
+- **Wed (Research):** deep dive on 1 high-risk area (pick from backlog)
+- **Thu (Writer):** user-facing docs (how-to) + internal ADR drafts for decisions made
+- **Fri (Research):** “edge cases & tests to add next week” memo
+
+Conductor action: open 1–2 tickets/day max; keep each ticket timeboxed to 20–40 min.
 
 ## Tickets
 ### Backlog
@@ -78,7 +89,23 @@ Sub-agent must respond with:
   - Output format: Standard report format
 
 ### In Progress
-- (none)
+- **20260209-0057-research-weekly-kickoff**
+  - Objective: Produce the Week-1 Research Kickoff memo (top risks + recommended next 5 tickets).
+  - Context: /home/jordanh316/clawd/pms-master/ ; recent maintenance security work in tenant_portal_backend
+  - Constraints: STRICT mode; propose only.
+  - Deliverables: Memo + 5 tickets.
+  - Definition of Done: Conductor can paste memo into AGENT-BOARD.md and open next tickets.
+  - Timebox: 30 minutes
+  - Output format: Standard report format
+
+- **20260209-0057-writer-templates-pack**
+  - Objective: Deliver a ready-to-paste docs/template pack (CHANGELOG, release notes, ADR, SOP) tailored to this repo.
+  - Context: /home/jordanh316/clawd/pms-master/ ; existing changelog style files.
+  - Constraints: STRICT mode; propose only.
+  - Deliverables: Markdown templates + suggested folder path + naming convention.
+  - Definition of Done: Conductor can add the templates to the repo without further edits.
+  - Timebox: 30 minutes
+  - Output format: Standard report format
 
 ### Review
 - (none)
