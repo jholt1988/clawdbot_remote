@@ -736,3 +736,258 @@ With QRS v1.0 active:
 - Scaling agents does not dilute standards
 
 This is the point where the system becomes **trustworthy under load**.
+
+---
+
+# Quality Calibration Pack — v1
+
+**Purpose:** Train agents (and humans) on what “pass” and “fail” *actually mean* under CTS + QRS.
+
+---
+
+## PART A — Example Task Artifacts
+
+### Example 1: **APPROVED TASK**
+
+#### Canonical Task Schema (Excerpt)
+
+**Primary Domain:** Personal  
+**Objective Statement:**
+
+> Produce a daily schedule that optimizes for energy levels, fixed commitments, and priority tasks.
+
+**Required Deliverables:**
+
+- Hour-by-hour schedule
+- Priority task list
+- Energy-aware rationale
+
+**Constraints & Boundaries:**
+
+- Time horizon: single day
+- No rescheduling of fixed commitments
+- No productivity theory exposition
+
+**Quality Requirements:**
+
+- Completeness: all deliverables present
+- Accuracy: schedule respects constraints
+- Clarity: executable without explanation
+
+**Risk Sensitivity:** Low
+
+---
+
+#### Output Summary (Reviewed Artifact)
+
+- Hour-by-hour schedule provided
+- Priority list aligned with schedule
+- Brief rationale explaining energy placement
+- No scope creep
+
+---
+
+#### Quality Reviewer Result
+
+```
+Verdict: Approve
+
+Scores:
+- Completeness: 5 / 5
+- Accuracy: 5 / 5
+- Clarity: 4 / 5
+
+Reasons:
+- All required deliverables present
+- Constraints respected
+- Output is directly executable
+
+Confidence Level: High
+```
+
+**Why this passes:**
+Nothing extra. Nothing missing. Nothing ambiguous.
+
+---
+
+### Example 2: **REJECTED TASK**
+
+#### Canonical Task Schema (Excerpt)
+
+**Primary Domain:** PMS  
+**Objective Statement:**
+
+> Define pricing strategy for the PMS.
+
+**Required Deliverables:**
+
+- Pricing tiers
+- Target customer profiles
+- Revenue rationale
+
+**Constraints & Boundaries:**
+
+- Must align with demo capabilities
+- No unsupported market claims
+
+**Risk Sensitivity:** High
+
+---
+
+#### Output Summary (Reviewed Artifact)
+
+- Pricing tiers proposed
+- Customer profiles partially described
+- Claims made about “market demand” without sources
+- Demo alignment not addressed
+
+---
+
+#### Quality Reviewer Result
+
+```
+Verdict: Reject
+
+Scores:
+- Completeness: 3 / 5
+- Accuracy: 2 / 5
+- Clarity: 4 / 5
+
+Reasons:
+- Missing explicit demo capability alignment
+- Market claims made without declared assumptions or sources
+
+Required Fixes:
+- Map pricing tiers to demo-supported features
+- Declare assumptions or provide sources for market claims
+
+Confidence Level: High
+```
+
+**Why this fails:**
+Not because it’s “bad,” but because **High-Risk tasks require explicit grounding**. This is exactly the behavior you want enforced.
+
+---
+
+### Example 3: **FLAGGED (Clarification Required)**
+
+#### Scenario
+
+Task is structurally complete but contains an unresolved Known Unknown that materially affects execution.
+
+```
+Verdict: Flag
+
+Scores:
+- Completeness: 4 / 5
+- Accuracy: 4 / 5
+- Clarity: 3 / 5
+
+Reasons:
+- Assumption about user availability not confirmed
+
+Required Fixes:
+- Confirm availability window before final scheduling
+
+Confidence Level: Medium
+```
+
+**Why this is flagged, not rejected:**
+The system is working; it just needs a human answer.
+
+---
+
+# PART B — Fast-Path Policy (Low-Risk Acceleration)
+
+**Policy Name:** Fast-Path Execution Policy (FPEP) — v1  
+**Applies To:** Low-Risk tasks only  
+**Enforced By:** Meta Orchestrator + Quality Reviewer
+
+---
+
+## 1. Purpose
+
+Speed up **reversible, informational, or routine tasks** without compromising traceability or quality.
+
+---
+
+## 2. Eligibility Criteria (ALL Required)
+
+A task may qualify for Fast-Path **only if**:
+
+- Risk Sensitivity = **Low**
+- Primary Domain = **Single domain**
+- Required Deliverables ≤ 3
+- No external commitments (legal, financial, reputational)
+- No Council Sync required
+
+If **any condition fails**, Fast-Path is disallowed.
+
+---
+
+## 3. What Changes Under Fast-Path
+
+| Step           | Normal Path | Fast-Path   |
+| -------------- | ----------- | ----------- |
+| Quality Review | Full rubric | Rubric-lite |
+| Review Time    | Unbounded   | Time-boxed  |
+| Rejection      | Normal      | Normal      |
+| Archival       | Full        | Full        |
+| Bypass Allowed | ❌           | ❌           |
+
+**Important:**
+Fast-Path **never skips QA**.  
+It only **reduces review depth**, not authority.
+
+---
+
+## 4. Fast-Path QA Rules
+
+### Minimum Scores (Fast-Path)
+
+| Dimension    | Minimum |
+| ------------ | ------- |
+| Completeness | 3       |
+| Accuracy     | 4       |
+| Clarity      | 3       |
+
+### Auto-Reject Still Applies For:
+
+- Missing Required Deliverables
+- Constraint violations
+- Ambiguity that blocks execution
+
+---
+
+## 5. Labeling & Traceability
+
+Fast-Path outputs must be tagged:
+
+```
+Execution Mode: Fast-Path
+Risk Level: Low
+Reviewer Confidence: Medium or Higher
+```
+
+Meta Archivist records this tag explicitly.
+
+---
+
+## 6. Safety Valve
+
+- Any agent may **escalate** a Fast-Path task to Normal Path
+- Quality Reviewer may **override Fast-Path eligibility**
+- Jordan may override anything, always
+
+---
+
+## What You’ve Achieved With This
+
+You now have:
+
+- **Objective quality calibration**
+- **Predictable rejection behavior**
+- **Speed without chaos**
+- **A system that can say “no” correctly**
+
+This is the moment the system becomes **operationally trustworthy**, not just elegant.
