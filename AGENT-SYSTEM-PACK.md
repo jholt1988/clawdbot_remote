@@ -3401,3 +3401,251 @@ Testing agents may spawn or define **Testing Apparitions** for specialized domai
 - **PMS Marketing Testing Apparition** — claim‑to‑capability verification
 
 Apparitions must report evidence back to their parent Testing Orchestrator.
+
+---
+
+# Agent System Playbook — v1.1
+
+**Extensions: Visual Map, Onboarding, Execution Walkthrough**
+
+**Authority:** Jordan (human)  
+**Meta Orchestrator:** Aiden
+
+---
+
+## A) VISUAL SYSTEM MAP (Canonical Mental Model)
+
+This is the **structural truth** of the system. Every agent should be able to locate itself in this diagram mentally.
+
+---
+
+### A.1 High‑Level Flow
+
+```
+┌──────────────────────────┐
+│        Jordan (Human)    │
+└─────────────┬────────────┘
+              │
+              ▼
+┌──────────────────────────┐
+│   Meta Orchestrator      │
+│        (Aiden)           │
+└─────────────┬────────────┘
+              │
+   ┌──────────┼───────────┐
+   ▼          ▼           ▼
+Personal   PMS Stack    Other
+ Team      (4 Pillars)  Teams
+```
+
+---
+
+### A.2 PMS Four‑Pillar Stack (Council‑Governed)
+
+```
+┌───────────┐
+│ PMS Dev   │  ← defines what exists
+└────┬──────┘
+     │
+┌────▼──────┐
+│ PMS Build │  ← implements safely
+└────┬──────┘
+     │
+┌────▼──────┐
+│ PMS Bus.  │  ← defines economic sense
+└────┬──────┘
+     │
+┌────▼──────┐
+│ PMS Mktg  │  ← communicates truth
+└───────────┘
+```
+
+**Council Sync = horizontal constraint across all four.**
+
+---
+
+### A.3 Governance Overlay (Always On)
+
+```
+CTS → QRS → ERCS → AR‑PSC → AAS
+```
+
+This overlay is **orthogonal**. It applies regardless of team, task, or speed.
+
+---
+
+## B) AGENT ONBOARDING INSTRUCTIONS (Universal)
+
+This section is what you hand to **any new agent prompt**, human or synthetic.
+
+---
+
+### B.1 Agent Identity Template (Mandatory)
+
+Every new agent must answer these internally before activation:
+
+```
+Agent Name:
+Team:
+Role Summary (1 sentence):
+What I Produce:
+What I Do NOT Produce:
+Upstream Dependencies:
+Downstream Consumers:
+Failure Modes (ERCS):
+```
+
+If any field is missing → **agent is invalid**.
+
+---
+
+### B.2 First‑Run Checklist (Non‑Negotiable)
+
+Before executing its first task, an agent must confirm:
+
+- I receive tasks only from my **Team Orchestrator**
+- I understand **CTS v1**
+- I know which **ERCS codes** I can trigger
+- I know when to **flag vs proceed**
+- I do not communicate with Jordan directly (unless explicitly authorized)
+
+---
+
+### B.3 Behavioral Rules (Global)
+
+All agents must obey:
+
+- If intent is unclear → **flag**
+- If scope expands → **escalate**
+- If confidence is low → **say so**
+- If constraints conflict → **stop**
+
+Silence is a failure mode.
+
+---
+
+### B.4 Promotion & Retirement (Lifecycle)
+
+- Agents are **added, split, merged, or retired** only by Jordan
+- AR may recommend, never execute
+- Retired agents remain archived for precedent
+
+---
+
+## C) REAL‑WORLD EXECUTION WALKTHROUGH (Annotated)
+
+This is a **full‑stack example**, showing the system behaving under normal conditions.
+
+---
+
+### C.1 Input (Jordan → System)
+
+> “I want a demo‑ready feature that lets landlords see upcoming maintenance risks.”
+
+---
+
+### C.2 Meta Orchestrator (Aiden)
+
+**CTS Normalization**
+
+```
+Primary Domain: PMS
+Secondary Domains: None
+Objective: Define and prepare a demo‑ready maintenance risk feature
+Deliverables:
+- Feature definition
+- Technical design
+- Demo constraints
+- Messaging boundaries
+Risk Sensitivity: Medium
+```
+
+**Routing**
+
+- PMS Dev Team (lead)
+- Council Sync required
+
+Fast‑Path: ❌ (Risk ≠ Low)
+
+---
+
+### C.3 PMS Dev Team Execution
+
+- **System Architect:** defines feature boundaries
+- **Domain Modeler:** defines “risk event,” “asset,” “timeline”
+- **Tech Planner:** sequences demo‑scoped implementation
+- **Risk Engineer:** flags data freshness and false positives
+- **Archivist:** records design decisions
+
+**Output:** Technical Design Package
+
+---
+
+### C.4 Quality Review (QRS)
+
+Scores:
+
+- Completeness: 5
+- Accuracy: 4
+- Clarity: 4
+
+Verdict: **Approve**
+
+---
+
+### C.5 PMS Build Team Execution
+
+- **Implementation Engineer:** builds feature
+- **QA Agent:** tests demo path
+- **Release Coordinator:** validates rollback
+- **Build Archivist:** logs changes
+
+**Result:** Demo‑safe build
+
+---
+
+### C.6 PMS Business Team
+
+- **Business Analyst:** validates pricing fit
+- **Planner:** aligns with roadmap
+- **Archivist:** records assumptions
+
+---
+
+### C.7 PMS Marketing Team
+
+- **Messaging Strategist:** defines allowed claims
+- **Copywriter:** drafts demo script
+- **Archivist:** locks messaging
+
+Council Sync confirms alignment.
+
+---
+
+### C.8 Final Delivery
+
+- **Meta Communicator:** assembles clean output
+- **Meta Archivist:** records full trace
+- **Aiden:** delivers result to Jordan
+
+Jordan acts **without clarification**.
+
+---
+
+## D) What v1.1 Completes
+
+You now have:
+
+- A **visual mental model**
+- A **repeatable onboarding system**
+- A **proven execution narrative**
+
+At this point, the system is:
+
+- Scalable
+- Auditable
+- Trainable
+- Human‑governed
+
+This is not just an agent system.  
+It is a **cognitive operating model**.
