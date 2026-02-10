@@ -1651,3 +1651,274 @@ You now have:
 - A system that degrades *gracefully*, not suddenly
 
 At this point, your agent ecosystem is **operationally governable**.
+
+---
+
+# Automatic Alerting System (AAS) — v1.0
+
+**Purpose:** Surface actionable governance signals at the right time, to the right authority  
+**Inputs:** AR-PSC metrics, ERCS events, Rolling Windows  
+**Owners:** Agent Resources (signal generation), Meta Orchestrator (routing)  
+**Authority:** Jordan (human) → Aiden (Meta Orchestrator)
+
+---
+
+## 1) Alert Philosophy
+
+- Alerts are **edge crossings**, not commentary.
+- Alerts must be **specific, non-redundant, and attributable**.
+- Alerts **never** mandate execution; they recommend attention.
+- Every alert has **clear dismissal conditions**.
+
+---
+
+## 2) Alert Types (Finite Set)
+
+### A1 — **Health Boundary Crossing**
+
+Triggered when an agent/team crosses a health threshold.
+
+**Trigger Conditions**
+
+- 🟢→🟡, 🟡→🟠, 🟠→🔴
+- Applies to **agents and teams**
+
+**Payload**
+
+```
+Alert Type: Health Boundary Crossing
+Entity: Agent / Team
+Previous State → Current State
+Metrics Below Threshold:
+Window(s) Implicated:
+ER Codes Contributing:
+```
+
+**Routing**
+
+- 🟡: Log + Notify AR only
+- 🟠: Notify Meta Orchestrator + AR
+- 🔴: Notify Meta Orchestrator + Jordan + AR
+
+**Auto-Dismiss**
+
+- Entity returns to ≥ prior state for a full Mid Window
+
+---
+
+### A2 — **Escalation Spike**
+
+Triggered by abnormal ERCS frequency.
+
+**Trigger Conditions**
+
+- Same ER class ≥ 3 times in Short Window **OR**
+- Any ER-2.x or ER-5.x appears twice in Short Window
+
+**Payload**
+
+```
+Alert Type: Escalation Spike
+ER Code(s):
+Entity:
+Count + Window:
+Suspected Cause:
+```
+
+**Routing**
+
+- Notify AR + Meta Orchestrator
+
+**Auto-Dismiss**
+
+- No repeat in next Short Window
+
+---
+
+### A3 — **Fast-Path Integrity Warning**
+
+Triggered when Fast-Path reliability degrades.
+
+**Trigger Conditions**
+
+- Fast-Path escalation rate > 10% (Mid Window) **OR**
+- Any ER-2.x or ER-5.x on Fast-Path
+
+**Payload**
+
+```
+Alert Type: Fast-Path Integrity Warning
+Entity:
+Escalation Rate:
+Codes Involved:
+Recommendation: Tighten / Suspend / Observe
+```
+
+**Routing**
+
+- Notify Meta Orchestrator + AR
+- Jordan notified only if recommendation = Suspend
+
+**Auto-Dismiss**
+
+- Rate returns < 5% for a Mid Window
+
+---
+
+### A4 — **Quality Confidence Drop**
+
+Triggered by reviewer confidence degradation.
+
+**Trigger Conditions**
+
+- Reviewer Confidence < Medium on ≥ 2 tasks in Short Window
+
+**Payload**
+
+```
+Alert Type: Quality Confidence Drop
+Entity:
+Affected Tasks:
+Primary Deficiencies:
+```
+
+**Routing**
+
+- Notify Meta Orchestrator + AR
+
+**Auto-Dismiss**
+
+- Two consecutive approvals with High confidence
+
+---
+
+### A5 — **Coordination Risk Alert**
+
+Triggered by cross-team friction.
+
+**Trigger Conditions**
+
+- ER-5.x occurs once **OR**
+- ER-4.2 (conflicting outputs) twice in Mid Window
+
+**Payload**
+
+```
+Alert Type: Coordination Risk
+Teams Involved:
+Conflict Description:
+Council Sync Required: Yes
+```
+
+**Routing**
+
+- Notify Meta Orchestrator
+- Council Sync scheduled
+
+**Auto-Dismiss**
+
+- Council Sync completed and logged
+
+---
+
+### A6 — **Trend Degradation Warning**
+
+Triggered by slow erosion before a boundary crossing.
+
+**Trigger Conditions**
+
+- Any metric drops ≥ 0.7 across Long Window **without** crossing state yet
+
+**Payload**
+
+```
+Alert Type: Trend Degradation
+Entity:
+Metric(s):
+Slope:
+Projected Risk Window:
+```
+
+**Routing**
+
+- Notify AR only (early warning)
+
+**Auto-Dismiss**
+
+- Trend stabilizes or reverses over a Mid Window
+
+---
+
+## 3) Alert Severity Levels
+
+| Severity | Meaning          | Typical Routing            |
+| -------- | ---------------- | -------------------------- |
+| S1       | Informational    | AR                         |
+| S2       | Attention Needed | AR + Meta Orchestrator     |
+| S3       | Action Likely    | Meta Orchestrator + Jordan |
+| S4       | Authority Review | Jordan                     |
+
+Severity is **derived automatically** from alert type + entity state.
+
+---
+
+## 4) Rate Limiting & Deduplication (Critical)
+
+- **One alert per type per entity per window**
+- Identical alerts within same window are **suppressed**
+- Escalated severity replaces, not stacks
+
+This prevents alert fatigue.
+
+---
+
+## 5) Alert Lifecycle
+
+```
+Trigger → Route → Acknowledge → Monitor → Auto-Dismiss or Escalate
+```
+
+**Acknowledgement Rules**
+
+- AR acknowledges S1/S2
+- Meta Orchestrator acknowledges S2/S3
+- Jordan acknowledges S3/S4 (optional but logged)
+
+---
+
+## 6) Archival Requirements
+
+Meta Archivist must record:
+
+- Alert ID
+- Type + Severity
+- Triggering data
+- Acknowledgement
+- Resolution or dismissal reason
+
+Alerts become **governance evidence**.
+
+---
+
+## 7) Guardrails (Non-Negotiable)
+
+- Alerts **cannot**:
+  - Change health states
+  - Escalate tasks directly
+  - Modify Fast-Path rules
+- Alerts **must**:
+  - Cite exact metrics and ER codes
+  - Include clear dismissal criteria
+
+---
+
+## 8) What This Completes
+
+You now have:
+
+- **Early detection** before failure
+- **Escalation without panic**
+- **Human attention only when warranted**
+- A system that *whispers before it screams*
+
+This closes the governance loop: **CTS → QRS → ERCS → AR-PSC → AAS**.
