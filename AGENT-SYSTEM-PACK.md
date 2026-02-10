@@ -1207,3 +1207,225 @@ You now have:
 - A system that can say **“we slowed down, and here’s why”**
 
 This is **operational maturity**, not just clever prompting.
+
+---
+
+# ERCS ↔ Agent Resources Wiring Spec — v1.0
+
+**Purpose:** Convert escalation events into measurable performance signals and structural recommendations  
+**Owner:** Agent Resources (AR)  
+**Authority:** Jordan (human) → Aiden (Meta Orchestrator)
+
+---
+
+## 1. Conceptual Model (Plain Truth)
+
+- **ERCS** produces *events* (what went wrong, where, and why).
+- **AR** consumes those events to:
+  - Score agents
+  - Detect systemic weaknesses
+  - Recommend structural changes
+
+**Critical boundary:**
+AR **observes and advises**. It does not intervene, escalate, or downgrade tasks.
+
+---
+
+## 2. Data Flow (Deterministic)
+
+```
+Fast-Path Task
+   ↓
+Escalation Event (ERCS)
+   ↓
+Meta Orchestrator logs event
+   ↓
+Meta Archivist stores event
+   ↓
+Agent Resources ingests event
+   ↓
+Performance + Structural Analysis
+```
+
+No branching. No shortcuts.
+
+---
+
+## 3. Escalation Event Ingestion Schema (AR Input)
+
+Every ERCS event is ingested by AR in the following normalized form:
+
+```
+Escalation Record:
+- Task ID
+- Primary Domain
+- Team Orchestrator
+- Triggering Agent
+- Escalation Code(s)
+- Severity Level (S1–S4)
+- Stage of Detection
+- Recovery Attempted (Yes/No)
+- Recovery Outcome (Success/Fail/N/A)
+- Timestamp
+```
+
+**Rule:**
+If any field is missing → AR flags “Telemetry Defect” (not a system failure, but logged).
+
+---
+
+## 4. Performance Signal Mapping
+
+### 4.1 Agent-Level Impact Rules
+
+Each escalation code adjusts **agent performance metrics**.
+
+#### Example Mapping
+
+| ER Code Class | Metric Impact                    |
+| ------------- | -------------------------------- |
+| ER-1.x        | −2 Completeness                  |
+| ER-2.x        | −2 Risk Judgment                 |
+| ER-3.x        | −1 Clarity                       |
+| ER-4.x        | −1 Domain Discipline             |
+| ER-5.x        | −2 Coordination                  |
+| ER-6.x        | No penalty (authority exercised) |
+
+Scores decay **per incident**, not per task.
+
+---
+
+### 4.2 Confidence Dampening
+
+If an agent triggers:
+
+- ≥3 escalations of the same class in a rolling window → **Consistency score reduced**
+- Mixed ER classes → **Usefulness score reduced**
+
+This prevents agents from “passing sometimes by luck.”
+
+---
+
+## 5. Rolling Windows (Temporal Intelligence)
+
+AR evaluates escalations over rolling windows:
+
+- **Short window:** last 10 tasks
+- **Mid window:** last 30 tasks
+- **Long window:** last 90 tasks
+
+Patterns matter more than single failures.
+
+---
+
+## 6. Structural Recommendation Triggers
+
+AR is required to emit a recommendation when **any** condition is met:
+
+### 6.1 Split Recommendation
+
+```
+IF same agent triggers ER-3.x or ER-4.x
+≥ 5 times in Mid Window
+→ Recommend agent split
+```
+
+**Rationale:** Cognitive overload or mixed responsibilities.
+
+---
+
+### 6.2 SOP Gap Recommendation
+
+```
+IF ER-1.x or ER-2.x
+≥ 3 times across multiple agents
+→ Recommend SOP or policy creation
+```
+
+**Rationale:** System ambiguity, not agent failure.
+
+---
+
+### 6.3 Merge Recommendation
+
+```
+IF two agents frequently trigger ER-4.2 (conflicting outputs)
+→ Recommend merge or hierarchy
+```
+
+---
+
+### 6.4 Fast-Path Tightening Recommendation
+
+```
+IF ER-2.x or ER-5.x
+appear in Fast-Path > 10%
+→ Recommend tightening eligibility gates
+```
+
+---
+
+## 7. AR Output Formats (Internal Only)
+
+### A) Escalation Summary Report
+
+```
+Period:
+Total Escalations:
+Top ER Codes:
+Most Triggering Agents:
+Recovery Success Rate:
+```
+
+---
+
+### B) Agent Performance Delta
+
+```
+Agent:
+Metric Changes:
+Observed Pattern:
+Confidence Trend:
+```
+
+---
+
+### C) Structural Recommendation
+
+```
+Recommendation Type:
+Affected Agents:
+Evidence (ER codes + counts):
+Expected Benefit:
+Risks:
+```
+
+No opinions. No storytelling. Evidence only.
+
+---
+
+## 8. Safeguards (Non-Negotiable)
+
+- AR **cannot**:
+  - Reclassify tasks
+  - Override Quality Reviewer
+  - Modify CTS, QRS, ERCS
+  - Trigger escalations
+
+- AR **must**:
+  - Provide evidence for every recommendation
+  - Distinguish agent failure vs system failure
+  - Acknowledge tradeoffs explicitly
+
+---
+
+## 9. What This Unlocks
+
+You now have:
+
+- **Self-diagnosing acceleration**
+- **Early-warning signals** before failures compound
+- **Quantitative agent trust**
+- **Justified evolution**, not reactive churn
+
+This is how complex systems stay sane under scale.
