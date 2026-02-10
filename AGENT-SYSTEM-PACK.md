@@ -991,3 +991,219 @@ You now have:
 - **A system that can say “no” correctly**
 
 This is the moment the system becomes **operationally trustworthy**, not just elegant.
+
+---
+
+# Escalation Reason Code System (ERCS) — v1.0
+
+**Owner:** Meta Orchestrator (Aiden)  
+**Applies To:** Fast-Path → Normal Path escalations  
+**Authority:** Jordan (human)
+
+---
+
+## 1. Purpose
+
+Escalation Reason Codes exist to:
+
+- Make every Fast-Path override **explicit**
+- Prevent silent tightening or loosening of standards
+- Enable analytics on *why* Fast-Path fails
+- Preserve trust in acceleration without weakening governance
+
+No escalation may occur **without** at least one valid code.
+
+---
+
+## 2. Escalation Event Definition
+
+An **Escalation Event** occurs when:
+
+- A task initially marked **Fast-Path Eligible**
+- Is reclassified to **Normal Execution Path**
+- At any point **before final delivery**
+
+---
+
+## 3. Escalation Code Format (Mandatory)
+
+Every escalation must emit:
+
+```
+Escalation Event:
+- Escalation Code(s): [ER-X.Y]
+- Triggering Agent:
+- Stage of Detection:
+- Human Impact: None / Low / Medium / High
+- Notes (1–2 sentences, factual only)
+```
+
+---
+
+## 4. Escalation Code Taxonomy
+
+### ER-1.x — **Task Definition Drift**
+
+Used when the task itself mutates.
+
+| Code   | Description                               |
+| ------ | ----------------------------------------- |
+| ER-1.1 | Required Deliverables changed or expanded |
+| ER-1.2 | Constraints added post-intake             |
+| ER-1.3 | Objective Statement no longer valid       |
+| ER-1.4 | Non-Goals violated                        |
+
+**Auto-Escalation:** Yes  
+**Fast-Path Recovery Allowed:** ❌ No
+
+---
+
+### ER-2.x — **Risk Reclassification**
+
+Used when risk assumptions collapse.
+
+| Code   | Description                                   |
+| ------ | --------------------------------------------- |
+| ER-2.1 | New external impact identified                |
+| ER-2.2 | Financial / reputational exposure detected    |
+| ER-2.3 | Demo-critical dependency discovered           |
+| ER-2.4 | Risk Sensitivity upgraded (Low → Medium/High) |
+
+**Auto-Escalation:** Yes  
+**Fast-Path Recovery Allowed:** ❌ No
+
+---
+
+### ER-3.x — **Quality Instability**
+
+Triggered by Quality Reviewer or downstream agents.
+
+| Code   | Description                           |
+| ------ | ------------------------------------- |
+| ER-3.1 | Reviewer confidence < Medium          |
+| ER-3.2 | Repeated clarification loops required |
+| ER-3.3 | Ambiguity blocks execution            |
+| ER-3.4 | Internal contradictions detected      |
+
+**Auto-Escalation:** Yes  
+**Fast-Path Recovery Allowed:** ⚠️ Conditional (see §7)
+
+---
+
+### ER-4.x — **Agent-Initiated Safeguard**
+
+Triggered by agents exercising caution.
+
+| Code   | Description                          |
+| ------ | ------------------------------------ |
+| ER-4.1 | Sub-agent flags material uncertainty |
+| ER-4.2 | Conflicting agent outputs            |
+| ER-4.3 | Missing prerequisite information     |
+| ER-4.4 | Domain boundary violation detected   |
+
+**Auto-Escalation:** Yes  
+**Fast-Path Recovery Allowed:** ⚠️ Conditional
+
+---
+
+### ER-5.x — **Governance & Coordination**
+
+Triggered by system-level rules.
+
+| Code   | Description                        |
+| ------ | ---------------------------------- |
+| ER-5.1 | Council Sync requirement activated |
+| ER-5.2 | Cross-team dependency discovered   |
+| ER-5.3 | Archival precedence risk identified |
+
+**Auto-Escalation:** Yes  
+**Fast-Path Recovery Allowed:** ❌ No
+
+---
+
+### ER-6.x — **Human Override**
+
+Explicit authority exercised.
+
+| Code   | Description                                |
+| ------ | ------------------------------------------ |
+| ER-6.1 | Jordan override                            |
+| ER-6.2 | Meta Orchestrator discretionary escalation |
+
+**Auto-Escalation:** Yes  
+**Fast-Path Recovery Allowed:** Only by Jordan
+
+---
+
+## 5. Escalation Severity Levels
+
+Each escalation event is tagged:
+
+| Severity | Meaning                   |
+| -------- | ------------------------- |
+| S1       | Procedural (low friction) |
+| S2       | Quality-blocking          |
+| S3       | Risk-critical             |
+| S4       | Authority-level           |
+
+Severity is **derived automatically** from the highest ER code involved.
+
+---
+
+## 6. Escalation → Execution Rules
+
+Once escalated:
+
+```
+Execution Mode: Normal
+Fast-Path Flag: Revoked
+Re-entry Allowed: Depends on ER class
+```
+
+No partial Fast-Path states exist.
+
+---
+
+## 7. Fast-Path Recovery Rules (Rare)
+
+Recovery back to Fast-Path is allowed **only if**:
+
+- Escalation codes are exclusively ER-3.x or ER-4.x
+- Required Deliverables unchanged
+- Risk Sensitivity remains Low
+- Quality Reviewer explicitly re-approves
+
+Recovery must emit:
+
+```
+Recovery Event:
+- Original Escalation Code(s)
+- Mitigation Applied
+- Reviewer Approval
+```
+
+---
+
+## 8. Archival & Analytics Requirements
+
+Meta Archivist must log:
+
+- Escalation frequency by code
+- Agents triggering escalations
+- Recovery success rates
+- Patterns over time
+
+This data feeds **Agent Resources (AR)** performance analysis.
+
+---
+
+## 9. What This Achieves
+
+You now have:
+
+- Zero silent overrides
+- Explainable acceleration failures
+- Post-mortem ready logs
+- A system that can say **“we slowed down, and here’s why”**
+
+This is **operational maturity**, not just clever prompting.
