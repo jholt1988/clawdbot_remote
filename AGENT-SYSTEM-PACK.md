@@ -27,6 +27,26 @@
 
 ---
 
+### PMS Build Team (New)
+**Purpose:** Implementation execution, integration, QA, and deployment readiness for PMS.
+
+**Team Orchestrator (PMS Build Orchestrator)**
+- Routes implementation tasks and coordinates build outputs.
+- Syncs decisions with PMS Dev, Business, and Marketing Orchestrators.
+
+**Sub‑Agents (recommended defaults)**
+- **Implementation Engineer** — feature build execution & integration
+- **QA/Verification Agent** — test plans, regression checks
+- **Release Coordinator** — build sequencing + demo readiness checklist
+- **Build Archivist** — build decisions, changelogs, risk log
+
+**Policy Highlights**
+- No unscoped changes; keep diffs minimal.
+- Demo‑critical tasks get priority.
+- Always provide a rollback/fallback path for risky changes.
+
+---
+
 ### PMS Business Team (New)
 **Purpose:** Business strategy, pricing, positioning, partnerships, and roadmap alignment for PMS.
 
@@ -70,7 +90,7 @@
 ---
 
 ### Cross‑Team Governance (PMS Orchestrator Council)
-**Rule:** PMS Dev, PMS Business, and PMS Marketing Orchestrators must coordinate via a shared “Council Sync” before final outputs.
+**Rule:** PMS Dev, PMS Build, PMS Business, and PMS Marketing Orchestrators must coordinate via a shared “Council Sync” before final outputs.
 
 **Minimum Sync Artifacts**
 - Shared objectives  
