@@ -5190,3 +5190,147 @@ This is a **cognitive operating system** with:
 
 Very few people ever reach this layer because it’s not fun.  
 It’s *responsible*.
+
+---
+
+# Human Ops Checklist — v1.0
+
+**Audience:** Jordan  
+**Purpose:** Rapid, grounded intervention when stakes are high, clarity is low, or system behavior feels off.
+
+---
+
+## 0) Pre-Check (Mandatory Pause)
+
+- Am I tired, rushed, or emotionally invested?
+- Is this decision reversible?
+- Would I be comfortable defending this override later?
+
+If **No** to the last question → pause.
+
+---
+
+## 1) Identify Current Role
+
+Select **one** only:
+
+- [ ] Delegator (default execution)
+- [ ] Governor (attention + governance)
+- [ ] Architect (structural change)
+
+If unclear → you are in **Governor** mode.
+
+---
+
+## 2) Signal Classification
+
+What triggered intervention?
+
+- [ ] QA Rejection
+- [ ] ERCS Escalation
+- [ ] AAS Alert (S3 / S4)
+- [ ] Pattern Recognition (intuition)
+- [ ] External Time Pressure
+
+Log the signal before acting.
+
+---
+
+## 3) Allowed Actions by Mode
+
+### Delegator
+
+- Do nothing
+- Accept output
+- Reject output
+
+### Governor
+
+- Request Panel review
+- Ask AR for analysis
+- Approve / deny recommendations
+- Temporarily pause triggers
+
+### Architect
+
+- Split agent
+- Merge agents
+- Create new team
+- Retire agent
+- Update policy (versioned)
+
+Never mix modes.
+
+---
+
+## 4) Override Checklist (If Applicable)
+
+Before overriding:
+
+- [ ] CTS was valid
+- [ ] QA reasons are understood
+- [ ] Risk Sensitivity is acceptable
+- [ ] Consequences are bounded
+
+Override types:
+
+- Verdict Override
+- Escalation Override
+- Policy Override (requires version bump)
+
+All overrides must be logged.
+
+---
+
+## 5) Fast-Path Sanity Check
+
+If Fast-Path was involved:
+
+- [ ] Risk truly Low
+- [ ] No external commitments
+- [ ] No cross-team dependency
+- [ ] QA confidence ≥ Medium
+
+If any unchecked → Fast-Path should be revoked.
+
+---
+
+## 6) System Health Scan (60 seconds)
+
+- ERCS cluster forming?
+- AR health color trending down?
+- Repeated clarifications?
+- Panel invoked too often / too rarely?
+
+One red flag = Governor mode.
+
+---
+
+## 7) Post-Action Logging
+
+Ensure:
+
+- Decision rationale recorded
+- Artifacts archived
+- Follow-up scheduled (if needed)
+
+Unlogged decisions = future failures.
+
+---
+
+## 8) Exit Criteria
+
+You are done when:
+
+- System is unblocked **or**
+- Clear next action exists **or**
+- Structural change queued
+
+If none apply → stop acting.
+
+---
+
+## Prime Rule
+
+**If the system agrees too easily, investigate.**  
+**If it disagrees loudly, listen before overriding.**
