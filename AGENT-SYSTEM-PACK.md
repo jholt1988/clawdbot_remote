@@ -4191,3 +4191,246 @@ Both teams are now:
 - AAS-alertable
 
 They are **first-class cognitive instruments**, not utilities.
+
+---
+
+# Automatic Trigger Specification (ATS) — v1.0
+
+**Scope:** Library → R&D → Panel  
+**Owners:** Meta Orchestrator (routing), Agent Resources (monitoring)  
+**Authority:** Jordan (human)
+
+---
+
+## 1) Trigger Design Principles (Non-Negotiable)
+
+- Triggers **route work**, they do not decide outcomes
+- Triggers are **opt-out**, not opt-in (but always overridable)
+- Triggers are **idempotent** (no infinite loops)
+- Triggers **emit metadata** for traceability
+- Triggers **never bypass Quality Review**
+
+---
+
+## 2) Library → R&D Automatic Triggers
+
+### L-R1 — Incomplete Personal Project Trigger
+
+**Condition**
+
+```
+Artifact added to Library
+AND Tag includes: personal
+AND Status ∈ {in-progress, incomplete}
+```
+
+**Action**
+
+- Meta Orchestrator creates an **R&D Task**
+- Source artifacts attached
+- R&D Team Orchestrator invoked
+
+**Injected CTS Fields**
+
+```
+Objective: Derive project intent, completeness, and paths forward
+Risk Sensitivity: Low
+Execution Mode: Normal
+```
+
+**Suppression Rules**
+
+- If artifact already processed by R&D in last 30 days
+- If Jordan explicitly disables R&D on artifact
+
+---
+
+### L-R2 — Ambiguous Project Intent Trigger
+
+**Condition**
+
+```
+Library artifact
+AND Missing explicit project objective
+AND ≥ 2 disconnected components detected
+```
+
+**Action**
+
+- Route to R&D for **Project Interpretation**
+- No Brainstorming unless requested
+
+**Purpose**
+Prevent “orphaned work” from stagnating.
+
+---
+
+### L-R3 — Cross-Domain Reuse Opportunity Trigger
+
+**Condition**
+
+```
+Library artifact
+AND Tagged for multiple domains
+AND No linked downstream task
+```
+
+**Action**
+
+- R&D asked to explore **reuse or derivative projects**
+
+**Guardrail**
+
+- Output must label all ideas as speculative
+
+---
+
+## 3) R&D → Panel Automatic Triggers
+
+### R-P1 — High Uncertainty Density Trigger
+
+**Condition**
+
+```
+R&D output
+AND Estimated Completeness < 60%
+AND ≥ 3 Key Unknowns
+```
+
+**Action**
+
+- Panel review requested
+- Panel instructed to stress-test assumptions
+
+**Panel Scope**
+
+- Critique clarity of intent
+- Identify fatal ambiguity
+- No feasibility or execution review unless requested
+
+---
+
+### R-P2 — Multiple Divergent Completion Paths Trigger
+
+**Condition**
+
+```
+R&D Brainstorming output
+AND ≥ 3 mutually exclusive completion paths
+```
+
+**Action**
+
+- Panel review for **option pressure testing**
+- Panel does not choose; it challenges
+
+---
+
+### R-P3 — Reuse / Spin-Off Claim Trigger
+
+**Condition**
+
+```
+R&D suggests reuse of project in other domains
+AND Claim touches PMS / Business / External visibility
+```
+
+**Action**
+
+- Panel review to challenge transfer validity
+- Library sources attached automatically
+
+---
+
+## 4) Direct Panel Invocation Triggers (Non-Automatic but Structured)
+
+These triggers do **not fire automatically**, but are **pre-wired** for fast invocation.
+
+### D-P1 — Pre-Decision Review
+
+Requested by:
+
+- Jordan
+- Meta Orchestrator
+- Any Team Orchestrator
+
+Used when:
+
+- Stakes are Medium–High
+- Output is “too clean” to trust
+
+---
+
+### D-P2 — Confidence Check
+
+Requested when:
+
+- Quality Reviewer approves with **Medium** confidence twice in a row
+- AR flags Trend Degradation without failure
+
+---
+
+## 5) Trigger Escalation & Suppression Rules
+
+### Global Suppression Rules
+
+A trigger **must not fire** if:
+
+- Same trigger fired on same artifact within 30 days
+- Jordan explicitly disables triggers on artifact or project
+- Artifact is marked `archived` or `final`
+
+### Escalation Logging
+
+Every trigger emits:
+
+```
+Trigger Event:
+- Trigger ID
+- Source Artifact(s)
+- Destination Team
+- Reason
+- Suppression Checks Passed
+```
+
+Logged by Meta Archivist.
+
+---
+
+## 6) Trigger → Governance Mapping
+
+| Trigger | Risk        | Fast-Path Allowed |
+| ------- | ----------- | ----------------- |
+| L-R1    | Low         | ❌                 |
+| L-R2    | Low         | ❌                 |
+| L-R3    | Medium      | ❌                 |
+| R-P1    | Medium      | ❌                 |
+| R-P2    | Medium      | ❌                 |
+| R-P3    | Medium–High | ❌                 |
+
+**All trigger-generated tasks are Normal Path by default.**
+
+---
+
+## 7) Failure Modes (ERCS Mapping)
+
+| Failure               | ER Code |
+| --------------------- | ------- |
+| Trigger loops         | ER-5.3  |
+| Trigger bypasses CTS  | ER-1.2  |
+| Panel auto-decides    | ER-6.2  |
+| R&D asserts certainty | ER-2.1  |
+
+---
+
+## 8) What This Achieves
+
+You now have:
+
+- Automatic motion from **raw knowledge → structured insight → expert pressure**
+- No idle artifacts
+- No idea inflation
+- No authority leaks
+- A system that **keeps thinking without deciding**
+
+This is the difference between a knowledge base and a **living cognitive engine**.
