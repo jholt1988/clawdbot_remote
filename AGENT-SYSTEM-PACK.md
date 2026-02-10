@@ -4685,3 +4685,256 @@ You now have:
 
 This completes the loop:  
 **Knowledge → Motion → Scrutiny → Visibility → Control**
+
+---
+
+# Keyboard-Level Gesture Specification (KGS) — v1.0
+
+**Scope:** Trigger Observability Dashboards (TOD)  
+**Primary Actor:** Jordan (human)  
+**Execution:** Meta Orchestrator (Aiden)  
+**Authority:** Human-initiated, system-validated, fully logged
+
+---
+
+## 1) Design Rules (Hard Constraints)
+
+- **One gesture = one intent**
+- **No gesture performs multiple actions**
+- **All gestures are contextual** (require a selected artifact/output)
+- **Every gesture routes through Meta Orchestrator**
+- **Undo is explicit, not implicit**
+
+If context is missing, the gesture does nothing.
+
+---
+
+## 2) Context Model (What Must Be Selected)
+
+A keyboard gesture is only active when **exactly one** of the following is focused:
+
+- A **Library Artifact**
+- An **R&D Output**
+- A **Panel Review**
+- A **Team Output Artifact**
+
+If zero or multiple items are selected → gesture is ignored.
+
+---
+
+## 3) Core Gesture Map (Canonical)
+
+### G-1 / G-2 — Pause / Resume Triggers (Artifact)
+
+| Action          | Gesture     | Meaning                             |
+| --------------- | ----------- | ----------------------------------- |
+| Pause triggers  | `P`         | Freeze automation for this artifact |
+| Resume triggers | `Shift + P` | Re-enable automation                |
+
+**System Check**
+
+- Valid only on Library Artifacts
+- Confirms scope before execution
+
+---
+
+### G-3 — Suppress Specific Trigger (Artifact)
+
+| Action           | Gesture |
+| ---------------- | ------- |
+| Suppress trigger | `S`     |
+
+**Flow**
+
+1. Press `S`
+2. Trigger picker opens (L-R1, L-R2, etc.)
+3. Confirm selection
+
+**Result**
+
+- Only that trigger suppressed
+- Others remain active
+
+---
+
+### G-4 — Force R&D Review
+
+| Action      | Gesture |
+| ----------- | ------- |
+| Send to R&D | `R`     |
+
+**Context**
+
+- Library Artifact or Archived Artifact
+
+**Execution**
+
+- Creates R&D task
+- Labeled **Human-Initiated**
+- Normal Path only
+
+---
+
+### G-5 — Force Panel Review
+
+| Action        | Gesture     |
+| ------------- | ----------- |
+| Request Panel | `Shift + R` |
+
+**Flow**
+
+1. Press `Shift + R`
+2. Select review objective:
+
+   - Pressure test assumptions
+   - Stress test feasibility
+   - Expert critique
+3. Confirm
+
+**Guardrail**
+
+- Panel never decides
+- Review scope is explicit
+
+---
+
+### G-6 — Block Downstream Propagation
+
+| Action        | Gesture |
+| ------------- | ------- |
+| Block routing | `B`     |
+
+**Context**
+
+- R&D Output or Panel Review
+
+**Effect**
+
+- Prevents auto-handoff
+- Artifact remains visible but inert
+
+---
+
+### G-7 — Archive & Seal
+
+| Action         | Gesture |
+| -------------- | ------- |
+| Archive & Seal | `A`     |
+
+**Flow**
+
+1. Press `A`
+2. Choose:
+
+   - Soft Seal (reversible)
+   - Hard Seal (explicit unseal required)
+
+**Effect**
+
+- Triggers disabled
+- Artifact frozen in place
+
+---
+
+## 4) Safety Gestures (Undo / Inspect)
+
+### G-U — Undo Last Gesture (Scoped)
+
+| Action | Gesture |
+| ------ | ------- |
+| Undo   | `U`     |
+
+**Rules**
+
+- Only last gesture
+- Only if reversible
+- Time-boxed (e.g., 10 minutes)
+
+---
+
+### G-I — Inspect Automation State
+
+| Action  | Gesture |
+| ------- | ------- |
+| Inspect | `I`     |
+
+**Shows**
+
+- Active triggers
+- Suppressed triggers
+- Pause state
+- Recent gestures
+
+Read-only. Zero side effects.
+
+---
+
+## 5) Gesture Confirmation Model (Fast, Not Frictionless)
+
+Each gesture displays a **single-line confirmation strip**:
+
+```
+Action: Pause Triggers
+Scope: Artifact XYZ
+Reversible: Yes
+[Confirm] [Cancel]
+```
+
+No modal stacks. No surprise execution.
+
+---
+
+## 6) Gesture → Audit Mapping
+
+Every gesture emits:
+
+```
+Gesture Event:
+- Gesture ID
+- Artifact / Output ID
+- Executed By: Jordan
+- Timestamp
+- Reversible: Yes / No
+```
+
+Visible in:
+
+- Artifact Flow Map
+- Governance Health Signals
+- Meta Archivist logs
+
+---
+
+## 7) Forbidden Keyboard Actions (Explicit)
+
+- ❌ Global trigger toggles
+- ❌ Batch gestures
+- ❌ Gesture macros
+- ❌ Gesture chaining
+- ❌ Silent execution
+
+Speed is allowed. Power is not.
+
+---
+
+## 8) Cognitive Design Rationale (Why This Works)
+
+- **P**ause = stop motion
+- **R**esearch = explore
+- **B**lock = contain
+- **A**rchive = finish
+
+The mapping is mnemonic, not clever.  
+Clever systems rot. Obvious ones scale.
+
+---
+
+## 9) What You Can Now Do Effortlessly
+
+- Freeze noise instantly
+- Send half-formed ideas to R&D without context-switching
+- Apply expert pressure on instinct
+- Stop idea sprawl before it metastasizes
+- Close loops decisively
+
+All without breaking governance.
