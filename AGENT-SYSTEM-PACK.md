@@ -1429,3 +1429,225 @@ You now have:
 - **Justified evolution**, not reactive churn
 
 This is how complex systems stay sane under scale.
+
+---
+
+# Agent Resources Performance Scorecard (AR-PSC) — v1.0
+
+**Purpose:** Convert ERCS telemetry into objective agent health states  
+**Owner:** Agent Resources (AR)  
+**Authority:** Jordan (human) → Aiden (Meta Orchestrator)
+
+---
+
+## 1. Scoring Philosophy (Read This Carefully)
+
+- Scores measure **system reliability**, not intelligence.
+- A “good” agent is **predictable, bounded, and correct**, not clever.
+- Scores decay only via **observed events**, never opinion.
+- One bad task ≠ bad agent. Patterns matter.
+
+All scores are **rolling-window based** and **directional**.
+
+---
+
+## 2. Core Performance Dimensions (Canonical)
+
+Each agent and team is scored across **six dimensions**, each on a **0–5 scale**.
+
+| Dimension    | Definition                                |
+| ------------ | ----------------------------------------- |
+| Accuracy     | Logical correctness, constraint adherence |
+| Completeness | Coverage of required deliverables         |
+| Clarity      | Executability by intended audience        |
+| Speed        | Time-to-output relative to task class     |
+| Usefulness   | Alignment with task objective             |
+| Consistency  | Stability across similar tasks            |
+
+These map directly to CTS, QRS, and ERCS.
+
+---
+
+## 3. Baseline & Normalization
+
+- **Baseline score for all agents:** 4.0
+- Scores adjust **incrementally**, never jump.
+- Floor = 0.0, Ceiling = 5.0
+- Scores are rounded to **one decimal place** for reporting.
+
+---
+
+## 4. ERCS → Score Impact Matrix (Authoritative)
+
+This matrix is **binding**.
+
+### 4.1 Direct Penalties (per escalation)
+
+| ER Code Class                | Metric Impact                  |
+| ---------------------------- | ------------------------------ |
+| ER-1.x (Task Drift)          | −1.0 Completeness              |
+| ER-2.x (Risk Reclass)        | −1.0 Accuracy, −1.0 Usefulness |
+| ER-3.x (Quality Instability) | −0.5 Clarity                   |
+| ER-4.x (Safeguard Trigger)   | −0.5 Consistency               |
+| ER-5.x (Governance)          | −1.0 Consistency               |
+| ER-6.x (Human Override)      | **No penalty**                 |
+
+**Rule:** Multiple codes stack, capped at −2.0 per task.
+
+---
+
+### 4.2 Recovery Credit (Rare, Controlled)
+
+If a task escalates **and successfully recovers**:
+
+- +0.3 Consistency
+- +0.2 Accuracy
+
+Recovery credit **never exceeds** original penalty.
+
+---
+
+## 5. Rolling Window Aggregation
+
+AR computes scores across three windows:
+
+| Window | Scope         |
+| ------ | ------------- |
+| Short  | Last 10 tasks |
+| Mid    | Last 30 tasks |
+| Long   | Last 90 tasks |
+
+**Weighting (default):**
+
+- Short: 50%
+- Mid: 30%
+- Long: 20%
+
+This prevents both overreaction and complacency.
+
+---
+
+## 6. Health States (This Is the Critical Lock)
+
+Each agent and team is assigned **exactly one health state**.
+
+### 6.1 Threshold Table
+
+| State     | Trigger Condition          |
+| --------- | -------------------------- |
+| 🟢 Green  | All metrics ≥ 4.0          |
+| 🟡 Yellow | Any metric < 4.0 but ≥ 3.5 |
+| 🟠 Orange | Any metric < 3.5 but ≥ 3.0 |
+| 🔴 Red    | Any metric < 3.0           |
+
+**No averaging allowed.**
+One weak dimension is enough.
+
+---
+
+## 7. Mandatory AR Actions by State
+
+### 🟢 Green
+
+- No action
+- Continue monitoring
+
+### 🟡 Yellow
+
+- Log concern
+- Watch for trend continuation
+- **No recommendations yet**
+
+### 🟠 Orange
+
+- **Recommendation required** (one of):
+  - SOP clarification
+  - Agent split
+  - Fast-Path tightening
+- Evidence must span ≥ Mid Window
+
+### 🔴 Red
+
+- **Escalation required**
+- AR must recommend:
+  - Agent restructuring, **or**
+  - Temporary scope restriction, **or**
+  - Agent suspension
+- Jordan review strongly advised
+
+---
+
+## 8. Team-Level Aggregation Rules
+
+Team scores are **not averages**.
+
+A team inherits the **worst state** of its sub-agents.
+
+Example:
+
+- 4 agents Green
+- 1 agent Red
+  → **Team = Red**
+
+This prevents “hiding” weak links.
+
+---
+
+## 9. Fast-Path Interaction Rules
+
+If an agent:
+
+- Is **Orange or Red**
+- AND participates in Fast-Path tasks
+
+Then AR must issue:
+
+```
+Fast-Path Participation Warning
+Affected Agent:
+Metrics at Risk:
+Suggested Mitigation:
+```
+
+Fast-Path eligibility tightening may be recommended.
+
+---
+
+## 10. AR Reporting Cadence
+
+### Standard Reports
+
+- Weekly: Health State Summary
+- Monthly: Trend + Recommendations
+- On-Demand: Incident deep-dive
+
+### Report Must Include
+
+- Metric deltas
+- ER code frequency
+- Windowed trends
+- Recommendation confidence
+
+---
+
+## 11. Safeguards (Non-Negotiable)
+
+AR:
+
+- **Cannot** change health states manually
+- **Cannot** execute recommendations
+- **Cannot** override Meta Orchestrator or Jordan
+- **Must** cite ERCS evidence for every claim
+
+---
+
+## 12. What You’ve Now Locked In
+
+You now have:
+
+- Objective agent health
+- Early warning before failure
+- Quantified trust
+- A system that degrades *gracefully*, not suddenly
+
+At this point, your agent ecosystem is **operationally governable**.
