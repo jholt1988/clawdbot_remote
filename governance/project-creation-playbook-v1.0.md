@@ -5,6 +5,7 @@ This playbook defines the **standard, repeatable sequence** for creating a new p
 It is designed to be compatible with:
 - **PCTM (Project-Centric Truth Model)** — canonicality and anti-drift rules: `AGENT-SYSTEM-PACK.md`
 - **APSDR** — split detection + delivery ritual anchor: `governance/APSDR-v1.0.md`
+- **Domain‑Level Planner Prompt Pack v1.0** — reusable planner prompts: `agents/prompts/planners-v1.0.md`
 
 > Scope: This is the *project bootstrapping* procedure. It tells you what to create, where to put it, and what to decide up front.
 

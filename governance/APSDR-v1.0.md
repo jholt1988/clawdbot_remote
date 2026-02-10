@@ -6,8 +6,9 @@ This file is intentionally a **stable anchor** for cross-links.
 
 Cross-links:
 - Canonical enforcement (PCTM): `AGENT-SYSTEM-PACK.md`
-- APSDR enforcement mechanics (Meta‑Scheduler prompt pack): `notion/meta-scheduler/meta-scheduler-apsdr-enforcement.md`
 - Project Creation Playbook: `governance/project-creation-playbook-v1.0.md`
+- Domain‑Level Planner Prompt Pack v1.0: `agents/prompts/planners-v1.0.md`
+- APSDR enforcement mechanics (Meta‑Scheduler prompt pack): `notion/meta-scheduler/meta-scheduler-apsdr-enforcement.md`
 
 ---
 
