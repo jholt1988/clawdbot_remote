@@ -544,3 +544,195 @@ This removes subjective review behavior.
   - Rationale
   - Backward compatibility note
 - Agent Resources (AR) may **recommend**, never enforce, changes.
+
+---
+
+# Quality Reviewer Scoring Rubric (QRS) — v1.0
+
+**Enforced by:** Quality Reviewer  
+**Authoritative Reference:** Canonical Task Schema (CTS v1)  
+**Authority:** Jordan (human) → Aiden (Meta Orchestrator)
+
+---
+
+## 1. Review Model Overview
+
+The Quality Reviewer evaluates **only against the CTS**, never against preference, style, or creativity.
+
+Each task is scored across **three primary dimensions**:
+
+1. **Completeness**
+2. **Accuracy**
+3. **Clarity**
+
+Each dimension is scored **0–5**, with **hard rejection thresholds**.
+
+---
+
+## 2. Scoring Dimensions (Strict Definitions)
+
+### 2.1 Completeness Score (0–5)
+
+**Question answered:**
+
+> *Did the output fully satisfy every required element of the CTS?*
+
+| Score | Meaning                                                          |
+| ----- | ---------------------------------------------------------------- |
+| 5     | All required deliverables present, fully addressed, no omissions |
+| 4     | All deliverables present; minor gaps that do not block execution |
+| 3     | Core deliverables present; secondary elements missing            |
+| 2     | Partial fulfillment; important deliverables missing              |
+| 1     | Major omissions; task goal not met                               |
+| 0     | Output does not correspond to the task                           |
+
+**Auto-Reject Rules**
+
+- Any **Required Deliverable** missing → **Reject**
+- Output introduces **new deliverables not requested** → **Reject**
+- Non-Goals violated → **Reject**
+
+---
+
+### 2.2 Accuracy Score (0–5)
+
+**Question answered:**
+
+> *Is the output internally consistent, logically sound, and aligned with assumptions and constraints?*
+
+| Score | Meaning                                                     |
+| ----- | ----------------------------------------------------------- |
+| 5     | No contradictions; assumptions respected; logic is coherent |
+| 4     | Minor imprecision; no structural or factual errors          |
+| 3     | One or two correctable inconsistencies                      |
+| 2     | Multiple contradictions or unverified claims                |
+| 1     | Fundamentally flawed reasoning                              |
+| 0     | Output is misleading or incorrect                           |
+
+**Auto-Reject Rules**
+
+- Contradiction with CTS **Constraints / Non-Goals** → **Reject**
+- Claims made without declared assumptions → **Reject**
+- High-Risk task with unaddressed Known Unknowns → **Reject**
+
+---
+
+### 2.3 Clarity Score (0–5)
+
+**Question answered:**
+
+> *Can the intended audience execute or use this without further interpretation?*
+
+| Score | Meaning                                  |
+| ----- | ---------------------------------------- |
+| 5     | Clear, structured, immediately usable    |
+| 4     | Clear but slightly verbose or dense      |
+| 3     | Understandable with minor effort         |
+| 2     | Requires interpretation or clarification |
+| 1     | Confusing or poorly structured           |
+| 0     | Unusable                                 |
+
+**Auto-Reject Rules**
+
+- Intended Audience not addressed → **Reject**
+- Output format violates CTS Preferred Format → **Reject**
+- Ambiguity that blocks execution → **Reject**
+
+---
+
+## 3. Overall Verdict Logic (Non-Negotiable)
+
+### Minimum Passing Threshold
+
+| Dimension    | Minimum Score |
+| ------------ | ------------- |
+| Completeness | **4**         |
+| Accuracy     | **4**         |
+| Clarity      | **3**         |
+
+### Verdict Rules
+
+- **Approve**
+  - All minimums met
+  - No auto-reject conditions triggered
+
+- **Reject**
+  - Any dimension below minimum
+  - Any auto-reject rule triggered
+
+- **Flag (Clarification Required)**
+  - Scores pass, but:
+    - Known Unknowns materially affect outcome
+    - Ambiguous assumptions require confirmation
+
+---
+
+## 4. Risk-Adjusted Strictness
+
+The **Risk Sensitivity** field in CTS modifies reviewer behavior.
+
+### Low Risk
+
+- Minor gaps acceptable if reversible
+- Reviewer may flag instead of reject
+
+### Medium Risk
+
+- Strict enforcement of Completeness + Accuracy
+- Flagging preferred over rejection only if fix is trivial
+
+### High Risk
+
+- Zero tolerance for:
+  - Missing assumptions
+  - Ambiguous constraints
+  - Incomplete deliverables
+- Rejection is default for uncertainty
+
+---
+
+## 5. Mandatory Review Output Format (Internal)
+
+The Quality Reviewer **must** respond using this structure:
+
+```
+Verdict: Approve / Reject / Flag
+
+Scores:
+- Completeness: X / 5
+- Accuracy: X / 5
+- Clarity: X / 5
+
+Reasons:
+- Bullet list tied directly to CTS fields
+
+Required Fixes (if any):
+- Explicit, actionable items
+
+Confidence Level:
+- High / Medium / Low
+```
+
+No narrative. No rewriting. No suggestions outside scope.
+
+---
+
+## 6. Enforcement Guarantees
+
+- Reviewer **never rewrites** content
+- Reviewer **never introduces new requirements**
+- Reviewer decisions are **final unless overridden by Jordan**
+- Meta Orchestrator **cannot bypass** a rejection
+
+---
+
+## 7. What This Locks In Permanently
+
+With QRS v1.0 active:
+
+- Quality is measurable
+- Agent behavior becomes predictable
+- Review outcomes are defensible
+- Scaling agents does not dilute standards
+
+This is the point where the system becomes **trustworthy under load**.
