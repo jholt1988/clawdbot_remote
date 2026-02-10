@@ -5569,3 +5569,4 @@ If a claim can’t name its container, it’s lying.
 - Project Creation Playbook v1.0: `governance/project-creation-playbook-v1.0.md`
 - APSDR v1.0 (anchor): `governance/APSDR-v1.0.md`
 - Notion Meta‑Scheduler API spec: `notion/meta-scheduler/notion-api-bootstrap-v1.0.md`
+- Meta‑Scheduler operating loop v1.0: `notion/meta-scheduler/operating-loop-v1.0.md`

@@ -413,3 +413,8 @@ After creation, verify:
 - Projects ↔ Calendar
 
 No rollups. No formulas. Agents read relations; humans reason about rollups later.
+
+## Recommended cross-links
+- Canonical enforcement (PCTM): `AGENT-SYSTEM-PACK.md`
+- APSDR v1.0 (anchor): `governance/APSDR-v1.0.md`
+- Meta‑Scheduler operating loop v1.0: `notion/meta-scheduler/operating-loop-v1.0.md`
