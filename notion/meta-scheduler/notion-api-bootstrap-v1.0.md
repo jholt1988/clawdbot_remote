@@ -20,6 +20,7 @@ notes: |
 This bootstrap is designed to comply with Jordan’s **Project‑Centric Truth Model (PCTM)**.
 
 - Canonical enforcement spec: `AGENT-SYSTEM-PACK.md` (PCTM v1.0)
+- Project bootstrapping procedure: `governance/project-creation-playbook-v1.0.md`
 - Hard invariant: **No Ticket and no Calendar Item exists without a Project**.
 - Note: Notion cannot enforce “required relation” at the schema level; enforcement is done via Meta‑Scheduler validation + Drift logging.
 

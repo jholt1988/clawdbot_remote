@@ -5566,4 +5566,6 @@ If thresholds fail → Orange/Red health.
 If a claim can’t name its container, it’s lying.
 
 ## Cross‑links
+- Project Creation Playbook v1.0: `governance/project-creation-playbook-v1.0.md`
+- APSDR v1.0 (anchor): `governance/APSDR-v1.0.md`
 - Notion Meta‑Scheduler API spec: `notion/meta-scheduler/notion-api-bootstrap-v1.0.md`
