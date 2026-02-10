@@ -4434,3 +4434,254 @@ You now have:
 - A system that **keeps thinking without deciding**
 
 This is the difference between a knowledge base and a **living cognitive engine**.
+
+---
+
+# Trigger Observability Dashboards (TOD) — v1.0
+
+**Scope:** Library → R&D → Panel automatic triggers  
+**Primary Viewer:** Jordan (human)  
+**Secondary Viewers:** Meta Orchestrator (Aiden), Agent Resources (AR)  
+**Authority:** Read-only for all viewers
+
+---
+
+## 1) Design Principles (Non-Negotiable)
+
+- **Read-only:** dashboards observe; they do not act
+- **Signal > noise:** show thresholds and trends, not raw logs by default
+- **Explainability:** every trigger is traceable to a rule
+- **Progressive disclosure:** summaries first, details on demand
+- **No surprise automation:** you can always see *why* something fired
+
+---
+
+## 2) Dashboard Suite Overview
+
+You get **four coordinated dashboards**, each answering a different question:
+
+1. **Trigger Activity Overview** — *What is firing? How often?*
+2. **Artifact Flow Map** — *Where did this artifact go, and why?*
+3. **R&D & Panel Load** — *Are we exploring too much or too little?*
+4. **Governance Health Signals** — *Is the system drifting or stable?*
+
+Each dashboard pulls from **ATS + ERCS + AR telemetry**.
+
+---
+
+## 3) Dashboard 1: Trigger Activity Overview
+
+### Purpose
+
+Give you a **high-level pulse** of automation activity.
+
+### Core Widgets
+
+**A) Trigger Volume (Time Series)**
+
+```
+Triggers Fired (by type) over time
+- L-R1 / L-R2 / L-R3
+- R-P1 / R-P2 / R-P3
+```
+
+**B) Trigger Distribution (Current Window)**
+
+- % Library → R&D
+- % R&D → Panel
+- % Suppressed
+
+**C) Top Trigger Reasons**
+
+- Missing objective
+- Incomplete project
+- High uncertainty
+- Divergent paths
+
+### Default View
+
+- Last 14 days
+- Aggregated counts
+
+### Alert Overlay
+
+- Spikes annotated (from AAS)
+- Color-coded by severity
+
+---
+
+## 4) Dashboard 2: Artifact Flow Map
+
+### Purpose
+
+Answer the question:
+
+> *“What happened to this thing I created?”*
+
+### Core View (Per Artifact)
+
+```
+Artifact ID / Name
+→ Library (timestamp, tags)
+→ Trigger Fired (ID + reason)
+→ R&D Task (summary)
+→ Panel Review (if any)
+→ Decision Team (if routed)
+→ Archived / Active
+```
+
+### Metadata Shown
+
+- Trigger IDs
+- Suppression checks passed
+- Risk sensitivity
+- Current status
+
+### Key Feature
+
+- **No black boxes**: every transition is annotated with its rule.
+
+---
+
+## 5) Dashboard 3: R&D & Panel Load Monitor
+
+### Purpose
+
+Prevent **runaway ideation** or **over-review paralysis**.
+
+### Core Widgets
+
+**A) R&D Throughput**
+
+- New R&D tasks
+- Completed explorations
+- Average completeness %
+
+**B) Panel Invocation Rate**
+
+- Automatic vs requested
+- By domain (Personal / PMS)
+- By trigger type
+
+**C) Saturation Indicators**
+
+```
+R&D Saturation Index = 
+(# active R&D tasks) / (configured healthy limit)
+```
+
+**Visual States**
+
+- 🟢 Healthy
+- 🟡 Busy
+- 🔴 Overloaded
+
+### Governance Tie-In
+
+If overloaded:
+
+- AR may recommend tighter trigger suppression
+- No automatic throttling occurs
+
+---
+
+## 6) Dashboard 4: Governance Health Signals
+
+### Purpose
+
+Detect **systemic drift before it becomes failure**.
+
+### Core Widgets
+
+**A) Trigger → Escalation Correlation**
+
+- % of trigger-generated tasks that later escalate (ERCS)
+- Broken down by trigger type
+
+**B) Re-Trigger Rate**
+
+- Same artifact triggering multiple times
+- Indicates unclear objectives or bad tagging
+
+**C) Suppression Effectiveness**
+
+- How often suppression rules prevented noise
+- Which rules are most active
+
+**D) Confidence Outcomes**
+
+- Quality Reviewer confidence on trigger-generated work
+
+---
+
+## 7) Dashboard Interaction Rules
+
+### Allowed Actions
+
+- Filter (time, team, domain)
+- Drill down
+- Export summaries
+- Annotate (personal notes only)
+
+### Forbidden Actions
+
+- Disabling triggers
+- Editing thresholds
+- Re-routing artifacts
+- Overriding governance
+
+All actions are **observational only**.
+
+---
+
+## 8) Default Dashboard Views by Role
+
+### Jordan (Human)
+
+- Trigger Activity Overview
+- Artifact Flow Map
+- Governance Health Signals
+
+### Meta Orchestrator (Aiden)
+
+- Trigger Activity Overview
+- R&D & Panel Load
+
+### Agent Resources (AR)
+
+- Governance Health Signals
+- R&D & Panel Load
+- Escalation correlations
+
+---
+
+## 9) Archival & Audit
+
+Every dashboard view change is logged:
+
+```
+Viewer
+Timestamp
+Dashboard
+Filters Applied
+```
+
+This supports:
+
+- Post-mortems
+- Governance audits
+- System tuning (via AR recommendations)
+
+---
+
+## 10) What This Gives You (Plainly)
+
+You now have:
+
+- **X-ray vision** into automation
+- Confidence that nothing “just happened”
+- Early detection of idea sprawl or review fatigue
+- The ability to trust the system without babysitting it
+
+This completes the loop:  
+**Knowledge → Motion → Scrutiny → Visibility → Control**
