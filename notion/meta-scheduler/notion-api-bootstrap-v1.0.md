@@ -415,6 +415,8 @@ After creation, verify:
 No rollups. No formulas. Agents read relations; humans reason about rollups later.
 
 ## Recommended cross-links
+- Meta‑Scheduler Agent system prompt (authority layer): `notion/meta-scheduler/meta-scheduler-agent-system-prompt-v1.0.md`
 - Canonical enforcement (PCTM): `AGENT-SYSTEM-PACK.md`
 - APSDR v1.0 (anchor): `governance/APSDR-v1.0.md`
+- APSDR enforcement pack (checklists): `governance/APSDR-enforcement-pack-v1.0.md`
 - Meta‑Scheduler operating loop v1.0: `notion/meta-scheduler/operating-loop-v1.0.md`

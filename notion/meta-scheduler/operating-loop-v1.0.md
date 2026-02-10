@@ -13,8 +13,10 @@ This document defines the **day-to-day operating loop** for Meta‑Scheduler and
 It is intentionally **procedural** and **maps to Notion**. Canonicality/anti‑drift enforcement is owned by **PCTM**.
 
 Cross-links:
+- Meta‑Scheduler Agent system prompt (authority layer): `notion/meta-scheduler/meta-scheduler-agent-system-prompt-v1.0.md`
 - PCTM (canonical enforcement): `AGENT-SYSTEM-PACK.md`
 - APSDR v1.0 (split tripwires): `governance/APSDR-v1.0.md`
+- APSDR enforcement pack (checklists): `governance/APSDR-enforcement-pack-v1.0.md`
 - Notion bootstrap (canonical schema): `notion/meta-scheduler/notion-api-bootstrap-v1.0.md`
 
 ---
