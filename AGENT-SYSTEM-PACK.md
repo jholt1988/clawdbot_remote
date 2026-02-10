@@ -5473,3 +5473,97 @@ If none apply → stop acting.
 
 **If the system agrees too easily, investigate.**  
 **If it disagrees loudly, listen before overriding.**
+
+---
+
+# Project‑Centric Truth Model (PCTM) — Canonical Enforcement Spec
+
+**Version:** v1.0 (Canonical)
+**Authority:** Jordan → Orchestrator (Aiden)
+
+## 1) Core Invariant (Non‑Negotiable)
+**Nothing exists operationally unless it belongs to a Project.**
+
+Formally:
+- ❌ No Ticket without a Project
+- ❌ No Calendar Item without a Project
+- ❌ No R&D exploration without a Project
+- ❌ No Panel review without a Project
+- ❌ No Fast‑Path without a Project
+
+If an object cannot name its Project, it is **not real**.
+
+## 2) Schema Enforcement (Notion‑Level)
+**Mandatory relations**
+- Tickets → required relation to Projects (enforced by validation on creation)
+- Calendar Items → required relation to Projects (enforced by validation on creation)
+- Drift Log → optional but expected (warn if missing)
+
+Operational rule: the **Project relation is the first field set**, not the last.
+
+## 3) Meta‑Scheduler Enforcement Rules
+### Ticket creation
+If Project missing:
+- Reject write
+- Emit **ER‑1.2 (Unscoped Task)**
+- Log Drift: “Ticket without Project”
+
+### Calendar creation
+If Project missing:
+- Reject write
+- Emit **ER‑3.3 (Structural Incompleteness)**
+- Do not create the calendar item
+
+### Project archival
+If Project.Status = Archived:
+- Block new Tickets
+- Block new Calendar Items
+- Allow only closure actions
+
+## 4) Planner Contract (Pre‑Flight)
+Before emitting any plan, every Planner must check:
+1) Project exists
+2) Project is Active
+3) Work is in‑scope for that Project
+
+If any answer is “no” → request Project creation; do not invent work.
+
+## 5) Project Creation Protocol (Only Two Ways)
+**Path A — Human‑initiated (Jordan):** explicit instruction → Orchestrator creates Project → Meta‑Scheduler registers it.
+
+**Path B — Orchestrator‑initiated:** allowed only when CTS is valid *and* task explicitly requires a new Project, and creation is logged + surfaced.
+
+Hard constraints:
+- ❌ Planners may NOT create Projects
+- ❌ Schedulers may NOT create Projects autonomously
+
+## 6) Trigger System Alignment (ATS)
+- Library → R&D triggers must resolve to an associated Project OR “Project Needed”. If missing → create Project request (not auto‑create).
+- R&D → Panel triggers require Project ID, Owning Team, and Objective context. Otherwise → suppress + drift log.
+
+## 7) ERCS Additions (Project‑Centric)
+- **ER‑1.2** Task/Ticket without Project
+- **ER‑3.3** Structural entity missing Project
+- **ER‑4.4** Planner attempted cross‑project work
+- **ER‑5.3** Silent project scope mutation
+
+These are governance errors.
+
+## 8) AR Health Metrics Update
+Track:
+- % of Tickets with valid Project (must be 100%)
+- Avg time Projects stay “Idea” before activation
+- Drift frequency related to Project boundaries
+- Projects with >X active Tickets (over‑aggregation risk)
+
+If thresholds fail → Orange/Red health.
+
+## 9) Human Mental Model
+- Projects are containers of meaning
+- Tickets are claims about progress
+- Calendar items are claims about time
+
+If a claim can’t name its container, it’s lying.
+
+## Cross‑links
+- Notion Meta‑Scheduler API spec: `notion/meta-scheduler/notion-api-bootstrap-v1.0.md`

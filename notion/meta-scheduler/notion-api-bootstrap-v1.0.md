@@ -16,6 +16,21 @@ notes: |
 **Target:** Notion API v2022-06-28+
 **Assumption:** One Notion workspace, new databases
 
+## Project‑Centric Truth Model (PCTM) compatibility
+This bootstrap is designed to comply with Jordan’s **Project‑Centric Truth Model (PCTM)**.
+
+- Canonical enforcement spec: `AGENT-SYSTEM-PACK.md` (PCTM v1.0)
+- Hard invariant: **No Ticket and no Calendar Item exists without a Project**.
+- Note: Notion cannot enforce “required relation” at the schema level; enforcement is done via Meta‑Scheduler validation + Drift logging.
+
+### Optional properties (recommended) to prevent truth drift
+If you want every Notion record to point back to its canonical source, consider adding these optional properties to the DB payloads below:
+- `Source of Truth` (URL)
+- `Repo Path` (rich_text)
+- `Canonical ID` (rich_text)
+
+Keep property names stable.
+
 ## CREATION ORDER (MANDATORY)
 1. Projects (Global)
 2. Tickets (Global)
