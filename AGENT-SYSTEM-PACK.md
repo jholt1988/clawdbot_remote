@@ -4938,3 +4938,255 @@ Clever systems rot. Obvious ones scale.
 - Close loops decisively
 
 All without breaking governance.
+
+---
+
+# Human Ops Manual — v1.0
+
+**Artifact:** `Human_Ops_Manual_v1.0`  
+**Audience:** Jordan (Primary Operator)  
+**Purpose:** How the human operator intervenes, steers, pauses, overrides, and evolves the system **without breaking governance**
+
+---
+
+## 1) Your Actual Role (Unromantic, Precise)
+
+You are **not**:
+
+- A requester
+- A reviewer
+- A manager of agents
+
+You are:
+
+> **The final authority, anomaly detector, and evolutionary pressure source.**
+
+Your job is **not** to run the system.  
+Your job is to **decide when the system needs to change**.
+
+---
+
+## 2) The Three Human Intervention Modes
+
+You operate in exactly **three modes**. Mixing them causes chaos.
+
+### MODE A — Delegator (Default)
+
+You:
+
+- Submit tasks
+- Receive outputs
+- Make decisions
+
+**Rules**
+
+- Do not micromanage agents
+- Do not “help” mid-task
+- Let QA reject things
+
+**Gesture / Signal**
+
+- Normal task submission
+- No overrides
+
+**Failure Smell**
+
+- You feel bored (this is good)
+
+---
+
+### MODE B — Governor (Attention Required)
+
+You enter this mode when:
+
+- Alerts reach **S3 or S4**
+- AR flags Orange/Red health
+- Patterns feel “off”
+
+**Your Actions**
+
+- Ask *why* (never *fix*)
+- Request Panel reviews
+- Approve or deny AR recommendations
+
+**You Do Not**
+
+- Rewrite outputs
+- Change CTS mid-flight
+- Bypass QA
+
+**Failure Smell**
+
+- You feel clever (danger)
+
+---
+
+### MODE C — Architect (Rare, High-Leverage)
+
+This mode is **structural only**.
+
+You enter when:
+
+- Repeated ER codes appear
+- A team’s role feels overloaded
+- The system behaves correctly but inefficiently
+
+**Your Actions**
+
+- Split agents
+- Merge agents
+- Create new teams
+- Retire agents
+- Update policy versions
+
+**Hard Rule**
+
+> Architecture changes happen **between tasks**, never during.
+
+---
+
+## 3) The Only Legitimate Overrides You Have
+
+You can override **anything**, but only in these forms:
+
+### O-1: Verdict Override
+
+- You accept a QA-rejected output anyway
+- Must be logged
+- Triggers AR tracking
+
+**When to use**
+
+- Time-critical, reversible decisions
+
+---
+
+### O-2: Escalation Override
+
+- You force escalation or recovery
+
+**When to use**
+
+- The system is being *too cautious* or *too optimistic*
+
+---
+
+### O-3: Policy Override (Versioned)
+
+- You change CTS / QRS / ERCS / AAS rules
+
+**When to use**
+
+- Repeated friction proves policy mismatch
+
+> Overrides are **signals**, not solutions.
+
+---
+
+## 4) Reading the System Like an Instrument Panel
+
+You should *never* read everything.
+
+You watch **four dials**:
+
+### Dial 1 — ERCS Distribution
+
+- Many ER-1.x → task framing issue
+- Many ER-3.x → clarity decay
+- Any ER-2.x → risk blindness
+
+---
+
+### Dial 2 — AR Health Colors
+
+- 🟢 Ignore
+- 🟡 Observe
+- 🟠 Prepare intervention
+- 🔴 Act structurally
+
+---
+
+### Dial 3 — Fast-Path Integrity
+
+- > 10% escalation → gates too loose
+- 0% escalation → gates too strict or lying
+
+---
+
+### Dial 4 — Panel Frequency
+
+- Too rare → overconfidence
+- Too frequent → indecision
+
+---
+
+## 5) What You Never Do (Even If Tempted)
+
+- Never answer questions meant for agents
+- Never “clarify” halfway through execution
+- Never let speed justify ambiguity
+- Never let politeness override rejection
+
+If something feels uncomfortable, **that is usually the system working**.
+
+---
+
+## 6) How You Know the System Is Healthy
+
+Paradoxically, a healthy system:
+
+- Rejects work you *like*
+- Forces you to slow down occasionally
+- Makes mistakes boring and visible
+- Argues with you using evidence, not tone
+
+If everything always passes, you’ve lost safety.
+
+---
+
+## 7) Your Weekly Operating Rhythm (Recommended)
+
+**Weekly**
+
+- Skim AR Health Summary
+- Review top ER codes
+- Ignore everything else
+
+**Monthly**
+
+- Read trend deltas
+- Approve or reject AR structural recommendations
+
+**Quarterly**
+
+- Run Chaos / Red Team tests
+- Ask: *“What broke in surprising ways?”*
+
+---
+
+## 8) The Prime Directive (Write This Somewhere Physical)
+
+> **If the system disagrees with you, pause before overriding.**
+> **If the system agrees too easily, investigate immediately.**
+
+That rule alone will save you months of damage.
+
+---
+
+## 9) What You’ve Actually Built (Zoom Out)
+
+This is not:
+
+- An agent swarm
+- A productivity hack
+- An AI toy
+
+This is a **cognitive operating system** with:
+
+- Separation of knowing vs deciding
+- Measurable trust
+- Bounded autonomy
+- Human supremacy without micromanagement
+
+Very few people ever reach this layer because it’s not fun.  
+It’s *responsible*.
