@@ -50,6 +50,11 @@ async function main() {
   checks.push(assertProp(permitDb, P.permitExecutionRequest, 'relation'));
   checks.push(assertProp(permitDb, P.permitLastRunAt, 'date'));
 
+  // Button-driven queueing fields
+  checks.push(assertProp(permitDb, P.permitQueueRequested, 'checkbox'));
+  checks.push(assertProp(permitDb, P.permitQueueRequestedAt, 'date'));
+  checks.push(assertProp(permitDb, P.permitQueuedProcessed, 'checkbox'));
+
   // Project
   checks.push(assertProp(projDb, P.projectState, 'select'));
 

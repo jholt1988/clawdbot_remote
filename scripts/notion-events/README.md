@@ -6,7 +6,9 @@ Event-driven governance spine for Notion-triggered automation.
 
 ## Why
 - Notion public API doesn’t provide native webhooks for all DB updates.
-- We implement **Option A**: events are emitted via Notion buttons / Zapier/Make / custom relay.
+- We support two modes:
+  - **Public webhook ingress** (Zapier/Make/relay) → `server.mjs`
+  - **IAP/private button-driven queueing** (no inbound HTTP) → `poller.mjs`
 
 ## Install
 From repo root:
@@ -26,6 +28,8 @@ Required:
 - `NOTION_PROJECTS_DB_ID`
 
 ## Run
+
+### Mode 1: Webhook ingress (public/relay)
 Terminal 1 (ingress):
 ```bash
 node scripts/notion-events/server.mjs
@@ -35,6 +39,22 @@ Terminal 2 (worker):
 ```bash
 node scripts/notion-events/worker.mjs
 ```
+
+### Mode 2: Private (IAP) button-driven queueing
+Terminal 1 (poller):
+```bash
+node scripts/notion-events/poller.mjs
+```
+
+Terminal 2 (worker):
+```bash
+node scripts/notion-events/worker.mjs
+```
+
+In Notion, add permit properties and a button that sets:
+- `Status = Approved`
+- `Queue Requested = true`
+- `Queue Requested At = now`
 
 ## Incoming event shape
 We expect minimal JSON:

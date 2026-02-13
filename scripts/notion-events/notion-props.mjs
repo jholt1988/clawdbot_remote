@@ -16,6 +16,11 @@ const defaults = {
   permitWorkerId: 'Worker ID',
   permitRunAttempt: 'Run Attempt',
 
+  // IAP-private / button-driven queueing
+  permitQueueRequested: 'Queue Requested',
+  permitQueueRequestedAt: 'Queue Requested At',
+  permitQueuedProcessed: 'Queued/Processed',
+
   // Request properties
   requestDryRun: 'Dry Run',
   requestTargetSystem: 'Target System',
