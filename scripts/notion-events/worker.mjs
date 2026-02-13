@@ -32,6 +32,9 @@ async function validatePermitAndRequest(permitId) {
   const permit = await notion.pages.retrieve({ page_id: permitId });
 
   const permitStatus = getSelectName(permit.properties[P.permitStatus]);
+  if (['Executed', 'Failed', 'Revoked'].includes(permitStatus)) {
+    return { ok: false, reason: `permit_terminal_${permitStatus}` };
+  }
   const approvedMode = getSelectName(permit.properties[P.permitApprovedMode]);
   const expiresAt = permit.properties[P.permitExpiresAt]?.date?.start || null;
 

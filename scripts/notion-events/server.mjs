@@ -3,7 +3,9 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import crypto from 'node:crypto';
 import { Client } from '@notionhq/client';
-import { executionQueue } from './infra/queue.mjs';
+import { executionQueue, connection } from './infra/queue.mjs';
+import { validateIngressEvent, extractEventId } from './event-validate.mjs';
+import { seenEvent } from './replay-protect.mjs';
 
 const app = express();
 app.use(bodyParser.json());
@@ -26,6 +28,12 @@ app.post('/webhook/notion', async (req, res) => {
     if (!verifySignature(req)) return res.status(401).json({ error: 'bad_signature' });
 
     const event = req.body;
+    const v = validateIngressEvent(event);
+    if (!v.ok) return res.status(400).json({ error: 'invalid_event', details: v.errors });
+
+    const eventId = extractEventId(req, event);
+    const replay = await seenEvent(connection, eventId, 300);
+    if (replay.deduped) return res.json({ ok: true, deduped: true });
 
     if (event?.type === 'permit.updated') {
       const permitId = event?.data?.page_id;
