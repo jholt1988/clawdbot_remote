@@ -1,0 +1,103 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://clawd.local/schemas/tea-erq-v1.1.json",
+  "title": "TEA Execution Request (ERQ) v1.1",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "erq_id",
+    "project_id",
+    "task_id",
+    "requesting_team",
+    "requesting_agent",
+    "intent_summary",
+    "execution_type",
+    "script_body",
+    "expected_outputs",
+    "risk_level",
+    "side_effects_declared",
+    "timeout_seconds",
+    "dry_run",
+    "observability"
+  ],
+  "properties": {
+    "erq_id": { "type": "string", "minLength": 1 },
+    "project_id": { "type": "string", "minLength": 1 },
+    "task_id": { "type": "string", "minLength": 1 },
+    "requesting_team": {
+      "type": "string",
+      "enum": ["PMS Dev", "PMS Build", "Personal", "Library", "R&D", "Panel"]
+    },
+    "requesting_agent": { "type": "string", "minLength": 1 },
+    "intent_summary": { "type": "string", "minLength": 1 },
+
+    "execution_type": { "type": "string", "enum": ["shell", "python", "node", "internal-script", "api"] },
+    "script_body": { "type": "string" },
+    "inputs": { "type": "object", "additionalProperties": true },
+
+    "expected_outputs": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["type"],
+      "properties": {
+        "type": { "type": "string", "enum": ["json", "text", "file", "none"] },
+        "success_criteria": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+
+    "risk_level": { "type": "string", "enum": ["low", "medium", "high"] },
+    "side_effects_declared": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "none",
+          "writes_files",
+          "installs_packages",
+          "restarts_services",
+          "network_mutations",
+          "notion_writes"
+        ]
+      }
+    },
+
+    "timeout_seconds": { "type": "integer", "minimum": 1, "maximum": 3600 },
+    "dry_run": { "type": "boolean" },
+
+    "rollback_plan": { "type": "string" },
+
+    "observability": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["log_level", "capture_stdout", "capture_stderr"],
+      "properties": {
+        "log_level": { "type": "string", "enum": ["normal", "verbose"] },
+        "capture_stdout": { "type": "boolean" },
+        "capture_stderr": { "type": "boolean" }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "risk_level": { "enum": ["medium", "high"] }
+        },
+        "required": ["risk_level"]
+      },
+      "then": { "required": ["rollback_plan"] }
+    },
+    {
+      "if": {
+        "properties": {
+          "side_effects_declared": {
+            "type": "array",
+            "contains": { "type": "string", "not": { "const": "none" } }
+          }
+        },
+        "required": ["side_effects_declared"]
+      },
+      "then": { "required": ["rollback_plan"] }
+    }
+  ]
+}

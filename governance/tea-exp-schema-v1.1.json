@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://clawd.local/schemas/tea-exp-v1.1.json",
+  "title": "TEA Execution Permit (EXP) v1.1",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "exp_id",
+    "erq_id",
+    "approved_by",
+    "approved_at",
+    "expires_at",
+    "approved_mode",
+    "approved_scope",
+    "risk_level_confirmed",
+    "rollback_verified"
+  ],
+  "properties": {
+    "exp_id": { "type": "string", "minLength": 1 },
+    "erq_id": { "type": "string", "minLength": 1 },
+    "approved_by": { "type": "string", "minLength": 1 },
+    "approved_at": { "type": "string", "minLength": 1 },
+    "expires_at": { "type": "string", "minLength": 1 },
+    "approved_mode": { "type": "string", "enum": ["non-dry-run"] },
+
+    "approved_scope": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "allowed_execution_type",
+        "allowed_side_effects",
+        "max_timeout_seconds",
+        "allowed_paths",
+        "blocked_commands"
+      ],
+      "properties": {
+        "allowed_execution_type": {
+          "type": "string",
+          "enum": ["shell", "python", "node", "internal-script", "api"]
+        },
+        "allowed_side_effects": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "none",
+              "writes_files",
+              "installs_packages",
+              "restarts_services",
+              "network_mutations",
+              "notion_writes"
+            ]
+          }
+        },
+        "max_timeout_seconds": { "type": "integer", "minimum": 1, "maximum": 3600 },
+        "allowed_paths": { "type": "array", "items": { "type": "string" } },
+        "blocked_commands": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+
+    "risk_level_confirmed": { "type": "string", "enum": ["low", "medium", "high"] },
+    "rollback_verified": { "type": "boolean" },
+    "notes": { "type": "string" }
+  }
+}
