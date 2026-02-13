@@ -7,7 +7,7 @@ name = "clawd-agent-sdk"
 version = "0.1.0"
 description = "Agent SDK (Python) for TEA/CEEG validation + audit logging"
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.8"
 dependencies = [
   "jsonschema>=4.21.0"
 ]
