@@ -20,6 +20,11 @@ const defaults = {
   requestScriptPath: 'Script Path',
   requestExecutionStatus: 'Execution Status',
 
+  // Optional (for composite target locks)
+  requestTargetKind: 'Target Kind',
+  requestTargetScopeId: 'Target Scope ID',
+  requestCredentialProfile: 'Credential Profile',
+
   // Project properties
   projectState: 'Project State',
 };

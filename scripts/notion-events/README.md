@@ -46,7 +46,16 @@ We expect minimal JSON:
 - Queue jobId = `permitId` → prevents double-run across webhook retries.
 
 ## Locks
-- Redis project lock: `lock:project:<projectId>`
+Composite locks (deadlock-safe):
+- `lock:project:<projectId>`
+- `lock:target:<targetKey>`
+
+Lock acquisition order is deterministic (`sort()`), so overlapping jobs don’t deadlock.
+
+`targetKey` is derived from optional request properties:
+- Target Kind
+- Target Scope ID
+- Credential Profile
 
 ## Notion property names
 Defaults are in `scripts/notion-events/notion-props.mjs`. If your DB uses different names, override via env JSON (`NOTION_PROP_OVERRIDES_JSON`).

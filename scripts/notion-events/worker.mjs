@@ -3,6 +3,7 @@ import { Worker } from 'bullmq';
 import { Client } from '@notionhq/client';
 import { execFile } from 'node:child_process';
 import path from 'node:path';
+import crypto from 'node:crypto';
 import { connection } from './infra/queue.mjs';
 import { buildRedlock } from './infra/lock.mjs';
 import { notionProps } from './notion-props.mjs';
@@ -67,6 +68,21 @@ async function validatePermitAndRequest(permitId) {
   return { ok: true, permit, request: reqPage, requestId, projectId };
 }
 
+function sha1(s) {
+  return crypto.createHash('sha1').update(String(s || '')).digest('hex').slice(0, 12);
+}
+
+function getTargetKeyFromRequest(requestProps) {
+  const kind = getSelectName(requestProps[P.requestTargetKind]) || 'other';
+  const scopeId = getText(requestProps[P.requestTargetScopeId]) || '';
+  const cred = getSelectName(requestProps[P.requestCredentialProfile]) || 'default';
+
+  const normalizedScope = scopeId ? scopeId : 'unspecified';
+  const scopePart = normalizedScope.length > 64 ? sha1(normalizedScope) : normalizedScope;
+
+  return `${kind}:${scopePart}:${cred}`;
+}
+
 function runNodeScript(scriptPath, timeoutMs) {
   return new Promise((resolve) => {
     const abs = path.isAbsolute(scriptPath)
@@ -106,8 +122,10 @@ const worker = new Worker(
 
     const { request, requestId, projectId } = v;
 
-    const lockKey = `lock:project:${projectId}`;
-    const lock = await redlock.acquire([lockKey], LOCK_TTL_MS);
+    const targetKey = getTargetKeyFromRequest(request.properties);
+    const lockKeys = [`lock:project:${projectId}`, `lock:target:${targetKey}`].sort();
+
+    const lock = await redlock.acquire(lockKeys, LOCK_TTL_MS);
 
     try {
       await updatePermit(permitId, {
