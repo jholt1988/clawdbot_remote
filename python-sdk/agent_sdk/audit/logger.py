@@ -16,8 +16,9 @@ def append_audit_event(event: Dict[str, Any], base_dir: Optional[str] = None) ->
     base = Path(base_dir) if base_dir else Path.cwd()
     log_path = base / "logs" / "tea" / f"{_today_utc()}.jsonl"
     log_path.parent.mkdir(parents=True, exist_ok=True)
+    # Ensure stable JSON encoding (UTF-8) and one-line JSONL.
     with log_path.open("a", encoding="utf-8") as f:
-        f.write(json.dumps(event) + "\n")
+        f.write(json.dumps(event, ensure_ascii=False) + "\n")
     return str(log_path)
 
 
@@ -60,6 +61,7 @@ def make_result_event(
 ) -> Dict[str, Any]:
     stdout = result.get("stdout") if isinstance(result.get("stdout"), str) else None
     stderr = result.get("stderr") if isinstance(result.get("stderr"), str) else None
+
     return {
         "timestamp": datetime.now(timezone.utc).isoformat(),
         "kind": "tea.wrapper.result",
