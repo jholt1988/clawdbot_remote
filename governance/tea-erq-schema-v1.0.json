@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://clawd.local/schemas/tea-erq-v1.0.json",
+  "title": "TEA Execution Request (ERQ subset) v1.0",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "project_id",
+    "requesting_agent",
+    "task_id",
+    "execution_type",
+    "script_body",
+    "expected_output_type",
+    "timeout_seconds",
+    "risk_level",
+    "dry_run"
+  ],
+  "properties": {
+    "project_id": { "type": "string", "minLength": 1 },
+    "requesting_agent": { "type": "string", "minLength": 1 },
+    "task_id": { "type": "string", "minLength": 1 },
+    "execution_type": { "type": "string", "enum": ["shell", "python", "node", "api", "internal-script"] },
+    "script_body": { "type": "string" },
+    "expected_output_type": { "type": "string", "enum": ["json", "text", "file", "none"] },
+    "timeout_seconds": { "type": "integer", "minimum": 1, "maximum": 3600 },
+    "risk_level": { "type": "string", "enum": ["low", "medium", "high"] },
+    "rollback_plan": { "type": "string" },
+    "dry_run": { "type": "boolean" }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "risk_level": { "enum": ["medium", "high"] } }, "required": ["risk_level"] },
+      "then": { "required": ["rollback_plan"] }
+    }
+  ]
+}
