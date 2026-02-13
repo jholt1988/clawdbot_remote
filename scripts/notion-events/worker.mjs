@@ -150,6 +150,20 @@ const worker = new Worker(
 
       await updateRequest(requestId, {
         [P.requestExecutionStatus]: { select: { name: 'Running' } },
+
+        ...(P.requestLockKeys
+          ? { [P.requestLockKeys]: { rich_text: [{ text: { content: lockKeys.join(' | ') } }] } }
+          : {}),
+        ...(P.requestWorkerId
+          ? {
+              [P.requestWorkerId]: {
+                rich_text: [{ text: { content: process.env.WORKER_ID || process.env.HOSTNAME || 'worker-1' } }],
+              },
+            }
+          : {}),
+        ...(P.requestRunAttempt
+          ? { [P.requestRunAttempt]: { number: (job.attemptsMade || 0) + 1 } }
+          : {}),
       });
 
       const scriptPath = getText(request.properties[P.requestScriptPath]);

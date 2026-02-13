@@ -25,6 +25,11 @@ const defaults = {
   requestScriptPath: 'Script Path',
   requestExecutionStatus: 'Execution Status',
 
+  // Optional observability on requests
+  requestLockKeys: 'Lock Keys',
+  requestWorkerId: 'Worker ID',
+  requestRunAttempt: 'Run Attempt',
+
   // Optional (for composite target locks)
   requestTargetKind: 'Target Kind',
   requestTargetScopeId: 'Target Scope ID',
