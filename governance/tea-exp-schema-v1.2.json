@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://clawd.local/schemas/tea-exp-v1.2.json",
+  "title": "TEA Execution Permit (EXP) v1.2 — target-bound",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "exp_id",
+    "erq_id",
+    "approved_by",
+    "approved_at",
+    "expires_at",
+    "approved_mode",
+    "approved_scope",
+    "risk_level_confirmed",
+    "rollback_verified"
+  ],
+  "properties": {
+    "exp_id": { "type": "string", "minLength": 1 },
+    "erq_id": { "type": "string", "minLength": 1 },
+    "approved_by": { "type": "string", "minLength": 1 },
+    "approved_at": { "type": "string", "minLength": 1 },
+    "expires_at": { "type": "string", "minLength": 1 },
+    "approved_mode": { "type": "string", "enum": ["non-dry-run"] },
+
+    "approved_scope": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "target_system",
+        "target_environment",
+        "allowed_resources",
+        "allowed_actions",
+        "credential_profile",
+        "allowed_side_effects",
+        "max_runtime_seconds",
+        "max_changes"
+      ],
+      "properties": {
+        "target_system": {
+          "type": "string",
+          "enum": ["local", "notion", "github", "gcp", "aws", "database", "custom-api"]
+        },
+        "target_environment": { "type": "string", "enum": ["dev", "staging", "prod"] },
+        "allowed_resources": { "type": "array", "items": { "type": "string" } },
+        "allowed_actions": { "type": "array", "items": { "type": "string" } },
+        "credential_profile": { "type": "string", "enum": ["readonly", "deploy", "admin"] },
+
+        "allowed_side_effects": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "none",
+              "writes_files",
+              "installs_packages",
+              "restarts_services",
+              "network_mutations",
+              "notion_writes",
+              "repo_push",
+              "infra_mutation",
+              "db_schema_migration",
+              "delete_or_purge",
+              "mass_write"
+            ]
+          }
+        },
+
+        "allowed_paths": { "type": "array", "items": { "type": "string" } },
+        "blocked_commands": { "type": "array", "items": { "type": "string" } },
+        "allowed_branches": { "type": "array", "items": { "type": "string" } },
+        "blocked_branches": { "type": "array", "items": { "type": "string" } },
+
+        "max_runtime_seconds": { "type": "integer", "minimum": 1, "maximum": 3600 },
+        "max_changes": { "type": "integer", "minimum": 0 }
+      }
+    },
+
+    "risk_level_confirmed": { "type": "string", "enum": ["low", "medium", "high"] },
+    "rollback_verified": { "type": "boolean" },
+    "notes": { "type": "string" }
+  }
+}
