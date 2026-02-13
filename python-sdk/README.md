@@ -29,3 +29,8 @@ CLI parity with Node scripts (no pip needed):
 PYTHONPATH=python-sdk python3 -m agent_sdk.cli tea-validate-and-log --erq /path/to/erq.json --base-dir /home/jordanh316/clawd
 PYTHONPATH=python-sdk python3 -m agent_sdk.cli tea-log-result --erq /path/to/erq.json --result /path/to/tea-output.json --base-dir /home/jordanh316/clawd
 ```
+
+Exit codes (deterministic):
+- `0` approved / success
+- `1` rejected (validation failed)
+- `2` usage error (bad args / missing command)

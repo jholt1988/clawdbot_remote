@@ -26,6 +26,11 @@ Run:
 node scripts/tea/validate-and-log.mjs --erq <erq.json> [--exp <exp.json>]
 ```
 
+Exit codes (deterministic):
+- `0` approved
+- `1` rejected
+- `2` usage error
+
 Rules:
 - If ERQ.dry_run=true: validation MUST pass, but EXP is not required.
 - If ERQ.dry_run=false: validation MUST pass AND EXP MUST be present and valid.
