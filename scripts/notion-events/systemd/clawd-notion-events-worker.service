@@ -1,0 +1,24 @@
+[Unit]
+Description=Clawd Notion Events Worker
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=jordanh316
+WorkingDirectory=/home/jordanh316/clawd
+EnvironmentFile=/home/jordanh316/clawd/.env
+Environment=WORKER_ID=worker-1
+ExecStart=/usr/bin/node scripts/notion-events/worker.mjs
+Restart=always
+RestartSec=2
+KillSignal=SIGINT
+
+# Hardening (safe defaults)
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ProtectHome=false
+
+[Install]
+WantedBy=multi-user.target
