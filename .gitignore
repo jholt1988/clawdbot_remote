@@ -5,5 +5,9 @@ pms-master/
 # dependencies
 node_modules/
 
+# python
+__pycache__/
+*.pyc
+
 # backup artifacts
 backups/
