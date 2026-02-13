@@ -11,6 +11,11 @@ const defaults = {
   permitLastError: 'Last Error',
   permitLastOutput: 'Last Output',
 
+  // Optional observability
+  permitLockKeys: 'Lock Keys',
+  permitWorkerId: 'Worker ID',
+  permitRunAttempt: 'Run Attempt',
+
   // Request properties
   requestDryRun: 'Dry Run',
   requestTargetSystem: 'Target System',

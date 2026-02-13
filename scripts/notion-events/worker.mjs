@@ -132,6 +132,20 @@ const worker = new Worker(
         [P.permitStatus]: { select: { name: 'Running' } },
         [P.permitLastRunAt]: { date: { start: nowISO() } },
         [P.permitLastError]: { rich_text: [] },
+
+        ...(P.permitLockKeys
+          ? { [P.permitLockKeys]: { rich_text: [{ text: { content: lockKeys.join(' | ') } }] } }
+          : {}),
+        ...(P.permitWorkerId
+          ? {
+              [P.permitWorkerId]: {
+                rich_text: [{ text: { content: process.env.WORKER_ID || process.env.HOSTNAME || 'worker-1' } }],
+              },
+            }
+          : {}),
+        ...(P.permitRunAttempt
+          ? { [P.permitRunAttempt]: { number: (job.attemptsMade || 0) + 1 } }
+          : {}),
       });
 
       await updateRequest(requestId, {
