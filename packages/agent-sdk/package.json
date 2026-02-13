@@ -1,0 +1,10 @@
+{
+  "name": "@clawd/agent-sdk",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./ceeg": "./src/ceeg/index.js",
+    "./audit": "./src/audit/index.js"
+  }
+}

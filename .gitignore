@@ -2,5 +2,8 @@
 # local project repo (managed separately)
 pms-master/
 
+# dependencies
+node_modules/
+
 # backup artifacts
 backups/
