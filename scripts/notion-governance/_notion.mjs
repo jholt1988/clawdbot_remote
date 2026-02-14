@@ -3,7 +3,8 @@ import { Client } from '@notionhq/client';
 
 export const notion = new Client({
   auth: process.env.NOTION_API_KEY,
-  notionVersion: process.env.NOTION_VERSION || '2022-06-28',
+  // Runtime query may use dataSources endpoints depending on @notionhq/client.
+  // Do not force an old Notion API version here.
 });
 
 export const ENV = {

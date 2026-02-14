@@ -4,7 +4,8 @@ import { notionProps } from './notion-props.mjs';
 
 const notion = new Client({
   auth: process.env.NOTION_API_KEY,
-  notionVersion: process.env.NOTION_VERSION || '2022-06-28',
+  // Schema verification relies on stable classic DB `properties`.
+  notionVersion: process.env.NOTION_SCHEMA_VERSION || '2022-06-28',
 });
 const P = notionProps();
 
