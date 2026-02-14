@@ -21,18 +21,11 @@ export function requireEnv(keys) {
   }
 }
 
+import { queryAll as _queryAll } from '../notion-shared/query-all.mjs';
+
 export async function* queryAll(database_id, query = {}) {
-  let cursor = undefined;
-  for (;;) {
-    const res = await notion.databases.query({
-      database_id,
-      page_size: ENV.PAGE_SIZE,
-      start_cursor: cursor,
-      ...query,
-    });
-    for (const r of res.results) yield r;
-    if (!res.has_more) break;
-    cursor = res.next_cursor;
+  for await (const r of _queryAll(notion, database_id, { ...query, page_size: ENV.PAGE_SIZE })) {
+    yield r;
   }
 }
 

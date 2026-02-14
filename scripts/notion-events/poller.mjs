@@ -22,20 +22,7 @@ requireEnv(['NOTION_API_KEY', 'NOTION_EXECUTION_PERMITS_DB_ID']);
 
 const PAGE_SIZE = Number(process.env.NOTION_PAGE_SIZE || 50);
 
-async function* queryAll(database_id, query = {}) {
-  let cursor = undefined;
-  for (;;) {
-    const res = await notion.databases.query({
-      database_id,
-      page_size: PAGE_SIZE,
-      start_cursor: cursor,
-      ...query,
-    });
-    for (const r of res.results) yield r;
-    if (!res.has_more) break;
-    cursor = res.next_cursor;
-  }
-}
+import { queryAll } from '../notion-shared/query-all.mjs';
 
 async function tick() {
   let enqueued = 0;
@@ -50,7 +37,7 @@ async function tick() {
     ],
   };
 
-  for await (const permit of queryAll(process.env.NOTION_EXECUTION_PERMITS_DB_ID, { filter })) {
+  for await (const permit of queryAll(notion, process.env.NOTION_EXECUTION_PERMITS_DB_ID, { filter, page_size: PAGE_SIZE })) {
     const status = getSelectName(permit.properties[P.permitStatus]);
     const queueRequested = getCheckbox(permit.properties[P.permitQueueRequested]);
     const already = getCheckbox(permit.properties[P.permitQueuedProcessed]);
