@@ -20,6 +20,12 @@ const redlock = buildRedlock(connection);
 const WORKER_CONCURRENCY = Number(process.env.WORKER_CONCURRENCY || 5);
 const LOCK_TTL_MS = Number(process.env.LOCK_TTL_MS || 900000);
 
+const SCRIPT_ALLOWLIST_PREFIXES = (process.env.SCRIPT_ALLOWLIST_PREFIXES || `${process.cwd()}/scripts/`)
+  .split(',')
+  .map((s) => s.trim())
+  .filter(Boolean)
+  .map((p) => (p.endsWith('/') ? p : p + '/'));
+
 function nowISO() {
   return new Date().toISOString();
 }
@@ -90,11 +96,21 @@ function getTargetKeyFromRequest(requestProps) {
   return `${kind}:${scopePart}:${cred}`;
 }
 
+function resolveScriptAbs(scriptPath) {
+  const abs = path.isAbsolute(scriptPath)
+    ? scriptPath
+    : path.join(process.cwd(), scriptPath);
+  return path.resolve(abs);
+}
+
+function isScriptAllowed(absPath) {
+  const normalized = absPath.endsWith(path.sep) ? absPath : absPath;
+  return SCRIPT_ALLOWLIST_PREFIXES.some((prefix) => normalized.startsWith(path.resolve(prefix)));
+}
+
 function runNodeScript(scriptPath, timeoutMs) {
   return new Promise((resolve) => {
-    const abs = path.isAbsolute(scriptPath)
-      ? scriptPath
-      : path.join(process.cwd(), scriptPath);
+    const abs = resolveScriptAbs(scriptPath);
 
     execFile('node', [abs], { timeout: timeoutMs }, (error, stdout, stderr) => {
       if (error) {
@@ -133,6 +149,39 @@ const worker = new Worker(
     const lockKeys = [`lock:project:${projectId}`, `lock:target:${targetKey}`].sort();
 
     const lock = await redlock.acquire(lockKeys, LOCK_TTL_MS);
+
+    // Guardrail: script path allowlist
+    const scriptPath = getText(request.properties[P.requestScriptPath]);
+    if (!scriptPath) {
+      await updateRequest(requestId, {
+        [P.requestExecutionStatus]: { select: { name: 'Failed' } },
+      });
+      await updatePermit(permitId, {
+        [P.permitStatus]: { select: { name: 'Failed' } },
+        [P.permitLastError]: { rich_text: [{ text: { content: 'missing_script_path' } }] },
+      });
+      return { ok: false, reason: 'missing_script_path' };
+    }
+
+    const absScriptPath = resolveScriptAbs(scriptPath);
+    if (!isScriptAllowed(absScriptPath)) {
+      await updateRequest(requestId, {
+        [P.requestExecutionStatus]: { select: { name: 'Failed' } },
+      });
+      await updatePermit(permitId, {
+        [P.permitStatus]: { select: { name: 'Failed' } },
+        [P.permitLastError]: {
+          rich_text: [
+            {
+              text: {
+                content: `script_path_not_allowed:${absScriptPath}`.slice(0, 1800),
+              },
+            },
+          ],
+        },
+      });
+      return { ok: false, reason: 'script_path_not_allowed' };
+    }
 
     try {
       await updatePermit(permitId, {
@@ -173,10 +222,9 @@ const worker = new Worker(
           : {}),
       });
 
-      const scriptPath = getText(request.properties[P.requestScriptPath]);
       const timeoutSeconds = request.properties[P.requestTimeoutSeconds]?.number || 60;
 
-      const result = await runNodeScript(scriptPath, timeoutSeconds * 1000);
+      const result = await runNodeScript(absScriptPath, timeoutSeconds * 1000);
 
       if (result.ok) {
         await updateRequest(requestId, {
