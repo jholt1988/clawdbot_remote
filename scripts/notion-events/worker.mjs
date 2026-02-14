@@ -42,7 +42,7 @@ async function validatePermitAndRequest(permitId) {
   const permit = await notion.pages.retrieve({ page_id: permitId });
 
   const permitStatus = getSelectName(permit.properties[P.permitStatus]);
-  if (['Executed', 'Failed', 'Revoked'].includes(permitStatus)) {
+  if (['Executed', 'Failed', 'Revoked', 'Expired'].includes(permitStatus)) {
     return { ok: false, reason: `permit_terminal_${permitStatus}` };
   }
   const approvedMode = getSelectName(permit.properties[P.permitApprovedMode]);
@@ -135,8 +135,9 @@ const worker = new Worker(
     // Re-validate at execution time.
     const v = await validatePermitAndRequest(permitId);
     if (!v.ok) {
+      const statusName = v.reason === 'permit_expired' ? 'Expired' : 'Failed';
       await updatePermit(permitId, {
-        [P.permitStatus]: { select: { name: 'Failed' } },
+        [P.permitStatus]: { select: { name: statusName } },
         [P.permitLastError]: { rich_text: [{ text: { content: v.reason } }] },
         [P.permitLastRunAt]: { date: { start: nowISO() } },
       });
