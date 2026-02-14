@@ -1,0 +1,11 @@
+[Unit]
+Description=Clawd Dead Letter Dashboard (Notion)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=jordanh316
+WorkingDirectory=/home/jordanh316/clawd
+EnvironmentFile=/home/jordanh316/clawd/.env
+ExecStart=/usr/bin/node scripts/notion-events/dead-letter-dashboard.mjs

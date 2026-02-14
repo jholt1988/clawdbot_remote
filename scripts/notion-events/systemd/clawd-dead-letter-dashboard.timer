@@ -1,0 +1,10 @@
+[Unit]
+Description=Run Clawd Dead Letter Dashboard every 15 minutes
+
+[Timer]
+OnBootSec=2min
+OnUnitActiveSec=15min
+Unit=clawd-dead-letter-dashboard.service
+
+[Install]
+WantedBy=timers.target
