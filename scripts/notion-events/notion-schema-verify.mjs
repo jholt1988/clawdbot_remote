@@ -2,7 +2,10 @@ import 'dotenv/config';
 import { Client } from '@notionhq/client';
 import { notionProps } from './notion-props.mjs';
 
-const notion = new Client({ auth: process.env.NOTION_API_KEY });
+const notion = new Client({
+  auth: process.env.NOTION_API_KEY,
+  notionVersion: process.env.NOTION_VERSION || '2022-06-28',
+});
 const P = notionProps();
 
 function requireEnv(keys) {
@@ -30,7 +33,11 @@ async function main() {
   const reqDb = await notion.databases.retrieve({ database_id: process.env.NOTION_EXECUTION_REQUESTS_DB_ID });
   const permitDb = await notion.databases.retrieve({ database_id: process.env.NOTION_EXECUTION_PERMITS_DB_ID });
   const projDb = await notion.databases.retrieve({ database_id: process.env.NOTION_PROJECTS_DB_ID });
-
+ 
+  console.log(reqDb)
+  console.log(permitDb)
+  console.log(projDb) 
+ 
   const checks = [];
 
   // Requests

@@ -10,7 +10,10 @@ import { notionProps } from './notion-props.mjs';
 import { getText, getSelectName, getCheckbox, getRelationId } from './notion-helpers.mjs';
 
 const P = notionProps();
-const notion = new Client({ auth: process.env.NOTION_API_KEY });
+const notion = new Client({
+  auth: process.env.NOTION_API_KEY,
+  notionVersion: process.env.NOTION_VERSION || '2022-06-28',
+});
 const redlock = buildRedlock(connection);
 
 const WORKER_CONCURRENCY = Number(process.env.WORKER_CONCURRENCY || 5);

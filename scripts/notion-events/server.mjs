@@ -10,7 +10,10 @@ import { seenEvent } from './replay-protect.mjs';
 const app = express();
 app.use(bodyParser.json());
 
-const notion = new Client({ auth: process.env.NOTION_API_KEY });
+const notion = new Client({
+  auth: process.env.NOTION_API_KEY,
+  notionVersion: process.env.NOTION_VERSION || '2022-06-28',
+});
 
 function verifySignature(req) {
   const sig = req.headers['x-signature'];

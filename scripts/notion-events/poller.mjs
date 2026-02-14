@@ -4,7 +4,10 @@ import { executionQueue } from './infra/queue.mjs';
 import { notionProps } from './notion-props.mjs';
 import { getSelectName, getCheckbox } from './notion-helpers.mjs';
 
-const notion = new Client({ auth: process.env.NOTION_API_KEY });
+const notion = new Client({
+  auth: process.env.NOTION_API_KEY,
+  notionVersion: process.env.NOTION_VERSION || '2022-06-28',
+});
 const P = notionProps();
 
 function requireEnv(keys) {
