@@ -23,6 +23,8 @@
   "dependencies": {
     "@clawd/agent-sdk": "file:packages/agent-sdk",
     "@notionhq/client": "^5.9.0",
+    "@octokit/auth-app": "^8.2.0",
+    "@octokit/request": "^10.0.7",
     "body-parser": "^2.2.2",
     "bullmq": "^5.69.1",
     "dotenv": "^17.3.1",

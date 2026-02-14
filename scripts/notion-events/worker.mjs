@@ -108,11 +108,24 @@ function isScriptAllowed(absPath) {
   return SCRIPT_ALLOWLIST_PREFIXES.some((prefix) => normalized.startsWith(path.resolve(prefix)));
 }
 
-function runNodeScript(scriptPath, timeoutMs) {
+function runNodeScript(scriptPath, timeoutMs, { env = {} } = {}) {
   return new Promise((resolve) => {
     const abs = resolveScriptAbs(scriptPath);
 
-    execFile('node', [abs], { timeout: timeoutMs }, (error, stdout, stderr) => {
+    execFile(
+      'node',
+      [abs],
+      {
+        timeout: timeoutMs,
+        env: {
+          // minimal safe inheritance
+          PATH: process.env.PATH,
+          HOME: process.env.HOME,
+          NODE_ENV: process.env.NODE_ENV,
+          ...env,
+        },
+      },
+      (error, stdout, stderr) => {
       if (error) {
         resolve({
           ok: false,
@@ -225,7 +238,20 @@ const worker = new Worker(
 
       const timeoutSeconds = request.properties[P.requestTimeoutSeconds]?.number || 60;
 
-      const result = await runNodeScript(absScriptPath, timeoutSeconds * 1000);
+      // Credential broker injection (GitHub App)
+      const childEnv = {};
+      if (!dryRun && targetSystem === 'github') {
+        const repo = getText(request.properties[P.requestTargetScopeId]) || '';
+        if (!repo || !repo.includes('/')) {
+          throw new Error('github_repo_missing_or_invalid_target_scope_id');
+        }
+
+        // Mint a short-lived installation token.
+        const { token } = await (await import('../credential-broker/github/_runtime.mjs')).mintGithubInstallationToken(repo);
+        childEnv.GITHUB_TOKEN = token;
+      }
+
+      const result = await runNodeScript(absScriptPath, timeoutSeconds * 1000, { env: childEnv });
 
       if (result.ok) {
         await updateRequest(requestId, {
