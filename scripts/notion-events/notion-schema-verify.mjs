@@ -52,6 +52,9 @@ async function main() {
   // Script Path can be rich_text or title in some setups; we just require existence.
   checks.push(assertProp(reqDb, P.requestScriptPath, null));
 
+  // GitHub (request)
+  checks.push(assertProp(reqDb, P.requestTargetBranch, 'rich_text'));
+
   // Permits
   checks.push(assertProp(permitDb, P.permitStatus, 'select'));
   checks.push(assertProp(permitDb, P.permitApprovedMode, 'select'));
@@ -62,6 +65,12 @@ async function main() {
   checks.push(assertProp(permitDb, P.permitQueueRequested, 'checkbox'));
   checks.push(assertProp(permitDb, P.permitQueueRequestedAt, 'date'));
   checks.push(assertProp(permitDb, P.permitQueuedProcessed, 'checkbox'));
+
+  // GitHub enforcement (permit)
+  checks.push(assertProp(permitDb, P.permitAllowedRepos, 'multi_select'));
+  checks.push(assertProp(permitDb, P.permitAllowedBranches, 'multi_select'));
+  checks.push(assertProp(permitDb, P.permitBlockedBranches, 'multi_select'));
+  checks.push(assertProp(permitDb, P.permitAllowedActions, 'multi_select'));
 
   // Project
   checks.push(assertProp(projDb, P.projectState, 'select'));

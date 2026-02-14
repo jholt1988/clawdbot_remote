@@ -17,3 +17,7 @@ export function getRelationId(prop) {
   if (!rel || rel.length === 0) return null;
   return rel[0].id;
 }
+
+export function getMultiSelectNames(prop) {
+  return (prop?.multi_select || []).map((s) => s.name);
+}

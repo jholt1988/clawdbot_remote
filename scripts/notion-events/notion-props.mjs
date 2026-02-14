@@ -21,6 +21,12 @@ const defaults = {
   permitQueueRequestedAt: 'Queue Requested At',
   permitQueuedProcessed: 'Queued/Processed',
 
+  // GitHub enforcement (permit-scoped)
+  permitAllowedRepos: 'Allowed Repos',
+  permitAllowedBranches: 'Allowed Branches',
+  permitBlockedBranches: 'Blocked Branches',
+  permitAllowedActions: 'Allowed Actions',
+
   // Request properties
   requestDryRun: 'Dry Run',
   requestTargetSystem: 'Target System',
@@ -39,6 +45,7 @@ const defaults = {
   requestTargetKind: 'Target Kind',
   requestTargetScopeId: 'Target Scope ID',
   requestCredentialProfile: 'Credential Profile',
+  requestTargetBranch: 'Target Branch',
 
   // Project properties
   projectState: 'Project State',

@@ -7,7 +7,7 @@ import crypto from 'node:crypto';
 import { connection } from './infra/queue.mjs';
 import { buildRedlock } from './infra/lock.mjs';
 import { notionProps } from './notion-props.mjs';
-import { getText, getSelectName, getCheckbox, getRelationId } from './notion-helpers.mjs';
+import { getText, getSelectName, getCheckbox, getRelationId, getMultiSelectNames } from './notion-helpers.mjs';
 
 const P = notionProps();
 const notion = new Client({
@@ -106,6 +106,16 @@ function resolveScriptAbs(scriptPath) {
 function isScriptAllowed(absPath) {
   const normalized = absPath.endsWith(path.sep) ? absPath : absPath;
   return SCRIPT_ALLOWLIST_PREFIXES.some((prefix) => normalized.startsWith(path.resolve(prefix)));
+}
+
+function matchesPattern(value, pattern) {
+  if (!pattern) return false;
+  const p = String(pattern);
+  if (p === '*') return true;
+  // simple wildcard support: prefix* or *suffix or mid*mid
+  const escaped = p.replace(/[.+^${}()|[\]\\]/g, '\\$&').replace(/\*/g, '.*');
+  const re = new RegExp(`^${escaped}$`);
+  return re.test(String(value));
 }
 
 function runNodeScript(scriptPath, timeoutMs, { env = {} } = {}) {
@@ -238,17 +248,46 @@ const worker = new Worker(
 
       const timeoutSeconds = request.properties[P.requestTimeoutSeconds]?.number || 60;
 
-      // Credential broker injection (GitHub App)
+      // Credential broker injection + permit scope enforcement (GitHub App)
       const childEnv = {};
       if (!dryRun && targetSystem === 'github') {
         const repo = getText(request.properties[P.requestTargetScopeId]) || '';
+        const branch = getText(request.properties[P.requestTargetBranch]) || '';
+
         if (!repo || !repo.includes('/')) {
           throw new Error('github_repo_missing_or_invalid_target_scope_id');
         }
+        if (!branch) {
+          throw new Error('github_branch_missing_target_branch');
+        }
 
-        // Mint a short-lived installation token.
+        const allowedRepos = getMultiSelectNames(v.permit.properties[P.permitAllowedRepos]);
+        const allowedBranches = getMultiSelectNames(v.permit.properties[P.permitAllowedBranches]);
+        const blockedBranches = getMultiSelectNames(v.permit.properties[P.permitBlockedBranches]);
+        const allowedActions = getMultiSelectNames(v.permit.properties[P.permitAllowedActions]);
+
+        if (allowedRepos.length > 0 && !allowedRepos.includes(repo)) {
+          throw new Error('github_repo_not_allowed_by_permit');
+        }
+
+        if (blockedBranches.some((p) => matchesPattern(branch, p))) {
+          throw new Error('github_branch_blocked_by_permit');
+        }
+
+        if (allowedBranches.length > 0 && !allowedBranches.some((p) => matchesPattern(branch, p))) {
+          throw new Error('github_branch_not_allowed_by_permit');
+        }
+
+        // Default required action for non-dry-run GitHub jobs is push.
+        if (allowedActions.length > 0 && !allowedActions.includes('push')) {
+          throw new Error('github_action_push_not_allowed_by_permit');
+        }
+
         const { token } = await (await import('../credential-broker/github/_runtime.mjs')).mintGithubInstallationToken(repo);
         childEnv.GITHUB_TOKEN = token;
+        // Also expose for scripts that want it.
+        childEnv.GITHUB_REPO = repo;
+        childEnv.GITHUB_BRANCH = branch;
       }
 
       const result = await runNodeScript(absScriptPath, timeoutSeconds * 1000, { env: childEnv });
