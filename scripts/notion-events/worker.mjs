@@ -248,9 +248,9 @@ const worker = new Worker(
 
       const timeoutSeconds = request.properties[P.requestTimeoutSeconds]?.number || 60;
 
-      // Credential broker injection + permit scope enforcement (GitHub App)
+      // GitHub enforcement + (optional) credential broker injection
       const childEnv = {};
-      if (!dryRun && targetSystem === 'github') {
+      if (targetSystem === 'github') {
         const repo = getText(request.properties[P.requestTargetScopeId]) || '';
         const branch = getText(request.properties[P.requestTargetBranch]) || '';
 
@@ -278,16 +278,23 @@ const worker = new Worker(
           throw new Error('github_branch_not_allowed_by_permit');
         }
 
-        // Default required action for non-dry-run GitHub jobs is push.
-        if (allowedActions.length > 0 && !allowedActions.includes('push')) {
-          throw new Error('github_action_push_not_allowed_by_permit');
+        // For GitHub jobs, require an allowed action depending on mode.
+        // - dry-run: must allow "read" (or allowlist empty means implicit allow)
+        // - non-dry-run: must allow "push"
+        const requiredAction = dryRun ? 'read' : 'push';
+        if (allowedActions.length > 0 && !allowedActions.includes(requiredAction)) {
+          throw new Error(`github_action_${requiredAction}_not_allowed_by_permit`);
         }
 
-        const { token } = await (await import('../credential-broker/github/_runtime.mjs')).mintGithubInstallationToken(repo);
-        childEnv.GITHUB_TOKEN = token;
-        // Also expose for scripts that want it.
+        // Always provide context to the script.
         childEnv.GITHUB_REPO = repo;
         childEnv.GITHUB_BRANCH = branch;
+
+        // Only mint credentials for non-dry-run.
+        if (!dryRun) {
+          const { token } = await (await import('../credential-broker/github/_runtime.mjs')).mintGithubInstallationToken(repo);
+          childEnv.GITHUB_TOKEN = token;
+        }
       }
 
       const result = await runNodeScript(absScriptPath, timeoutSeconds * 1000, { env: childEnv });

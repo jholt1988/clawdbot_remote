@@ -72,6 +72,8 @@ async function main() {
   checks.push(assertProp(permitDb, P.permitBlockedBranches, 'multi_select'));
   checks.push(assertProp(permitDb, P.permitAllowedActions, 'multi_select'));
 
+  // Note: Allowed Actions should include at least: "read" and "push".
+
   // Project
   checks.push(assertProp(projDb, P.projectState, 'select'));
 
