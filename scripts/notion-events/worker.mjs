@@ -260,6 +260,9 @@ const worker = new Worker(
 
       // GitHub enforcement + (optional) credential broker injection
       const childEnv = {};
+      const dryRun = getCheckbox(request.properties[P.requestDryRun]);
+      const targetSystem = getSelectName(request.properties[P.requestTargetSystem]);
+
       if (targetSystem === 'github') {
         const repo = getText(request.properties[P.requestTargetScopeId]) || '';
         const branch = getText(request.properties[P.requestTargetBranch]) || '';
