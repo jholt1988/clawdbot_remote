@@ -1,0 +1,10 @@
+[Unit]
+Description=Run Clawd auto-permit-low-risk every 2 minutes
+
+[Timer]
+OnBootSec=2min
+OnUnitActiveSec=2min
+Unit=clawd-auto-permit-low-risk.service
+
+[Install]
+WantedBy=timers.target

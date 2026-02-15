@@ -1,0 +1,11 @@
+[Unit]
+Description=Clawd Notion Governance: Auto-permit low-risk execution requests
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=jordanh316
+WorkingDirectory=/home/jordanh316/clawd
+EnvironmentFile=/home/jordanh316/clawd/.env
+ExecStart=/usr/bin/node scripts/notion-governance/auto-permit-low-risk.mjs
