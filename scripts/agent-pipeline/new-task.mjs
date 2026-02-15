@@ -2,6 +2,7 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import crypto from 'node:crypto';
+import 'dotenv/config';
 
 function nowISO() {
   return new Date().toISOString();
@@ -11,16 +12,20 @@ function randId() {
   return crypto.randomBytes(6).toString('hex');
 }
 
+function firstNonFlag(args) {
+  return args.find((a) => !a.startsWith('--'));
+}
+
 const argv = process.argv.slice(2);
 const primaryDomain = (argv.find((a) => a.startsWith('--domain='))?.split('=')[1] || 'PMS');
-const objective = argv.find((a) => !a.startsWith('--'));
+const objective = firstNonFlag(argv);
 
 if (!objective) {
   console.error('Usage: node scripts/agent-pipeline/new-task.mjs "<objective statement>" --domain=PMS');
   process.exit(2);
 }
 
-const taskId = `T-${new Date().toISOString().slice(0,10).replace(/-/g,'')}-${randId()}`;
+const taskId = `T-${new Date().toISOString().slice(0, 10).replace(/-/g, '')}-${randId()}`;
 
 const cts = {
   taskId,
@@ -29,12 +34,8 @@ const cts = {
   timestamp: nowISO(),
   primaryDomain,
   objectiveStatement: objective,
-  requiredDeliverables: [
-    'Approved Run Pack (JSON + Markdown)',
-  ],
-  optionalDeliverables: [
-    'Rollback/fallback notes',
-  ],
+  requiredDeliverables: ['Approved Run Pack (JSON + Markdown)'],
+  optionalDeliverables: ['Rollback/fallback notes'],
   constraints: {
     timeConstraints: '',
     scopeConstraints: 'No unscoped changes; minimal diffs; demo-critical first.',
@@ -89,4 +90,69 @@ await fs.writeFile(
   'utf8',
 );
 
-console.log(JSON.stringify({ ok: true, taskId, ctsPath, rpJsonPath, rpMdPath }, null, 2));
+// Optional: create a Ticket in Notion (Projects/Tickets existing system)
+let notionTicket = null;
+try {
+  const { notion } = await import('../../scripts/notion-governance/_notion.mjs');
+
+  const ticketsDbId = process.env.NOTION_TICKETS_DB_ID;
+  const projectsDbId = process.env.NOTION_PROJECTS_DB_ID;
+  if (!ticketsDbId || !projectsDbId) throw new Error('Missing Notion DB env');
+
+  // Resolve projects data_source_id
+  const projDb = await notion.databases.retrieve({ database_id: projectsDbId });
+  const projDsId = projDb.data_sources?.[0]?.id;
+
+  // Find PMS project page (prefer env override)
+  let pmsProjectPageId = process.env.NOTION_PMS_PROJECT_PAGE_ID || null;
+  if (!pmsProjectPageId && projDsId) {
+    const q = await notion.dataSources.query({
+      data_source_id: projDsId,
+      page_size: 25,
+      filter: {
+        property: 'Name',
+        title: { contains: 'Property Management Suite' },
+      },
+    });
+    pmsProjectPageId = q.results?.[0]?.id ?? null;
+  }
+
+  // Create ticket
+  notionTicket = await notion.pages.create({
+    parent: { database_id: ticketsDbId },
+    properties: {
+      Name: { title: [{ text: { content: objective.slice(0, 180) } }] },
+      Status: { select: { name: 'Proposed' } },
+      Domain: { select: { name: primaryDomain === 'PMS' ? 'PMS-Dev' : primaryDomain } },
+      'Risk Flag': { select: { name: 'Medium' } },
+      'Created By': { select: { name: 'Human' } },
+      Logs: {
+        rich_text: [
+          { text: { content: `CTS Task ID: ${taskId}` } },
+          { text: { content: `\nRepo CTS: governance/tasks/CTS-${taskId}.json` } },
+          { text: { content: `\nRepo RunPack: governance/run-packs/RUNPACK-${taskId}.md` } },
+        ],
+      },
+      ...(pmsProjectPageId
+        ? { Project: { relation: [{ id: pmsProjectPageId }] } }
+        : {}),
+    },
+  });
+} catch {
+  // Notion ticket creation is best-effort; repo artifacts are authoritative.
+}
+
+console.log(
+  JSON.stringify(
+    {
+      ok: true,
+      taskId,
+      ctsPath,
+      rpJsonPath,
+      rpMdPath,
+      notionTicket: notionTicket ? { id: notionTicket.id, url: notionTicket.url } : null,
+    },
+    null,
+    2,
+  ),
+);
