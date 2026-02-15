@@ -29,6 +29,7 @@ node scripts/notion-governance/risk-evaluator.mjs
 node scripts/notion-governance/red-gate-check.mjs
 node scripts/notion-governance/project-split-detector.mjs
 node scripts/notion-governance/auto-permit.mjs
+node scripts/notion-governance/auto-permit-low-risk.mjs
 ```
 
 ## Safety
