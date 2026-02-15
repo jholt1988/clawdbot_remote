@@ -17,6 +17,10 @@ requireEnv(['NOTION_API_KEY', 'NOTION_EXECUTION_REQUESTS_DB_ID', 'NOTION_EXECUTI
 const REQUESTS_DB = process.env.NOTION_EXECUTION_REQUESTS_DB_ID;
 const PERMITS_DB = process.env.NOTION_EXECUTION_PERMITS_DB_ID;
 
+// Fetch permits DB schema once so we can safely write only properties that exist.
+const permitsDb = await notion.databases.retrieve({ database_id: PERMITS_DB });
+const permitPropExists = (name) => !!permitsDb.properties?.[name];
+
 const PAGE_SIZE = Number(process.env.NOTION_PAGE_SIZE || 50);
 
 // Safety defaults: only auto-permit for these target systems.
@@ -101,33 +105,41 @@ for await (const req of queryAll(notion, REQUESTS_DB, { filter, page_size: PAGE_
   }
 
   // Create a permit scoped to this request.
+  const properties = {
+    // relation
+    'Execution Request': { relation: [{ id: req.id }] },
+
+    // state
+    Status: { select: { name: 'Approved' } },
+    'Approved Mode': { select: { name: 'non-dry-run' } },
+
+    // queue controls (optional)
+    ...(AUTO_QUEUE
+      ? {
+          'Queue Requested': { checkbox: true },
+          'Queue Requested At': { date: { start: nowIso() } },
+          'Queued/Processed': { checkbox: false },
+        }
+      : {}),
+  };
+
+  // verification metadata (optional – only set if properties exist)
+  if (permitPropExists('Risk Level Confirmed')) {
+    properties['Risk Level Confirmed'] = { select: { name: 'Low' } };
+  }
+  if (permitPropExists('Rollback Verified')) {
+    properties['Rollback Verified'] = { checkbox: true };
+  }
+  if (permitPropExists('Approved At')) {
+    properties['Approved At'] = { date: { start: nowIso() } };
+  }
+  if (permitPropExists('Expires At')) {
+    properties['Expires At'] = { date: { start: addMinutesIso(30) } };
+  }
+
   await notion.pages.create({
     parent: { database_id: PERMITS_DB },
-    properties: {
-      // relation
-      'Execution Request': { relation: [{ id: req.id }] },
-
-      // state
-      Status: { select: { name: 'Approved' } },
-      'Approved Mode': { select: { name: 'non-dry-run' } },
-
-      // verification metadata
-      'Risk Level Confirmed': { select: { name: 'Low' } },
-      'Rollback Verified': { checkbox: true },
-      'Approved At': { date: { start: nowIso() } },
-      'Expires At': { date: { start: addMinutesIso(30) } },
-
-      // queue controls (optional)
-      ...(AUTO_QUEUE
-        ? {
-            'Queue Requested': { checkbox: true },
-            'Queue Requested At': { date: { start: nowIso() } },
-            'Queued/Processed': { checkbox: false },
-          }
-        : {}),
-
-      // GitHub enforcement fields exist but are left empty for local/notion by default.
-    },
+    properties,
   });
 
   created++;
