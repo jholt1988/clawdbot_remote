@@ -7,7 +7,7 @@ const argv = process.argv.slice(2);
 const taskId = argv[0];
 const verdict = (argv.find((a) => a.startsWith('--verdict='))?.split('=')[1] || '').toUpperCase();
 const reasons = argv.find((a) => a.startsWith('--reasons='))?.split('=')[1] || '';
-const scoresRaw = argv.find((a) => a.startsWith('--scores='))?.split('=')[1] || '';
+const scoresRaw = argv.find((a) => a.startsWith('--scores='))?.slice('--scores='.length) || '';
 
 function parseScores(raw) {
   // format: completeness=4,accuracy=4,clarity=3
