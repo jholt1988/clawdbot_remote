@@ -1,0 +1,39 @@
+{
+  "taskId": "T-20260215-d1a74284080c",
+  "createdAt": "2026-02-15T18:46:47.911Z",
+  "status": "Draft",
+  "runs": [
+    {
+      "name": "tenant-inspections-edit-backend",
+      "jobKey": "tenant-inspections-edit-backend",
+      "branch": "ops",
+      "dryRun": false,
+      "scriptPath": "scripts/pms/tenant-inspections-edit-backend.mjs",
+      "notes": [
+        "Enable tenant edits (requiresAction + notes) via PATCH /api/inspections/rooms/:roomId/items",
+        "Enforce tenant scope: active lease unit, type MOVE_IN/MOVE_OUT, status != COMPLETED"
+      ]
+    },
+    {
+      "name": "tenant-inspections-edit-frontend",
+      "jobKey": "tenant-inspections-edit-frontend",
+      "branch": "ops",
+      "dryRun": false,
+      "scriptPath": "scripts/pms/tenant-inspections-edit-frontend.mjs",
+      "notes": [
+        "Tenant /tenant/inspections/:id: edit requiresAction + notes, bulk save per room",
+        "Lock UI once completed"
+      ]
+    }
+  ],
+  "acceptance": [
+    "Tenant can edit + save requiresAction and notes on their MOVE_IN/MOVE_OUT inspection",
+    "Refresh persists edits",
+    "Tenant cannot edit after completion (API denies + UI blocks)",
+    "Tenant cannot edit other unit’s inspection or other inspection types"
+  ],
+  "rollback": [
+    "Revert backend and frontend commits",
+    "Remove tenant role from edit routes if needed"
+  ]
+}
