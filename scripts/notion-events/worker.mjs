@@ -182,7 +182,38 @@ const worker = new Worker(
     const targetKey = getTargetKeyFromRequest(request.properties);
     const lockKeys = [`lock:project:${projectId}`, `lock:target:${targetKey}`].sort();
 
-    const lock = await redlock.acquire(lockKeys, LOCK_TTL_MS);
+    let lock;
+    try {
+      lock = await redlock.acquire(lockKeys, LOCK_TTL_MS);
+    } catch (e) {
+      const msg = e?.message || String(e);
+
+      // Mark request blocked (if the option exists in your select).
+      try {
+        await updateRequest(requestId, {
+          [P.requestExecutionStatus]: { select: { name: 'Blocked — Target Busy' } },
+        });
+      } catch {
+        // ignore if status option doesn't exist
+      }
+
+      // Re-queue by resetting queue flags (do not terminal-fail permits for lock contention).
+      await updatePermit(permitId, {
+        [P.permitStatus]: { select: { name: 'Approved' } },
+        [P.permitLastError]: { rich_text: [{ text: { content: `lock_acquire_failed:${msg}`.slice(0, 1800) } }] },
+        ...(P.permitQueueRequested
+          ? { [P.permitQueueRequested]: { checkbox: true } }
+          : {}),
+        ...(P.permitQueueRequestedAt
+          ? { [P.permitQueueRequestedAt]: { date: { start: nowISO() } } }
+          : {}),
+        ...(P.permitQueuedProcessed
+          ? { [P.permitQueuedProcessed]: { checkbox: false } }
+          : {}),
+      });
+
+      return { blocked: true, reason: 'lock_acquire_failed' };
+    }
 
     // Guardrail: script path allowlist
     const scriptPath = getText(request.properties[P.requestScriptPath]);
