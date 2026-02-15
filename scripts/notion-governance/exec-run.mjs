@@ -59,6 +59,16 @@ const JOBS = {
     scriptPath: 'scripts/pms/tenant-inspections-frontend.mjs',
     timeoutSeconds,
   },
+  'tenant-inspections-edit-backend': {
+    title: 'PMS Backend: Tenant inspection edit (requiresAction + notes)',
+    scriptPath: 'scripts/pms/tenant-inspections-edit-backend.mjs',
+    timeoutSeconds,
+  },
+  'tenant-inspections-edit-frontend': {
+    title: 'PMS Frontend: Tenant inspection edit UI (requiresAction + notes)',
+    scriptPath: 'scripts/pms/tenant-inspections-edit-frontend.mjs',
+    timeoutSeconds,
+  },
 };
 
 const job = JOBS[jobKey];
