@@ -49,6 +49,11 @@ async function validatePermitAndRequest(permitId) {
   const expiresAt = permit.properties[P.permitExpiresAt]?.date?.start || null;
 
   if (permitStatus !== 'Approved') {
+    // If a job is retried/duplicated after the permit has already moved forward,
+    // we must NOT downgrade state (e.g., Running → Failed).
+    if (permitStatus === 'Running') {
+      return { ok: false, reason: 'permit_already_running' };
+    }
     return { ok: false, reason: `permit_status_${permitStatus}` };
   }
   if (expiresAt && new Date(expiresAt).getTime() < Date.now()) {
@@ -158,6 +163,11 @@ const worker = new Worker(
     // Re-validate at execution time.
     const v = await validatePermitAndRequest(permitId);
     if (!v.ok) {
+      // Never downgrade Running permits due to duplicate jobs/retries.
+      if (v.reason === 'permit_already_running') {
+        return { blocked: true, reason: v.reason };
+      }
+
       const statusName = v.reason === 'permit_expired' ? 'Expired' : 'Failed';
       await updatePermit(permitId, {
         [P.permitStatus]: { select: { name: statusName } },
