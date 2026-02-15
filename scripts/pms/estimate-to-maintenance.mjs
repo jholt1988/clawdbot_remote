@@ -168,10 +168,8 @@ if (st.out.trim()) throw new Error('pms-master working tree not clean; commit/st
       '{estimateResult && (\n        <EstimatePanel estimate={estimateResult} token={token ?? undefined} canManage={isPropertyManager} />\n      )}',
     );
 
-    src = src.replace(
-      '<EstimatePanel estimate={e} embedded />',
-      '<EstimatePanel estimate={e} embedded token={token ?? undefined} canManage={isPropertyManager} />',
-    );
+    // NOTE: Do not pass token/canManage into embedded EstimatePanel inside EstimateHistoryList;
+    // those symbols are out of scope there and will break type-check.
 
     await fs.writeFile(frontendFile, src, 'utf8');
     summary.changed.push('frontend:estimate convert-to-maintenance button + confirm');
@@ -187,12 +185,21 @@ if (st.out.trim()) throw new Error('pms-master working tree not clean; commit/st
   }
 }
 
-// 4) commit changes in pms-master
+// 4) commit changes in pms-master (idempotent)
 {
-  await run('git', ['add', '.'], { cwd: pmsRoot });
-  const msg = 'Estimate: convert to maintenance (PM-only UI + endpoint guard)';
-  const c = await run('git', ['commit', '-m', msg], { cwd: pmsRoot });
-  if (c.code !== 0) throw new Error(`git commit failed: ${c.err || c.out}`);
+  // If a previous run already applied the patch, we may have nothing to commit.
+  const st2 = await run('git', ['status', '--porcelain'], { cwd: pmsRoot });
+  if (st2.code !== 0) throw new Error(`git status failed: ${st2.err}`);
+
+  if (st2.out.trim()) {
+    await run('git', ['add', '.'], { cwd: pmsRoot });
+    const msg = 'Estimate: convert to maintenance (PM-only UI + endpoint guard)';
+    const c = await run('git', ['commit', '-m', msg], { cwd: pmsRoot });
+    if (c.code !== 0) throw new Error(`git commit failed: ${c.err || c.out}`);
+    summary.changed.push('git: committed changes');
+  } else {
+    summary.changed.push('git: no changes to commit');
+  }
 }
 
 summary.ok = true;
