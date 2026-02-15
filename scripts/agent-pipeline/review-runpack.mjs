@@ -90,16 +90,19 @@ try {
 
     const merged = (existing.map((r) => r.plain_text).join('') + lines).slice(0, 1900);
 
+    const statusName = verdict === 'APPROVE' ? 'Accepted' : verdict === 'REJECT' ? 'Blocked' : 'Proposed';
+
     await notion.pages.update({
       page_id: pageId,
       properties: {
         Logs: {
           rich_text: [{ text: { content: merged } }],
         },
+        Status: { select: { name: statusName } },
       },
     });
 
-    notionTicket = { id: pageId, url: page.url };
+    notionTicket = { id: pageId, url: page.url, statusName };
   }
 } catch {
   // ignore
