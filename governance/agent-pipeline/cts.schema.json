@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Canonical Task Schema (CTS) v1",
+  "type": "object",
+  "required": [
+    "taskId",
+    "origin",
+    "submittedBy",
+    "timestamp",
+    "primaryDomain",
+    "objectiveStatement",
+    "requiredDeliverables",
+    "qualityRequirements",
+    "riskSensitivity"
+  ],
+  "properties": {
+    "taskId": { "type": "string" },
+    "origin": { "type": "string", "enum": ["User", "System", "Follow-up"] },
+    "submittedBy": { "type": "string" },
+    "timestamp": { "type": "string" },
+    "primaryDomain": { "type": "string", "enum": ["Personal", "PMS", "Other"] },
+    "secondaryDomains": { "type": "array", "items": { "type": "string" } },
+    "objectiveStatement": { "type": "string" },
+    "requiredDeliverables": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+    "optionalDeliverables": { "type": "array", "items": { "type": "string" } },
+    "constraints": {
+      "type": "object",
+      "properties": {
+        "timeConstraints": { "type": "string" },
+        "scopeConstraints": { "type": "string" },
+        "nonGoals": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "qualityRequirements": {
+      "type": "object",
+      "required": ["completeness", "accuracy", "clarity"],
+      "properties": {
+        "completeness": { "type": "string" },
+        "accuracy": { "type": "string" },
+        "clarity": { "type": "string" }
+      }
+    },
+    "riskSensitivity": { "type": "string", "enum": ["Low", "Medium", "High"] },
+    "knownUnknowns": { "type": "array", "items": { "type": "string" } },
+    "assumptions": { "type": "array", "items": { "type": "string" } },
+    "communication": {
+      "type": "object",
+      "properties": {
+        "intendedAudience": { "type": "string" },
+        "toneRequirements": { "type": "string" },
+        "preferredFormat": { "type": "string" }
+      }
+    },
+    "traceability": {
+      "type": "object",
+      "properties": {
+        "relatedTasks": { "type": "array", "items": { "type": "string" } },
+        "referenceArtifacts": { "type": "array", "items": { "type": "string" } },
+        "archivalPriority": { "type": "string", "enum": ["Low", "Medium", "High"] }
+      }
+    }
+  }
+}
