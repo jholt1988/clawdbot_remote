@@ -1,0 +1,308 @@
+{
+  "package_id": "PMS_MVP_AGENT_INPUT_2026-02-15",
+  "generated_at": "2026-02-15",
+  "plan_spec": {
+    "plan_id": "PMS_MVP_2026-02-09",
+    "title": "Property Management Suite (PMS) — Path to Demoable MVP",
+    "target_buyer": "Small PM (1–200 units)",
+    "property_types": [
+      "single-family",
+      "multifamily",
+      "mixed",
+      "student"
+    ],
+    "north_star_demo": [
+      "PM creates property + unit",
+      "PM assigns lease to tenant (docs visible)",
+      "Tenant adds card + pays rent (fees/partials/manual partials; autopay off-session)",
+      "Tenant submits maintenance request (photos)",
+      "PM triages/assigns/closes request + messages tenant",
+      "PM performs inspection (mobile) → estimate/work plan",
+      "Owner views, comments, initiates maintenance request"
+    ],
+    "guardrails": [
+      "Contract coherence enforced by schema/types/tests",
+      "Strict org/lease/payment isolation (no cross-org leaks)",
+      "Payments: idempotency + webhook replay safety are P0",
+      "Maintenance state machine must be explicit + validated",
+      "AI only where explainable + togglable (rules-first acceptable for MVP)"
+    ],
+    "definition_of_done": [
+      "End-to-end north-star demo passes on seeded demo org",
+      "All CTS leaf tasks QA-pass",
+      "No known P0 permission leaks (org/lease/payment)",
+      "Stripe webhook processing idempotent + replay-safe",
+      "Pricing PlanCycle snapshots implemented and used for all fees",
+      "Demo deploy + demo reset + runbook exist"
+    ],
+    "milestones": [
+      {
+        "id": "M0",
+        "name": "Foundation Ready",
+        "exit": [
+          "Auth + org scoping enforced everywhere",
+          "Contract envelope + types coherence tests green",
+          "Seed/demo data loads cleanly"
+        ]
+      },
+      {
+        "id": "M1",
+        "name": "Full Demo Path",
+        "exit": [
+          "North-star demo runs end-to-end",
+          "Stripe Connect onboarding + card save + payment + webhook finalize",
+          "Maintenance + messaging stable"
+        ]
+      },
+      {
+        "id": "M2",
+        "name": "Hardening",
+        "exit": [
+          "Permission matrix tested (E2E boundaries)",
+          "Audit log for money + maintenance + messaging",
+          "Monitoring + error visibility"
+        ]
+      },
+      {
+        "id": "M3",
+        "name": "Sellable Demo",
+        "exit": [
+          "Staging deploy repeatable + demo reset safe",
+          "Owner portal minimum demonstrates value",
+          "Estimate/work-plan demo path works mobile-first"
+        ]
+      }
+    ],
+    "workstreams": [
+      {
+        "id": "WS_E",
+        "name": "Decisions / Scope Locks",
+        "priority": 0
+      },
+      {
+        "id": "WS_A",
+        "name": "MVP Demo Path (Core flows)",
+        "priority": 1
+      },
+      {
+        "id": "WS_PAY",
+        "name": "Payments (Stripe Connect MoR-per-org)",
+        "priority": 1
+      },
+      {
+        "id": "WS_PRIC",
+        "name": "Pricing (Tiered fees by doors, billed plan)",
+        "priority": 1
+      },
+      {
+        "id": "WS_B",
+        "name": "Trust / Security",
+        "priority": 1
+      },
+      {
+        "id": "WS_C",
+        "name": "Sleek UX",
+        "priority": 2
+      },
+      {
+        "id": "WS_D",
+        "name": "AI ROI (Rules-first, explainable)",
+        "priority": 2
+      },
+      {
+        "id": "WS_F",
+        "name": "Release Packaging (Demo + Deploy)",
+        "priority": 1
+      }
+    ]
+  },
+  "decisions": {
+    "jurisdiction_baseline": "Kansas",
+    "payments": {
+      "provider": "Stripe",
+      "merchant_of_record": "each_org",
+      "connect_charge_type": "direct_charges",
+      "methods": [
+        "card"
+      ],
+      "autopay": "off_session_payment_intents"
+    },
+    "pricing": {
+      "model": "tiered_application_fee",
+      "tier_basis": "total_doors_under_management",
+      "tier_effective_rule": "fixed_per_billing_period",
+      "billing_period": "calendar_month",
+      "doors_definition": "count(active_or_managed_units)",
+      "billing_mode": "billed_plan"
+    }
+  },
+  "policies": {
+    "governance": {
+      "no_permit_no_external_execution": true,
+      "red_state_required_for_high_risk_external": true,
+      "lock_before_mutate": true,
+      "locks": {
+        "project_lock": "lock:project:<projectId>",
+        "target_lock": "lock:target:<targetKind>:<targetScope>:<credentialProfile>"
+      },
+      "state_machines": {
+        "execution_permit": [
+          "Draft",
+          "Approved",
+          "Running",
+          "Executed",
+          "Failed",
+          "Revoked"
+        ],
+        "execution_request": [
+          "Draft",
+          "Submitted",
+          "Queued",
+          "Running",
+          "Executed",
+          "Failed",
+          "Blocked"
+        ],
+        "project_state": [
+          "Green",
+          "Yellow",
+          "Red",
+          "Recovery",
+          "Green"
+        ]
+      }
+    },
+    "stripe_connect": {
+      "org_model_assumption_for_mvp": "one_connected_account_per_org",
+      "open_decision": [
+        "connected_account_type (Express vs Standard)",
+        "connect_onboarding UX + KYC messaging"
+      ],
+      "fee_application": "application_fee_amount per PaymentIntent",
+      "webhook_requirements": [
+        "raw-body signature verification",
+        "idempotent event processing (store event.id)",
+        "route events to org by connected-account context"
+      ]
+    },
+    "pricing_plan_cycle": {
+      "plan_cycle_record": "OrgPlanCycle",
+      "snapshot_fields": [
+        "doors_snapshot",
+        "tier_code_snapshot",
+        "fee_schedule_version_snapshot"
+      ],
+      "projection": "store projected_next_tier for UI transparency",
+      "invariants": [
+        "tier snapshot does not change mid-cycle",
+        "fee is computed server-side only",
+        "fee < amount always"
+      ]
+    }
+  },
+  "routing_rules": {
+    "teams": [
+      "PMS_DEV",
+      "BUILD",
+      "BUSINESS",
+      "MARKETING",
+      "LIBRARY",
+      "R_AND_D",
+      "PANEL",
+      "QA"
+    ],
+    "deterministic_router": [
+      {
+        "if": "auth|rbac|api|ui|domain_logic|prisma",
+        "team": "PMS_DEV"
+      },
+      {
+        "if": "ci|cd|docker|seeding|redis|queues|workers|webhooks_infra|observability",
+        "team": "BUILD"
+      },
+      {
+        "if": "pricing|fees|packaging|policy_defaults|unit_definition",
+        "team": "BUSINESS"
+      },
+      {
+        "if": "positioning|copy|funnels|demo_script_story",
+        "team": "MARKETING"
+      },
+      {
+        "if": "research|sources|competitive|statutes|provider_docs_catalog",
+        "team": "LIBRARY"
+      },
+      {
+        "if": "estimation_logic|ai_explainability|triage_models",
+        "team": "R_AND_D"
+      },
+      {
+        "if": "scope_dispute|policy_conflict|high_uncertainty",
+        "team": "PANEL"
+      },
+      {
+        "if": "verification|test_plans|qrs_verdict",
+        "team": "QA"
+      }
+    ],
+    "qa_policy": {
+      "default_qa_team": "QA",
+      "reject_rework_loop": "FixRequired with ERCS reason"
+    }
+  },
+  "notion_schema_recommendation": {
+    "plan_db": {
+      "properties": [
+        "Plan ID (title or text)",
+        "Plan Status (select: Draft|Ready for Decomposition|Active|Complete)",
+        "PlanSpec JSON (text)",
+        "Milestone (select)",
+        "Last Compiled At (date)"
+      ]
+    },
+    "tasks_db": {
+      "properties": [
+        "Task ID (text)",
+        "Title (title)",
+        "Plan (relation -> Plan DB)",
+        "Workstream (select)",
+        "Epic (select or text)",
+        "Team (select)",
+        "QA Team (select)",
+        "Status (select: Draft|Ready|In Progress|In QA|Fix Required|Blocked|Done)",
+        "Risk (select: Low|Medium|High)",
+        "Dependencies (relation -> Tasks DB)",
+        "Acceptance Criteria (text)",
+        "Artifacts Expected (text)",
+        "External Execution Needed (checkbox)",
+        "Execution Request (relation -> Exec Requests DB)",
+        "Permit (relation -> Permits DB)",
+        "QA Verdict (select: Pass|Fail)",
+        "ERCS Code (select or text)",
+        "Notes/Log (text)"
+      ]
+    },
+    "exec_requests_db": {
+      "properties": [
+        "Request ID",
+        "Task (relation -> Tasks DB)",
+        "Risk Level",
+        "Dry Run Flag",
+        "Status",
+        "Permit (relation -> Permits DB)",
+        "Logs"
+      ]
+    },
+    "permits_db": {
+      "properties": [
+        "Permit ID",
+        "Status",
+        "Approved Mode",
+        "Expires At",
+        "Last Run At",
+        "Last Error"
+      ]
+    }
+  },
+  "cts_tasks": []
+}
