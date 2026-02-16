@@ -59,13 +59,16 @@ async function loadCapacity() {
 }
 
 async function countWip(dsId, team, statuses) {
+  // Notion select filters don't support `in`; use OR of equals.
+  const statusOr = (statuses || []).map((s) => ({ property: 'Status', select: { equals: s } }));
+
   const resp = await notion.dataSources.query({
     data_source_id: dsId,
     page_size: 100,
     filter: {
       and: [
         { property: 'Team', select: { equals: team } },
-        { property: 'Status', select: { in: statuses } },
+        statusOr.length === 1 ? statusOr[0] : { or: statusOr },
       ],
     },
   });
@@ -73,18 +76,17 @@ async function countWip(dsId, team, statuses) {
 }
 
 async function listReady(dsId, team) {
+  // Our Tickets Status currently uses legacy values; compiler uses Accepted as "Ready".
   const resp = await notion.dataSources.query({
     data_source_id: dsId,
     page_size: 50,
     filter: {
       and: [
         { property: 'Team', select: { equals: team } },
-        { property: 'Status', select: { equals: 'Ready' } },
+        { property: 'Status', select: { equals: 'Accepted' } },
       ],
     },
-    sorts: [
-      { property: 'Created time', direction: 'ascending' },
-    ],
+    sorts: [{ property: 'Created time', direction: 'ascending' }],
   });
   return resp.results;
 }
