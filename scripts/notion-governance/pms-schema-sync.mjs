@@ -16,32 +16,45 @@ function requireEnv(keys) {
   if (missing.length) throw new Error(`Missing env: ${missing.join(', ')}`);
 }
 
+// Do not pin an old Notion API version; this workspace uses dataSources endpoints.
 const notion = new Client({
   auth: process.env.NOTION_API_KEY,
-  // Use configured schema version if provided.
-  notionVersion: process.env.NOTION_SCHEMA_VERSION || undefined,
 });
 
 async function getDb(database_id) {
   return notion.databases.retrieve({ database_id });
 }
 
-function hasProp(db, name) {
-  return !!db.properties?.[name];
+async function getDataSourceId(database_id) {
+  const db = await getDb(database_id);
+  const dsId = db.data_sources?.[0]?.id;
+  if (!dsId) throw new Error(`Missing data_source_id for database ${database_id}`);
+  return dsId;
+}
+
+async function getDataSource(dsId) {
+  return notion.dataSources.retrieve({ data_source_id: dsId });
+}
+
+function hasProp(ds, name) {
+  return !!ds.properties?.[name];
 }
 
 async function ensureProps(database_id, propsToAdd) {
-  const db = await getDb(database_id);
+  const dsId = await getDataSourceId(database_id);
+  const ds = await getDataSource(dsId);
+
   const add = {};
   for (const [name, schema] of Object.entries(propsToAdd)) {
-    if (!hasProp(db, name)) add[name] = schema;
+    if (!hasProp(ds, name)) add[name] = schema;
   }
   if (Object.keys(add).length === 0) return { changed: false, added: [] };
 
-  await notion.databases.update({
-    database_id,
+  await notion.dataSources.update({
+    data_source_id: dsId,
     properties: add,
   });
+
   return { changed: true, added: Object.keys(add) };
 }
 
@@ -58,6 +71,10 @@ async function main() {
   const ticketsDb = process.env.NOTION_TICKETS_DB_ID;
   const execDb = process.env.NOTION_EXECUTION_REQUESTS_DB_ID;
   const permitsDb = process.env.NOTION_EXECUTION_PERMITS_DB_ID;
+
+  // Note: relation-property schema creation via dataSources.update requires more metadata
+  // (single_property/dual_property) than we want to hardcode. This script is additive-only
+  // for non-relation properties.
 
   const results = [];
 
@@ -155,17 +172,8 @@ async function main() {
       'Started At': { date: {} },
       'Blocked Reason': { rich_text: {} },
       'WIP Slot Token': { rich_text: {} },
-      'Execution Request': {
-        relation: {
-          database_id: execDb,
-          // allow dual_property auto-sync
-        },
-      },
-      Permit: {
-        relation: {
-          database_id: permitsDb,
-        },
-      },
+      // Execution Request / Permit relations are not created by this script.
+
       'QA Verdict': {
         select: {
           options: [
@@ -183,11 +191,7 @@ async function main() {
   results.push({
     db: 'ExecRequests',
     ...(await ensureProps(execDb, {
-      Task: {
-        relation: {
-          database_id: ticketsDb,
-        },
-      },
+      // Task relation is not created here (see note above).
       Logs: { rich_text: {} },
     })),
   });
