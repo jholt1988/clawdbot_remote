@@ -140,7 +140,7 @@ async function tick() {
         'ticket-updated',
         { ticketId: t.id },
         {
-          jobId: `poll:${t.id}:${lastEdited}`.slice(0, 180),
+          jobId: `poll_${t.id}_${String(lastEdited).replace(/[:]/g, '_')}`.slice(0, 180),
           removeOnComplete: true,
           removeOnFail: false,
           attempts: 5,

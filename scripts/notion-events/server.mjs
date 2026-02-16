@@ -71,7 +71,7 @@ app.post('/webhook/notion', async (req, res) => {
         'ticket-updated',
         { ticketId },
         {
-          jobId: `${eventId || ''}:${ticketId}`.slice(0, 180),
+          jobId: `${String(eventId || '').replace(/[:]/g, '_')}_${ticketId}`.slice(0, 180),
           removeOnComplete: true,
           removeOnFail: false,
           attempts: 5,
