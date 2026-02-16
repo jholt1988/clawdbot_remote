@@ -37,9 +37,9 @@ function rt(text) {
   return { rich_text: [{ text: { content: String(text).slice(0, 1900) } }] };
 }
 
+// Do not pin an old Notion API version; this workspace uses dataSources endpoints.
 const notion = new Client({
   auth: process.env.NOTION_API_KEY,
-  notionVersion: process.env.NOTION_SCHEMA_VERSION || undefined,
 });
 
 const redlock = buildRedlock(connection);

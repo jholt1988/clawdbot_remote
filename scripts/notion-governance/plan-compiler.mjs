@@ -193,7 +193,6 @@ async function upsertTasks({ ticketsDbId, ticketsDsId, planPageId, input }) {
       'Artifacts Expected': richText((t.artifacts_expected || []).join('\n')),
       'External Execution Needed': checkbox(!!t.external_execution_needed),
 
-      // Ensure created-by is set when we create; leave untouched otherwise
       ...(page ? {} : { 'Created By': select('Planner') }),
     };
 
@@ -202,7 +201,6 @@ async function upsertTasks({ ticketsDbId, ticketsDsId, planPageId, input }) {
         parent: { database_id: ticketsDbId },
         properties: {
           ...props,
-          // Default status before dependency resolution
           Status: select('Proposed'),
         },
       });
@@ -217,6 +215,23 @@ async function upsertTasks({ ticketsDbId, ticketsDsId, planPageId, input }) {
     idMap.set(taskId, page.id);
   }
 
+  // Build a status map in one query (avoids N^2 page.retrieve)
+  const statusByPageId = new Map();
+  {
+    const resp = await notion.dataSources.query({
+      data_source_id: ticketsDsId,
+      page_size: 200,
+      filter: {
+        property: 'Project',
+        relation: { contains: planPageId },
+      },
+    });
+
+    for (const p of resp.results) {
+      statusByPageId.set(p.id, getSelectName(p, 'Status'));
+    }
+  }
+
   // pass 2: wire dependencies + compute status
   for (const t of tasks) {
     const pageId = idMap.get(t.task_id);
@@ -224,20 +239,15 @@ async function upsertTasks({ ticketsDbId, ticketsDsId, planPageId, input }) {
 
     const depIds = (t.dependencies || []).map((d) => idMap.get(d)).filter(Boolean);
 
-    // Dependency satisfied = all dependency pages have Status == Done
     let satisfied = true;
     for (const depPageId of depIds) {
-      const dep = await notion.pages.retrieve({ page_id: depPageId });
-      const st = getSelectName(dep, 'Status');
+      const st = statusByPageId.get(depPageId);
       if (st !== 'Done') {
         satisfied = false;
         break;
       }
     }
 
-    // Deterministic status mapping onto current Tickets DB Status options:
-    // - not satisfied -> Proposed
-    // - satisfied -> Accepted
     const statusName = satisfied ? 'Accepted' : 'Proposed';
 
     await notion.pages.update({
