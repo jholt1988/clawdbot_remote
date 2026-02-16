@@ -62,6 +62,11 @@ We expect minimal JSON:
 { "type": "permit.updated", "data": { "page_id": "<permit_page_id>" } }
 ```
 
+Governance events (Tickets):
+```json
+{ "type": "ticket.updated", "data": { "page_id": "<ticket_page_id>" } }
+```
+
 ## Idempotency
 - Queue jobId = `permitId` → prevents double-run across webhook retries.
 

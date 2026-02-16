@@ -8,3 +8,5 @@ export const connection = new IORedis(process.env.REDIS_URL, {
 });
 
 export const executionQueue = new Queue('execution-queue', { connection });
+export const governanceQueue = new Queue('governance-queue', { connection });
+

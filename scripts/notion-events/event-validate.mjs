@@ -8,8 +8,12 @@ export function validateIngressEvent(event) {
   if (event.type === 'permit.updated') {
     if (typeof event?.data?.page_id !== 'string' || !event.data.page_id) errors.push('missing_page_id');
   }
+  if (event.type === 'ticket.updated') {
+    if (typeof event?.data?.page_id !== 'string' || !event.data.page_id) errors.push('missing_page_id');
+  }
+
   // Only allow known event types for now.
-  const allowed = new Set(['permit.updated']);
+  const allowed = new Set(['permit.updated', 'ticket.updated']);
   if (typeof event.type === 'string' && !allowed.has(event.type)) errors.push('unsupported_type');
 
   return { ok: errors.length === 0, errors };

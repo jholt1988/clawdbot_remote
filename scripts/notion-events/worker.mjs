@@ -5,6 +5,7 @@ import { execFile } from 'node:child_process';
 import path from 'node:path';
 import crypto from 'node:crypto';
 import { connection } from './infra/queue.mjs';
+import { recomputeParentsForChild, recomputeTicketRisk } from './ticket-risk.mjs';
 import { buildRedlock } from './infra/lock.mjs';
 import { notionProps } from './notion-props.mjs';
 import { getText, getSelectName, getCheckbox, getRelationId, getMultiSelectNames } from './notion-helpers.mjs';
@@ -377,4 +378,25 @@ worker.on('failed', (job, err) => {
   console.error('Job failed:', job?.id, err?.message);
 });
 
-console.log(`Worker running. Concurrency=${WORKER_CONCURRENCY}`);
+const GOVERNANCE_CONCURRENCY = Number(process.env.GOVERNANCE_CONCURRENCY || 2);
+
+const governanceWorker = new Worker(
+  'governance-queue',
+  async (job) => {
+    if (job.name !== 'ticket-updated') return { ok: true, ignored: job.name };
+    const ticketId = job.data?.ticketId;
+    if (!ticketId) throw new Error('missing_ticketId');
+
+    // Enforce on the ticket itself (snap-back risk) and then on parents that reference it.
+    const self = await recomputeTicketRisk({ ticketId });
+    const parents = await recomputeParentsForChild({ childTicketId: ticketId });
+    return { ok: true, self, parents };
+  },
+  { connection, concurrency: GOVERNANCE_CONCURRENCY },
+);
+
+governanceWorker.on('failed', (job, err) => {
+  console.error('Governance job failed:', job?.id, err?.message);
+});
+
+console.log(`Worker running. Concurrency=${WORKER_CONCURRENCY}. GovernanceConcurrency=${GOVERNANCE_CONCURRENCY}`);

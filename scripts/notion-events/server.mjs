@@ -3,7 +3,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import crypto from 'node:crypto';
 import { Client } from '@notionhq/client';
-import { executionQueue, connection } from './infra/queue.mjs';
+import { executionQueue, governanceQueue, connection } from './infra/queue.mjs';
 import { validateIngressEvent, extractEventId } from './event-validate.mjs';
 import { seenEvent } from './replay-protect.mjs';
 
@@ -61,6 +61,23 @@ app.post('/webhook/notion', async (req, res) => {
           },
         );
       }
+    }
+
+    if (event?.type === 'ticket.updated') {
+      const ticketId = event?.data?.page_id;
+      if (!ticketId) return res.status(400).json({ error: 'missing_ticket_id' });
+
+      await governanceQueue.add(
+        'ticket-updated',
+        { ticketId },
+        {
+          jobId: `${eventId || ''}:${ticketId}`.slice(0, 180),
+          removeOnComplete: true,
+          removeOnFail: false,
+          attempts: 5,
+          backoff: { type: 'exponential', delay: 1000 },
+        },
+      );
     }
 
     res.json({ ok: true });
