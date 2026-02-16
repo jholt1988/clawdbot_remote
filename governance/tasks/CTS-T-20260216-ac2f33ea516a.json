@@ -1,0 +1,43 @@
+{
+  "taskId": "T-20260216-ac2f33ea516a",
+  "origin": "User",
+  "submittedBy": "Jordan",
+  "timestamp": "2026-02-16T08:49:05.820Z",
+  "primaryDomain": "PMS",
+  "objectiveStatement": "Add CI docker caching and seed pipeline",
+  "requiredDeliverables": [
+    "Approved Run Pack (JSON + Markdown)"
+  ],
+  "optionalDeliverables": [
+    "Rollback/fallback notes"
+  ],
+  "constraints": {
+    "timeConstraints": "",
+    "scopeConstraints": "No unscoped changes; minimal diffs; demo-critical first.",
+    "nonGoals": []
+  },
+  "qualityRequirements": {
+    "completeness": "All required deliverables present and mapped to objective.",
+    "accuracy": "No contradictions; matches known system constraints.",
+    "clarity": "Executable without further interpretation."
+  },
+  "riskSensitivity": "Medium",
+  "knownUnknowns": [],
+  "assumptions": [],
+  "communication": {
+    "intendedAudience": "Jordan",
+    "toneRequirements": "Direct, actionable, non-hype.",
+    "preferredFormat": "Bullets"
+  },
+  "traceability": {
+    "relatedTasks": [],
+    "referenceArtifacts": [],
+    "archivalPriority": "High"
+  },
+  "routing": {
+    "team": "BUILD",
+    "suggestedAgentId": "pms-build-orchestrator",
+    "reason": "overrideTeam",
+    "rulesSource": "governance/pms/PMS_MVP_AGENT_INPUT_2026-02-15.json"
+  }
+}

@@ -4,6 +4,8 @@ import path from 'node:path';
 import crypto from 'node:crypto';
 import 'dotenv/config';
 
+import { loadRoutingRules, routeTask } from './router.mjs';
+
 function nowISO() {
   return new Date().toISOString();
 }
@@ -18,14 +20,18 @@ function firstNonFlag(args) {
 
 const argv = process.argv.slice(2);
 const primaryDomain = (argv.find((a) => a.startsWith('--domain='))?.split('=')[1] || 'PMS');
+const overrideTeam = (argv.find((a) => a.startsWith('--team='))?.split('=')[1] || null);
 const objective = firstNonFlag(argv);
 
 if (!objective) {
-  console.error('Usage: node scripts/agent-pipeline/new-task.mjs "<objective statement>" --domain=PMS');
+  console.error('Usage: node scripts/agent-pipeline/new-task.mjs "<objective statement>" --domain=PMS [--team=PMS_DEV|BUILD|BUSINESS|MARKETING|QA|LIBRARY|R_AND_D|PANEL]');
   process.exit(2);
 }
 
 const taskId = `T-${new Date().toISOString().slice(0, 10).replace(/-/g, '')}-${randId()}`;
+
+const routingRules = await loadRoutingRules();
+const routed = routeTask({ objective, primaryDomain, overrideTeam }, routingRules);
 
 const cts = {
   taskId,
@@ -58,6 +64,12 @@ const cts = {
     relatedTasks: [],
     referenceArtifacts: [],
     archivalPriority: 'High',
+  },
+  routing: {
+    team: routed.team,
+    suggestedAgentId: routed.agentId,
+    reason: routed.reason,
+    rulesSource: routingRules.source,
   },
 };
 
@@ -123,12 +135,14 @@ try {
     properties: {
       Name: { title: [{ text: { content: objective.slice(0, 180) } }] },
       Status: { select: { name: 'Proposed' } },
+      Team: { select: { name: routed.team } },
       Domain: { select: { name: primaryDomain === 'PMS' ? 'PMS-Dev' : primaryDomain } },
       'Risk Flag': { select: { name: 'Medium' } },
       'Created By': { select: { name: 'Human' } },
-      Logs: {
+      'Notes/Log': {
         rich_text: [
           { text: { content: `CTS Task ID: ${taskId}` } },
+          { text: { content: `\nRouted Team: ${routed.team} (agent: ${routed.agentId}, reason: ${routed.reason})` } },
           { text: { content: `\nRepo CTS: governance/tasks/CTS-${taskId}.json` } },
           { text: { content: `\nRepo RunPack: governance/run-packs/RUNPACK-${taskId}.md` } },
         ],
