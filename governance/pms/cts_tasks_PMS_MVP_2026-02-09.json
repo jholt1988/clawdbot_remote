@@ -1,0 +1,613 @@
+[
+  {
+    "task_id": "PMS-E-01",
+    "plan_id": "PMS_MVP_2026-02-09",
+    "workstream": "WS_E",
+    "epic": "SCOPE_LOCKS",
+    "title": "Confirm Connect account type (Express vs Standard) for MVP",
+    "team": "BUSINESS",
+    "qa_team": "QA",
+    "risk": "Low",
+    "dependencies": [],
+    "acceptance_criteria": [
+      "Decision recorded with rationale",
+      "Constraints for onboarding UX captured",
+      "Non-goals for MVP documented"
+    ],
+    "artifacts_expected": ["Decision note in Notion + PlanSpec patch"],
+    "external_execution_needed": false
+  },
+  {
+    "task_id": "PMS-E-02",
+    "plan_id": "PMS_MVP_2026-02-09",
+    "workstream": "WS_E",
+    "epic": "SCOPE_LOCKS",
+    "title": "Finalize tier table values (door ranges + % + minimum fee) and effective dates",
+    "team": "BUSINESS",
+    "qa_team": "QA",
+    "risk": "Low",
+    "dependencies": [],
+    "acceptance_criteria": [
+      "Tier table defined by door ranges",
+      "Min fee and % set per tier",
+      "Policy for changes next-cycle documented"
+    ],
+    "artifacts_expected": ["Pricing spec doc + FeeScheduleVersion seed values"],
+    "external_execution_needed": false
+  },
+  {
+    "task_id": "PMS-A-01",
+    "plan_id": "PMS_MVP_2026-02-09",
+    "workstream": "WS_A",
+    "epic": "DEMO_RUNBOOK",
+    "title": "Write demo script + acceptance checklist for north-star MVP story",
+    "team": "MARKETING",
+    "qa_team": "QA",
+    "risk": "Low",
+    "dependencies": [],
+    "acceptance_criteria": [
+      "Step-by-step script with expected UI states",
+      "List of screenshots/recording segments",
+      "Demo data assumptions defined"
+    ],
+    "artifacts_expected": ["Demo runbook markdown", "Acceptance checklist"],
+    "external_execution_needed": false
+  },
+  {
+    "task_id": "PMS-A-02",
+    "plan_id": "PMS_MVP_2026-02-09",
+    "workstream": "WS_A",
+    "epic": "LOCAL_STARTUP_SEED",
+    "title": "1-click local startup + seed/demo org",
+    "team": "BUILD",
+    "qa_team": "QA",
+    "risk": "Medium",
+    "dependencies": [],
+    "acceptance_criteria": [
+      "Fresh machine -> single command brings up FE/BE/DB/Redis",
+      "Seed creates demo org + users + sample data",
+      "Repeatable without manual cleanup"
+    ],
+    "artifacts_expected": ["docker-compose", ".env.example", "seed scripts", "README run steps"],
+    "external_execution_needed": false
+  },
+  {
+    "task_id": "PMS-A-03",
+    "plan_id": "PMS_MVP_2026-02-09",
+    "workstream": "WS_A",
+    "epic": "CONTRACT_COHERENCE",
+    "title": "Contract coherence sweep (API envelopes + shared types/schema)",
+    "team": "PMS_DEV",
+    "qa_team": "QA",
+    "risk": "Medium",
+    "dependencies": ["PMS-A-02"],
+    "acceptance_criteria": [
+      "FE/BE response envelopes match everywhere",
+      "Schema/type generation in CI prevents drift",
+      "Demo-path endpoints covered"
+    ],
+    "artifacts_expected": ["Shared schema/types", "CI check for contract drift"],
+    "external_execution_needed": false
+  },
+  {
+    "task_id": "PMS-A-04",
+    "plan_id": "PMS_MVP_2026-02-09",
+    "workstream": "WS_A",
+    "epic": "AUTH_RBAC_SCOPING",
+    "title": "Org scoping + RBAC v1 (Tenant/PM/Owner/Admin) across API + UI routes",
+    "team": "PMS_DEV",
+    "qa_team": "QA",
+    "risk": "High",
+    "dependencies": ["PMS-A-03"],
+    "acceptance_criteria": [
+      "No cross-org reads/writes possible",
+      "Owner is read/comment/initiate-request only (no operational mutation)",
+      "E2E tests cover isolation for key entities"
+    ],
+    "artifacts_expected": ["RBAC guards", "Route protection", "Isolation tests"],
+    "external_execution_needed": false
+  },
+  {
+    "task_id": "PMS-A-05",
+    "plan_id": "PMS_MVP_2026-02-09",
+    "workstream": "WS_A",
+    "epic": "PROPERTIES_UNITS",
+    "title": "Properties/Units CRUD (list/detail/create/edit) with doors counted correctly",
+    "team": "PMS_DEV",
+    "qa_team": "QA",
+    "risk": "Medium",
+    "dependencies": ["PMS-A-04"],
+    "acceptance_criteria": [
+      "PM can CRUD properties/units; tenant cannot",
+      "Unit status supports active/managed/archived",
+      "DoorsCounter uses active/managed units only"
+    ],
+    "artifacts_expected": ["CRUD screens", "API endpoints", "DoorsCounter"],
+    "external_execution_needed": false
+  },
+  {
+    "task_id": "PMS-A-06",
+    "plan_id": "PMS_MVP_2026-02-09",
+    "workstream": "WS_A",
+    "epic": "LEASES_DOCS",
+    "title": "Lease assign flow + tenant doc visibility (minimal)",
+    "team": "PMS_DEV",
+    "qa_team": "QA",
+    "risk": "Medium",
+    "dependencies": ["PMS-A-05"],
+    "acceptance_criteria": [
+      "PM assigns lease to tenant",
+      "Tenant can view lease/docs",
+      "Audit log entry created"
+    ],
+    "artifacts_expected": ["Lease assign UI", "Lease/doc API", "Audit events"],
+    "external_execution_needed": false
+  },
+  {
+    "task_id": "PMS-PAY-01",
+    "plan_id": "PMS_MVP_2026-02-09",
+    "workstream": "WS_PAY",
+    "epic": "CONNECT_ONBOARDING",
+    "title": "Org -> Connected Account model + migrations (stripe_account_id, onboarding status, capabilities)",
+    "team": "PMS_DEV",
+    "qa_team": "QA",
+    "risk": "High",
+    "dependencies": ["PMS-A-04"],
+    "acceptance_criteria": [
+      "Org has stripe_account_id and onboarding status fields",
+      "Payments are blocked until capabilities active",
+      "Admin UI shows current Stripe state"
+    ],
+    "artifacts_expected": ["DB migrations", "Org payments settings UI"],
+    "external_execution_needed": false
+  },
+  {
+    "task_id": "PMS-PAY-02",
+    "plan_id": "PMS_MVP_2026-02-09",
+    "workstream": "WS_PAY",
+    "epic": "CONNECT_ONBOARDING",
+    "title": "Create connected account + onboarding link flow (Account Links) and status callbacks",
+    "team": "BUILD",
+    "qa_team": "QA",
+    "risk": "High",
+    "dependencies": ["PMS-PAY-01", "PMS-E-01"],
+    "acceptance_criteria": [
+      "Org admin can start onboarding",
+      "Refresh/return flows work",
+      "Status updated in org settings"
+    ],
+    "artifacts_expected": ["Connect onboarding endpoint", "Callback handler", "Runbook notes"],
+    "external_execution_needed": false
+  },
+  {
+    "task_id": "PMS-PAY-03",
+    "plan_id": "PMS_MVP_2026-02-09",
+    "workstream": "WS_PAY",
+    "epic": "CARD_SAVE",
+    "title": "Tenant add-card flow using SetupIntent (off_session ready) scoped per org",
+    "team": "PMS_DEV",
+    "qa_team": "QA",
+    "risk": "High",
+    "dependencies": ["PMS-PAY-01", "PMS-A-06"],
+    "acceptance_criteria": [
+      "Tenant can add card under correct org",
+      "Default payment method stored per lease/org",
+      "No payment method sharing across orgs in MVP"
+    ],
+    "artifacts_expected": ["Payment method UI", "SetupIntent endpoints", "DB fields for PM IDs"],
+    "external_execution_needed": false
+  },
+  {
+    "task_id": "PMS-PRIC-01",
+    "plan_id": "PMS_MVP_2026-02-09",
+    "workstream": "WS_PRIC",
+    "epic": "PLAN_CYCLE",
+    "title": "OrgPlanCycle schema + FeeScheduleVersion + snapshots",
+    "team": "PMS_DEV",
+    "qa_team": "QA",
+    "risk": "Medium",
+    "dependencies": ["PMS-E-02", "PMS-A-05", "PMS-PAY-01"],
+    "acceptance_criteria": [
+      "OrgPlanCycle created per calendar month",
+      "doors_snapshot and tier_code_snapshot persisted",
+      "fee schedule versioning supported"
+    ],
+    "artifacts_expected": ["Prisma migrations", "Seed fee schedules"],
+    "external_execution_needed": false
+  },
+  {
+    "task_id": "PMS-PRIC-02",
+    "plan_id": "PMS_MVP_2026-02-09",
+    "workstream": "WS_PRIC",
+    "epic": "PLAN_CYCLE",
+    "title": "PlanCycle scheduler job (monthly open/close + nightly tier projection) with org-scoped locks",
+    "team": "BUILD",
+    "qa_team": "QA",
+    "risk": "Medium",
+    "dependencies": ["PMS-PRIC-01"],
+    "acceptance_criteria": [
+      "Cycle opens monthly and is rerunnable safely",
+      "Projected next tier stored for UI display",
+      "Locking prevents double-creation"
+    ],
+    "artifacts_expected": ["Scheduler worker job", "Logs + metrics hooks"],
+    "external_execution_needed": false
+  },
+  {
+    "task_id": "PMS-PRIC-03",
+    "plan_id": "PMS_MVP_2026-02-09",
+    "workstream": "WS_PRIC",
+    "epic": "FEE_ENGINE",
+    "title": "FeeEngine library (tiered % + min fee + guard fee < amount) with unit tests",
+    "team": "PMS_DEV",
+    "qa_team": "QA",
+    "risk": "Medium",
+    "dependencies": ["PMS-PRIC-01"],
+    "acceptance_criteria": [
+      "Fee computed server-side only",
+      "Fee always less than amount",
+      "Tests cover tiny amounts and edge cases"
+    ],
+    "artifacts_expected": ["FeeEngine module", "Unit tests"],
+    "external_execution_needed": false
+  },
+  {
+    "task_id": "PMS-PAY-04",
+    "plan_id": "PMS_MVP_2026-02-09",
+    "workstream": "WS_PAY",
+    "epic": "DIRECT_CHARGES",
+    "title": "Create PaymentIntents as direct charges on connected account + apply application_fee_amount from active PlanCycle",
+    "team": "PMS_DEV",
+    "qa_team": "QA",
+    "risk": "High",
+    "dependencies": ["PMS-PAY-03", "PMS-PRIC-02", "PMS-PRIC-03"],
+    "acceptance_criteria": [
+      "PaymentIntent is created on the org connected account",
+      "application_fee_amount uses PlanCycle snapshot tier",
+      "Client cannot tamper with amount/fee mapping"
+    ],
+    "artifacts_expected": ["Payment create endpoints", "Server-side fee computation integration"],
+    "external_execution_needed": false
+  },
+  {
+    "task_id": "PMS-PAY-05",
+    "plan_id": "PMS_MVP_2026-02-09",
+    "workstream": "WS_PAY",
+    "epic": "WEBHOOKS",
+    "title": "Connect webhooks endpoint: raw-body signature verification + routing to org + store event.id for idempotency",
+    "team": "BUILD",
+    "qa_team": "QA",
+    "risk": "High",
+    "dependencies": ["PMS-PAY-02"],
+    "acceptance_criteria": [
+      "Invalid signatures rejected",
+      "Events route to correct org via connected-account context",
+      "Replay-safe processing (store event.id)"
+    ],
+    "artifacts_expected": ["Webhook service code", "Config/runbook", "Replay test harness"],
+    "external_execution_needed": false
+  },
+  {
+    "task_id": "PMS-PAY-06",
+    "plan_id": "PMS_MVP_2026-02-09",
+    "workstream": "WS_PAY",
+    "epic": "LEDGER_FINALIZATION",
+    "title": "Ledger finalization from webhooks (append-only), including platform_fee_minor + tier snapshot",
+    "team": "PMS_DEV",
+    "qa_team": "QA",
+    "risk": "High",
+    "dependencies": ["PMS-PAY-05", "PMS-PAY-04"],
+    "acceptance_criteria": [
+      "Ledger mutations happen exactly once per event",
+      "Balance derives from ledger",
+      "Payment receipts match Stripe-confirmed outcomes"
+    ],
+    "artifacts_expected": ["Ledger rules", "Idempotent finalize handler", "Tests"],
+    "external_execution_needed": false
+  },
+  {
+    "task_id": "PMS-PAY-07",
+    "plan_id": "PMS_MVP_2026-02-09",
+    "workstream": "WS_PAY",
+    "epic": "AUTOPAY_ENGINE",
+    "title": "Autopay scheduler worker (per org) + PaymentAttempt state machine (scheduled/attempting/succeeded/failed/needs_auth)",
+    "team": "BUILD",
+    "qa_team": "QA",
+    "risk": "High",
+    "dependencies": ["PMS-PAY-04", "PMS-PAY-06"],
+    "acceptance_criteria": [
+      "Worker groups charges by org and locks per lease/org",
+      "Job reruns do not double-attempt the same charge",
+      "Attempts are visible and auditable"
+    ],
+    "artifacts_expected": ["Autopay worker", "Attempt schema", "Locking strategy", "Logs/metrics"],
+    "external_execution_needed": false
+  },
+  {
+    "task_id": "PMS-PAY-08",
+    "plan_id": "PMS_MVP_2026-02-09",
+    "workstream": "WS_PAY",
+    "epic": "NEEDS_AUTH_RECOVERY",
+    "title": "Off-session failure recovery UX (needs_auth): tenant re-entry to complete payment on-session",
+    "team": "PMS_DEV",
+    "qa_team": "QA",
+    "risk": "Medium",
+    "dependencies": ["PMS-PAY-07"],
+    "acceptance_criteria": [
+      "Tenant sees clear next steps when auth required",
+      "Flow completes payment without creating duplicates",
+      "State updates correctly after completion"
+    ],
+    "artifacts_expected": ["Recovery screen/route", "On-session confirm flow", "Tests"],
+    "external_execution_needed": false
+  },
+  {
+    "task_id": "PMS-A-07",
+    "plan_id": "PMS_MVP_2026-02-09",
+    "workstream": "WS_A",
+    "epic": "MAINTENANCE",
+    "title": "Maintenance request (tenant) + photos + PM queue",
+    "team": "PMS_DEV",
+    "qa_team": "QA",
+    "risk": "Medium",
+    "dependencies": ["PMS-A-04"],
+    "acceptance_criteria": [
+      "Tenant can submit request with photos",
+      "PM sees queue by org",
+      "Attachments scoped to org/lease"
+    ],
+    "artifacts_expected": ["Maintenance submit UI", "API + storage integration", "Tests"],
+    "external_execution_needed": false
+  },
+  {
+    "task_id": "PMS-A-08",
+    "plan_id": "PMS_MVP_2026-02-09",
+    "workstream": "WS_A",
+    "epic": "MAINTENANCE",
+    "title": "Maintenance state machine + assignment + closure with validated transitions",
+    "team": "PMS_DEV",
+    "qa_team": "QA",
+    "risk": "High",
+    "dependencies": ["PMS-A-07"],
+    "acceptance_criteria": [
+      "States are explicit; transitions validated server-side",
+      "Assignment and completion notes recorded",
+      "Audit log entry created"
+    ],
+    "artifacts_expected": ["State machine logic", "UI for transitions", "Audit events"],
+    "external_execution_needed": false
+  },
+  {
+    "task_id": "PMS-A-09",
+    "plan_id": "PMS_MVP_2026-02-09",
+    "workstream": "WS_A",
+    "epic": "MESSAGING",
+    "title": "Messaging threads tenant<->PM with attachments + audit trail",
+    "team": "PMS_DEV",
+    "qa_team": "QA",
+    "risk": "Medium",
+    "dependencies": ["PMS-A-04"],
+    "acceptance_criteria": [
+      "Thread per lease/request (or consistent rule)",
+      "Messages immutable",
+      "Attachments scoped and auditable"
+    ],
+    "artifacts_expected": ["Messaging UI", "API", "Audit log"],
+    "external_execution_needed": false
+  },
+  {
+    "task_id": "PMS-A-10",
+    "plan_id": "PMS_MVP_2026-02-09",
+    "workstream": "WS_A",
+    "epic": "OWNER_MINIMUM",
+    "title": "Owner portal minimum: view + comment + initiate maintenance request (no operational mutation)",
+    "team": "PMS_DEV",
+    "qa_team": "QA",
+    "risk": "Medium",
+    "dependencies": ["PMS-A-04", "PMS-A-08"],
+    "acceptance_criteria": [
+      "Owner can view key entities",
+      "Owner can comment",
+      "Owner can initiate maintenance request"
+    ],
+    "artifacts_expected": ["Owner UI routes", "Permissions/guards", "Tests"],
+    "external_execution_needed": false
+  },
+  {
+    "task_id": "PMS-A-11",
+    "plan_id": "PMS_MVP_2026-02-09",
+    "workstream": "WS_A",
+    "epic": "INSPECTIONS",
+    "title": "Inspection capture mobile-first (checklist + photos + notes + drafts)",
+    "team": "PMS_DEV",
+    "qa_team": "QA",
+    "risk": "Medium",
+    "dependencies": ["PMS-A-05"],
+    "acceptance_criteria": [
+      "Usable on mobile viewport",
+      "Draft save works",
+      "Photos attach and scope correctly"
+    ],
+    "artifacts_expected": ["Inspection UI", "API/storage", "Demo script steps"],
+    "external_execution_needed": false
+  },
+  {
+    "task_id": "PMS-A-12",
+    "plan_id": "PMS_MVP_2026-02-09",
+    "workstream": "WS_D",
+    "epic": "ESTIMATE_WORKPLAN",
+    "title": "Inspection -> action items -> deterministic estimate range + explainability text",
+    "team": "R_AND_D",
+    "qa_team": "QA",
+    "risk": "Medium",
+    "dependencies": ["PMS-A-11"],
+    "acceptance_criteria": [
+      "Outputs min/max estimate range",
+      "Includes rationale + confidence label",
+      "Human-editable work plan generated"
+    ],
+    "artifacts_expected": ["Estimate engine module", "Explainability schema", "UI integration notes"],
+    "external_execution_needed": false
+  },
+  {
+    "task_id": "PMS-B-01",
+    "plan_id": "PMS_MVP_2026-02-09",
+    "workstream": "WS_B",
+    "epic": "PERMISSIONS_MATRIX",
+    "title": "Permission matrix source-of-truth doc + versioning",
+    "team": "PANEL",
+    "qa_team": "QA",
+    "risk": "Medium",
+    "dependencies": ["PMS-A-04"],
+    "acceptance_criteria": [
+      "Matrix covers entities + actions + roles",
+      "Versioned and referenced in tests",
+      "Owner limitations explicit"
+    ],
+    "artifacts_expected": ["Permissions matrix doc"],
+    "external_execution_needed": false
+  },
+  {
+    "task_id": "PMS-B-02",
+    "plan_id": "PMS_MVP_2026-02-09",
+    "workstream": "WS_B",
+    "epic": "E2E_BOUNDARIES",
+    "title": "E2E boundary tests: org/lease/payment isolation + webhook replay",
+    "team": "QA",
+    "qa_team": "QA",
+    "risk": "High",
+    "dependencies": ["PMS-B-01", "PMS-PAY-06"],
+    "acceptance_criteria": [
+      "Cross-org access attempts fail",
+      "Webhook replay does not double-post",
+      "CI gates merges"
+    ],
+    "artifacts_expected": ["E2E test suite", "CI gating config"],
+    "external_execution_needed": false
+  },
+  {
+    "task_id": "PMS-B-03",
+    "plan_id": "PMS_MVP_2026-02-09",
+    "workstream": "WS_B",
+    "epic": "AUDIT_LOG",
+    "title": "Audit log v1 (payments, maintenance, messaging, lease changes) append-only",
+    "team": "PMS_DEV",
+    "qa_team": "QA",
+    "risk": "High",
+    "dependencies": ["PMS-PAY-06", "PMS-A-08", "PMS-A-09", "PMS-A-06"],
+    "acceptance_criteria": [
+      "Append-only entries with actor/org/entity/time",
+      "Queryable per org",
+      "Critical actions recorded"
+    ],
+    "artifacts_expected": ["Audit log schema + API", "UI view (minimal)"],
+    "external_execution_needed": false
+  },
+  {
+    "task_id": "PMS-B-04",
+    "plan_id": "PMS_MVP_2026-02-09",
+    "workstream": "WS_B",
+    "epic": "OBSERVABILITY",
+    "title": "Monitoring MVP (errors visible, queue depth, webhook failures surfaced)",
+    "team": "BUILD",
+    "qa_team": "QA",
+    "risk": "Medium",
+    "dependencies": ["PMS-A-02", "PMS-PAY-05", "PMS-PAY-07"],
+    "acceptance_criteria": [
+      "Webhook failure rate visible",
+      "Worker failures logged and searchable",
+      "Basic alerts for repeated failures/lock contention"
+    ],
+    "artifacts_expected": ["Logging/metrics hooks", "Dashboard notes", "Alert rules"],
+    "external_execution_needed": false
+  },
+  {
+    "task_id": "PMS-C-01",
+    "plan_id": "PMS_MVP_2026-02-09",
+    "workstream": "WS_C",
+    "epic": "UX_POLISH",
+    "title": "Unified toast/error system + consistent empty/loading states",
+    "team": "PMS_DEV",
+    "qa_team": "QA",
+    "risk": "Low",
+    "dependencies": ["PMS-A-03"],
+    "acceptance_criteria": [
+      "No raw API errors leak to users",
+      "Consistent success/failure UX on demo path"
+    ],
+    "artifacts_expected": ["UI components + patterns", "Updated pages"],
+    "external_execution_needed": false
+  },
+  {
+    "task_id": "PMS-C-02",
+    "plan_id": "PMS_MVP_2026-02-09",
+    "workstream": "WS_C",
+    "epic": "ACCESSIBILITY",
+    "title": "Accessibility pass on core demo screens",
+    "team": "PMS_DEV",
+    "qa_team": "QA",
+    "risk": "Low",
+    "dependencies": ["PMS-A-01"],
+    "acceptance_criteria": [
+      "Keyboard navigation works",
+      "Labels and basic contrast checks pass",
+      "No obvious blockers in demo"
+    ],
+    "artifacts_expected": ["A11y checklist results", "Fix commits"],
+    "external_execution_needed": false
+  },
+  {
+    "task_id": "PMS-F-01",
+    "plan_id": "PMS_MVP_2026-02-09",
+    "workstream": "WS_F",
+    "epic": "STAGING_DEPLOY",
+    "title": "Staging deploy + seeded demo org pipeline",
+    "team": "BUILD",
+    "qa_team": "QA",
+    "risk": "High",
+    "dependencies": ["PMS-A-02", "PMS-B-04"],
+    "acceptance_criteria": [
+      "Deploy is repeatable",
+      "Seed runs safely on staging",
+      "Secrets managed correctly"
+    ],
+    "artifacts_expected": ["Deployment scripts", "Staging runbook", "Seed automation"],
+    "external_execution_needed": true
+  },
+  {
+    "task_id": "PMS-F-02",
+    "plan_id": "PMS_MVP_2026-02-09",
+    "workstream": "WS_F",
+    "epic": "DEMO_RESET",
+    "title": "Demo reset script/button (reseed safely, no tenancy boundary breaks)",
+    "team": "PMS_DEV",
+    "qa_team": "QA",
+    "risk": "High",
+    "dependencies": ["PMS-F-01"],
+    "acceptance_criteria": [
+      "Reset returns system to known demo baseline",
+      "No cross-org artifacts created",
+      "Audited and restricted"
+    ],
+    "artifacts_expected": ["Reset command/script", "UI button (optional)", "Safety checks"],
+    "external_execution_needed": true
+  },
+  {
+    "task_id": "PMS-F-03",
+    "plan_id": "PMS_MVP_2026-02-09",
+    "workstream": "WS_F",
+    "epic": "FINAL_ACCEPTANCE",
+    "title": "Final acceptance run: record demo walkthrough + checklist sign-off",
+    "team": "PANEL",
+    "qa_team": "QA",
+    "risk": "Medium",
+    "dependencies": ["PMS-B-02", "PMS-F-02", "PMS-A-12", "PMS-A-10"],
+    "acceptance_criteria": [
+      "Recorded demo run (staging)",
+      "Checklist signed off",
+      "Known issues triaged"
+    ],
+    "artifacts_expected": ["Demo recording", "Signed checklist", "Issue list"],
+    "external_execution_needed": false
+  }
+]
