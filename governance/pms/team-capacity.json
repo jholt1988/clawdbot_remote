@@ -1,0 +1,13 @@
+{
+  "TEAM_CAPACITY": {
+    "PMS_DEV": { "max_in_progress": 3 },
+    "BUILD": { "max_in_progress": 2 },
+    "R_AND_D": { "max_in_progress": 2 },
+    "QA": { "max_in_progress": 3 },
+    "BUSINESS": { "max_in_progress": 2 },
+    "MARKETING": { "max_in_progress": 2 },
+    "LIBRARY": { "max_in_progress": 2 },
+    "PANEL": { "max_in_progress": 1 }
+  },
+  "WIP_POLICY": { "count_statuses": ["In Progress"] }
+}

@@ -149,6 +149,12 @@ async function main() {
       'Acceptance Criteria': { rich_text: {} },
       'Artifacts Expected': { rich_text: {} },
       'External Execution Needed': { checkbox: {} },
+
+      // WIP enforcement fields
+      'Assigned At': { date: {} },
+      'Started At': { date: {} },
+      'Blocked Reason': { rich_text: {} },
+      'WIP Slot Token': { rich_text: {} },
       'Execution Request': {
         relation: {
           database_id: execDb,

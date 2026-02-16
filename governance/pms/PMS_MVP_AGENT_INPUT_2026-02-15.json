@@ -270,6 +270,10 @@
         "Team (select)",
         "QA Team (select)",
         "Status (select: Draft|Ready|In Progress|In QA|Fix Required|Blocked|Done)",
+        "Assigned At (date)",
+        "Started At (date)",
+        "Blocked Reason (text)",
+        "WIP Slot Token (text)",
         "Risk (select: Low|Medium|High)",
         "Dependencies (relation -> Tasks DB)",
         "Acceptance Criteria (text)",
@@ -304,5 +308,25 @@
       ]
     }
   },
+
+  "wip_limits": {
+    "policy": "count_in_progress_only",
+    "capacity": {
+      "PMS_DEV": 3,
+      "BUILD": 2,
+      "R_AND_D": 2,
+      "QA": 3,
+      "BUSINESS": 2,
+      "MARKETING": 2,
+      "LIBRARY": 2,
+      "PANEL": 1
+    },
+    "enforcement": {
+      "gate_transition": "Ready->In Progress",
+      "on_limit": "deny_and_keep_ready",
+      "audit": "record_wip_slot_token"
+    }
+  },
+
   "cts_tasks": []
 }
