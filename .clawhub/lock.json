@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "skills": {
+    "sonoscli": {
+      "version": "1.0.0",
+      "installedAt": 1771150689895
+    },
+    "desktop-control": {
+      "version": "1.0.0",
+      "installedAt": 1771161947799
+    },
+    "Summarize": {
+      "version": "1.0.0",
+      "installedAt": 1771162043677
+    },
+    "SuperDesign": {
+      "version": "1.0.0",
+      "installedAt": 1771162270510
+    },
+    "prompt-engineering-expert": {
+      "version": "1.0.0",
+      "installedAt": 1771162525067
+    },
+    "automation-workflows": {
+      "version": "0.1.0",
+      "installedAt": 1771162694190
+    },
+    "agent-autonomy-kit": {
+      "version": "1.0.0",
+      "installedAt": 1771162744423
+    }
+  }
+}

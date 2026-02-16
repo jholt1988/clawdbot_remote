@@ -1,0 +1,208 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Property Management Suite — Business Plan (Draft)</title>
+  <style>
+    :root{--text:#111;--muted:#555;--accent:#0b57d0;}
+    body{font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; color:var(--text); line-height:1.35; margin:48px;}
+    h1{font-size:28px; margin:0 0 6px;}
+    h2{font-size:18px; margin:28px 0 10px; border-top:1px solid #ddd; padding-top:12px;}
+    h3{font-size:14px; margin:16px 0 6px;}
+    p, li{font-size:12px;}
+    .meta{color:var(--muted); font-size:11px; margin-bottom:18px;}
+    .callout{border:1px solid #dfe7ff; background:#f6f9ff; padding:10px 12px; border-radius:10px;}
+    .grid{display:grid; grid-template-columns: 1fr 1fr; gap:14px;}
+    .k{color:var(--muted);}
+    .small{font-size:11px; color:var(--muted);}
+    code{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; font-size:11px;}
+    table{width:100%; border-collapse:collapse; font-size:12px;}
+    th, td{border:1px solid #e5e5e5; padding:8px; vertical-align:top;}
+    th{background:#fafafa; text-align:left;}
+    .pagebreak{page-break-before: always;}
+  </style>
+</head>
+<body>
+  <h1>Property Management Suite — Business Plan (Draft)</h1>
+  <div class="meta">Prepared for: Jordan Alexander Holt · Date: 2026-02-08 · Version: v0 (assumption-driven)</div>
+
+  <div class="callout">
+    <p><strong>Assumptions / open items</strong> (we can revise after you answer):</p>
+    <ul>
+      <li>Initial ICP: small property management firms (~50–500 doors) in the US.</li>
+      <li>Pricing is placeholder (needs your target per-door range, min platform fee, add-ons).</li>
+      <li>“Predictive maintenance” wedge starts as: inspections → structured scope → AI-assisted work plan + cost/time range; later evolves into true predictive risk scoring.</li>
+    </ul>
+  </div>
+
+  <h2>1) Executive summary</h2>
+  <p><strong>Problem:</strong> Small PM firms juggle too many tools and manual workflows (inspections, maintenance triage, vendor coordination, billing, leasing, docs, tenant comms). Data is fragmented, follow-through is inconsistent, and labor hours leak everywhere.</p>
+  <p><strong>Solution:</strong> A refined, pragmatic property management suite where <em>inspections</em> are the operational backbone. The product turns inspection findings into actionable maintenance scope and produces an AI-assisted estimate/work plan (cost range + timeline + assumptions + questions). This reduces surprises, speeds vendor dispatch, improves owner trust, and creates a clearer operating cadence.</p>
+  <p><strong>Business model:</strong> Subscription SaaS with per-unit pricing + optional add-ons (SMS, e-sign envelopes, advanced AI).</p>
+  <p><strong>Near-term goal:</strong> Reach <strong>$10k MRR</strong> by landing a small number of firms (e.g., 5–20 firms depending on doors/pricing).</p>
+
+  <h2>2) Vision, wedge, and product thesis</h2>
+  <div class="grid">
+    <div>
+      <h3>Vision</h3>
+      <p>Become the operations layer for small-to-mid PMs: a single system that captures property reality (inspections + maintenance), automates follow-through, and integrates with payments/accounting.</p>
+    </div>
+    <div>
+      <h3>Wedge (why switch?)</h3>
+      <p><strong>Predictive maintenance workflow</strong>: Inspection items → structured action fields (severity/issue type/measurement/notes) → estimate/work plan. The AI doesn’t replace the PM; it produces faster, clearer decisions with confidence explanations.</p>
+    </div>
+  </div>
+
+  <h2>3) Market + customers</h2>
+  <p><strong>Primary customer (ICP):</strong> US-based small property management firms with 50–500 doors that need operational efficiency and better owner/tenant experience, but don’t have enterprise budgets or internal tooling teams.</p>
+  <p><strong>Buyer personas:</strong></p>
+  <ul>
+    <li><strong>Owner/Principal:</strong> cares about profitability, owner retention, and reducing chaos.</li>
+    <li><strong>Operations/Property Manager:</strong> cares about task flow, communication, and "nothing falls through the cracks".</li>
+    <li><strong>Maintenance coordinator:</strong> cares about scope clarity, vendor scheduling, and costs.</li>
+  </ul>
+
+  <h2>4) Competitive landscape (high level)</h2>
+  <ul>
+    <li>Incumbents: AppFolio / Buildium / Propertyware / Rent Manager / DoorLoop / TenantCloud (varies by segment).</li>
+    <li>Differentiation strategy: (1) inspection-centered workflow, (2) superior UX and speed, (3) AI that explains itself and reduces uncertainty, (4) pragmatic integrations (Stripe + QuickBooks) to fit existing back offices.</li>
+  </ul>
+
+  <h2>5) Product scope (MVP → v1)</h2>
+  <p><strong>Must-have modules (per your input):</strong> Inspections, Maintenance Requests, Tenant Portal, Billing, Expenses, Leasing, Messaging, Documents/e-sign, Automation.</p>
+
+  <table>
+    <thead>
+      <tr><th>Area</th><th>v1 Outcomes</th><th>Notes</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Inspections</td>
+        <td>
+          <ul>
+            <li>Room-based checklist</li>
+            <li>Per-item requiresAction + condition + notes</li>
+            <li>Structured fields: severity, issue type, measurement</li>
+            <li>Photos + signatures (as needed)</li>
+          </ul>
+        </td>
+        <td>Foundation for the AI estimate workflow.</td>
+      </tr>
+      <tr>
+        <td>Maintenance</td>
+        <td>
+          <ul>
+            <li>Create request → triage → work order</li>
+            <li>Link to inspection findings</li>
+            <li>Status + audit trail</li>
+          </ul>
+        </td>
+        <td>Optional early: vendor portal; otherwise internal coordination.</td>
+      </tr>
+      <tr>
+        <td>Billing + expenses</td>
+        <td>
+          <ul>
+            <li>Collect rent via Stripe</li>
+            <li>Basic invoicing/receipts</li>
+            <li>Expense logging + reporting</li>
+            <li>QuickBooks export/sync</li>
+          </ul>
+        </td>
+        <td>Keep first pass simple; do not rebuild accounting.</td>
+      </tr>
+      <tr>
+        <td>Leasing + docs/e-sign</td>
+        <td>
+          <ul>
+            <li>Application → lease → signatures</li>
+            <li>Document templates + storage</li>
+          </ul>
+        </td>
+        <td>Use a proven e-sign provider; charge as add-on if needed.</td>
+      </tr>
+      <tr>
+        <td>Messaging</td>
+        <td>
+          <ul>
+            <li>Email/SMS notifications</li>
+            <li>Threaded conversations</li>
+            <li>Templates + automation triggers</li>
+          </ul>
+        </td>
+        <td>Early focus: reliable delivery + logging, not “chat app features”.</td>
+      </tr>
+      <tr>
+        <td>Automation</td>
+        <td>
+          <ul>
+            <li>Rules: status changes → notifications</li>
+            <li>Inspection complete → estimate prompt</li>
+            <li>Overdue maintenance → escalation</li>
+          </ul>
+        </td>
+        <td>Small set of “high leverage” automations beats a complex builder.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>6) AI strategy (pragmatic startup)</h2>
+  <h3>Phase 1: AI-assisted estimate/work plan (inspection-driven)</h3>
+  <ul>
+    <li>Input: inspection checklist items with structured fields + notes + photos (optional).</li>
+    <li>Output: line items (repair/replace/investigate), labor/material ranges, assumptions, and questions to reduce uncertainty.</li>
+    <li>UX principle: <strong>explainability first</strong> (confidence + rationale visible).</li>
+  </ul>
+
+  <h3>Phase 2: predictive risk scoring</h3>
+  <ul>
+    <li>Use historical inspection + maintenance + asset ages to predict likely failures within horizon (e.g., 60 days).</li>
+    <li>Deliverable: ranked “watch list” by property/unit/asset with recommended preventative actions.</li>
+  </ul>
+
+  <h2>7) Monetization + pricing (placeholders)</h2>
+  <p class="small">Needs your guidance. Below is a workable starting structure for small PM firms.</p>
+  <ul>
+    <li><strong>Core platform:</strong> $X / door / month with a minimum monthly fee (e.g., $199–$499).</li>
+    <li><strong>Add-ons:</strong> SMS bundles, e-sign envelopes, advanced AI estimate runs, premium support.</li>
+    <li><strong>Onboarding:</strong> optional paid onboarding for data migration/training.</li>
+  </ul>
+
+  <h2>8) Distribution + sales motion</h2>
+  <ul>
+    <li><strong>Initial channels:</strong> local network + cold outreach to PM principals/ops managers.</li>
+    <li><strong>Motion:</strong> hybrid (demo-led for first customers; self-serve later).</li>
+    <li><strong>Proof:</strong> show “inspection → estimate” workflow live; quantify time saved and reduced variance.</li>
+  </ul>
+
+  <h2>9) Operations plan (solo founder reality)</h2>
+  <ul>
+    <li>Prioritize reliability and tight workflows over feature breadth.</li>
+    <li>Use integrations for payments/accounting rather than rebuilding.</li>
+    <li>Support: start high-touch (concierge) to learn; document repeatable onboarding.</li>
+  </ul>
+
+  <h2>10) Milestones to $10k MRR (example)</h2>
+  <ol>
+    <li><strong>Demo-ready MVP:</strong> inspection detail + action fields + estimate generation + history.</li>
+    <li><strong>Beta (2–5 firms):</strong> weekly feedback loops; track time-to-complete inspection and time-to-scope maintenance.</li>
+    <li><strong>v1 Launch:</strong> billing + QBO sync stable; leasing/docs usable; automations “minimum viable”.</li>
+    <li><strong>Scale to $10k MRR:</strong> 10–20 firms onboarded (depends on doors/pricing); introduce onboarding package + add-ons.</li>
+  </ol>
+
+  <h2>11) Risks + mitigations</h2>
+  <ul>
+    <li><strong>Scope creep:</strong> lock v1 workflows; delay nice-to-haves.</li>
+    <li><strong>Trust in AI outputs:</strong> always show assumptions, ranges, and questions; allow edits and approvals.</li>
+    <li><strong>Integration complexity:</strong> start with Stripe + QuickBooks; add more only after stable.</li>
+    <li><strong>Solo bandwidth:</strong> strict weekly plan; ship in small increments; avoid rewrites.</li>
+  </ul>
+
+  <h2>12) Next decisions needed (so this becomes “real”)</h2>
+  <ul>
+    <li>Pricing: target $/door/month + minimum fee + which add-ons are paid.</li>
+    <li>Vertical focus: any property type focus (residential only vs mixed).</li>
+    <li>Launch timeline: target month for beta + public launch.</li>
+  </ul>
+</body>
+</html>

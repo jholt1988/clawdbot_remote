@@ -1,0 +1,176 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>Notion CTS Enforcement — Remaining Automations + Buttons</title>
+<style>
+  body{font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif; line-height:1.35; color:#111; margin:48px;}
+  h1{font-size:24px; margin:0 0 8px;}
+  h2{font-size:18px; margin-top:24px;}
+  h3{font-size:15px; margin-top:18px;}
+  code, pre{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; font-size:12px;}
+  .meta{color:#444; margin-bottom:18px;}
+  .box{border:1px solid #ddd; padding:12px 14px; border-radius:8px; background:#fafafa; margin:12px 0;}
+  ul{margin-top:6px;}
+  hr{border:none; border-top:1px solid #e5e5e5; margin:22px 0;}
+  .small{font-size:12px; color:#444;}
+</style>
+</head>
+<body>
+  <h1>Notion CTS Enforcement — Remaining Automations + Buttons (To Implement)</h1>
+  <div class="meta">Date: 2026-02-13</div>
+
+  <div class="box">
+    <b>Purpose:</b> This document lists what is <b>still left to implement</b> in the Notion “CTS Enforcement / Meta-Scheduler” setup.
+  </div>
+
+  <h2>Current Status (already implemented)</h2>
+  <h3>Databases + formulas</h3>
+  <ul>
+    <li><b>Projects / Tickets / Calendar DB</b> databases exist (inline on Meta‑Scheduler page).</li>
+    <li>Key formulas and relations are in place.</li>
+  </ul>
+
+  <h3>Automations confirmed working</h3>
+  <ul>
+    <li>Tickets: <b>Guard Accepted (missing Project)</b></li>
+    <li>Tickets: <b>Guard Scheduled (Calendar Event Required)</b></li>
+    <li>Calendar DB: <b>Write Gate Violation</b> property exists and your <b>calendar gate automation</b> is done.</li>
+  </ul>
+  <p class="small"><b>Note:</b> Notion does not reliably allow automations to trigger on formula changes (e.g., <code>Invalid State</code>), so enforcement is implemented via status-transition guards.</p>
+
+  <hr/>
+
+  <h2>Automations LEFT to Implement (recommended)</h2>
+
+  <h3>A) Tickets → Projects handshake (Planner intake)</h3>
+  <p><b>Goal:</b> Planners can propose; Meta‑Scheduler decides. When planner proposes tickets, the project enters a planning state.</p>
+  <div class="box">
+    <b>Automation:</b> <code>Planner Proposal Intake</code>
+    <ul>
+      <li><b>Database:</b> Tickets</li>
+      <li><b>Trigger:</b> When <code>Status</code> is set to <b>Proposed</b></li>
+      <li><b>Conditions (AND):</b>
+        <ul>
+          <li><code>Created By</code> is <b>Planner</b></li>
+          <li><code>Project</code> is <b>not empty</b></li>
+        </ul>
+      </li>
+      <li><b>Actions:</b>
+        <ul>
+          <li>Edit related <b>Project</b> → set <code>Scheduler State</code> to <b>Planning</b></li>
+          <li>Add comment to Project (or write to a Project log property): <code>📥 Planner proposal received. Awaiting Meta‑Scheduler evaluation.</code></li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+
+  <h3>B) Projects split pressure → force review</h3>
+  <p><b>Goal:</b> Detect fragmentation early and pause.</p>
+  <div class="box">
+    <b>Automation:</b> <code>Project Split Risk High → Review</code>
+    <ul>
+      <li><b>Database:</b> Projects</li>
+      <li><b>Trigger:</b> When <code>Split Risk</code> is set to <b>High</b> (or when it changes)</li>
+      <li><b>Actions:</b>
+        <ul>
+          <li>Set <code>Status</code> → <b>Review</b></li>
+          <li>Comment: <code>🪓 Project Split Risk HIGH. Meta‑Scheduler review required before proceeding.</code></li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+
+  <h3>C) Project completion guard</h3>
+  <p><b>Goal:</b> Prevent “Complete” if tickets are still open.</p>
+  <div class="box">
+    <b>Recommended:</b> add a rollup first (automation conditions against relations are limited).
+    <ol>
+      <li><b>Add rollup property</b> on Projects: <code>Open Tickets Count</code> = rollup Tickets → Status → Count filtered where Status ≠ Done.</li>
+      <li><b>Automation:</b> <code>Completion Guard</code>
+        <ul>
+          <li>Trigger: when Project <code>Status</code> is set to <b>Complete</b></li>
+          <li>Condition: <code>Open Tickets Count</code> &gt; 0</li>
+          <li>Actions: set Status → Review; comment: <code>❌ Project cannot complete with open tickets. Close/Done all related tickets first.</code></li>
+        </ul>
+      </li>
+    </ol>
+  </div>
+
+  <h3>D) Calendar human override detection</h3>
+  <p><b>Goal:</b> Explicit human overrides are visible and logged.</p>
+  <div class="box">
+    <b>Automation:</b> <code>Human Override Detection</code>
+    <ul>
+      <li><b>Database:</b> Calendar DB</li>
+      <li><b>Trigger:</b> when <code>Locked</code> is set to <b>Checked</b></li>
+      <li><b>Action:</b> comment on related Project (or on the Calendar item): <code>🧍 Human override detected (Locked event). Governance rules paused for this event.</code></li>
+    </ul>
+  </div>
+
+  <h3>E) Calendar write-gate messaging (optional improvement)</h3>
+  <div class="box">
+    <b>Automation:</b> <code>Write Gate Violation → add explanation</code>
+    <ul>
+      <li><b>Database:</b> Calendar DB</li>
+      <li><b>Trigger:</b> when <code>Write Gate Violation</code> is checked</li>
+      <li><b>Action:</b> comment on the Calendar item: <code>❌ Calendar event flagged (Source=Human). If this should be scheduled, change Source to Meta‑Scheduler or keep Locked=true as an explicit override.</code></li>
+    </ul>
+  </div>
+
+  <hr/>
+
+  <h2>Buttons LEFT to Implement (optional but high leverage)</h2>
+  <p>Use Notion “Buttons” for deterministic Meta‑Scheduler actions.</p>
+
+  <h3>1) Tickets: Accept Ticket</h3>
+  <div class="box">
+    <ul>
+      <li>Set <code>Created By</code> → Meta‑Scheduler</li>
+      <li>Set <code>Status</code> → Accepted</li>
+      <li>Set <code>Last Reviewed</code> → Now</li>
+    </ul>
+  </div>
+
+  <h3>2) Tickets: Schedule Ticket (Create Calendar Event)</h3>
+  <div class="box">
+    <ul>
+      <li>Create a new page in <b>Calendar DB</b></li>
+      <li>Populate: <code>Ticket</code>=this ticket; <code>Project</code>=ticket project; <code>Source</code>=Meta‑Scheduler; <code>When</code>=prompt/placeholder</li>
+      <li>Set Ticket <code>Status</code> → Scheduled</li>
+      <li>Set Ticket <code>Calendar Event</code> relation → the new Calendar item</li>
+    </ul>
+    <div class="small">If Notion can’t link the created item back in the same button run, do it as a two-step button workflow.</div>
+  </div>
+
+  <h3>3) Projects: Freeze Project</h3>
+  <div class="box">
+    <ul>
+      <li>Set Project <code>Status</code> → Blocked</li>
+      <li>Set <code>Scheduler State</code> → Conflict</li>
+      <li>Comment: <code>🧊 Frozen by Meta‑Scheduler pending review.</code></li>
+    </ul>
+  </div>
+
+  <h3>4) Projects: Force Split Review</h3>
+  <div class="box">
+    <ul>
+      <li>Set <code>Status</code> → Review</li>
+      <li>Set <code>Last Meta Review</code> → Now</li>
+      <li>Comment: <code>🪓 Split review requested.</code></li>
+    </ul>
+  </div>
+
+  <hr/>
+
+  <h2>Suggested “Done” Definition</h2>
+  <ol>
+    <li>Planner proposal intake flips project into <b>Planning</b>.</li>
+    <li>Split Risk High forces <b>Review</b>.</li>
+    <li>Project can’t be marked Complete if tickets remain.</li>
+    <li>Human overrides are logged.</li>
+    <li>Meta‑Scheduler buttons exist for <b>Accept</b> + <b>Schedule</b>.</li>
+  </ol>
+
+</body>
+</html>

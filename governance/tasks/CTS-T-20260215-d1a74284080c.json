@@ -1,0 +1,37 @@
+{
+  "taskId": "T-20260215-d1a74284080c",
+  "origin": "User",
+  "submittedBy": "Jordan",
+  "timestamp": "2026-02-15T18:46:47.909Z",
+  "primaryDomain": "PMS",
+  "objectiveStatement": "Tenant can complete MOVE_IN/MOVE_OUT inspections from /tenant/inspections/:id by filling checklist items + notes, then submit to lock.",
+  "requiredDeliverables": [
+    "Approved Run Pack (JSON + Markdown)"
+  ],
+  "optionalDeliverables": [
+    "Rollback/fallback notes"
+  ],
+  "constraints": {
+    "timeConstraints": "",
+    "scopeConstraints": "No unscoped changes; minimal diffs; demo-critical first.",
+    "nonGoals": []
+  },
+  "qualityRequirements": {
+    "completeness": "All required deliverables present and mapped to objective.",
+    "accuracy": "No contradictions; matches known system constraints.",
+    "clarity": "Executable without further interpretation."
+  },
+  "riskSensitivity": "Medium",
+  "knownUnknowns": [],
+  "assumptions": [],
+  "communication": {
+    "intendedAudience": "Jordan",
+    "toneRequirements": "Direct, actionable, non-hype.",
+    "preferredFormat": "Bullets"
+  },
+  "traceability": {
+    "relatedTasks": [],
+    "referenceArtifacts": [],
+    "archivalPriority": "High"
+  }
+}
