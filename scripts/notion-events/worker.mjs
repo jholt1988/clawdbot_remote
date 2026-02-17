@@ -6,6 +6,7 @@ import path from 'node:path';
 import crypto from 'node:crypto';
 import { connection } from './infra/queue.mjs';
 import { recomputeParentsForChild, recomputeTicketRisk } from './ticket-risk.mjs';
+import { appendLifecycleLogIfChanged } from './ticket-lifecycle-log.mjs';
 import { buildRedlock } from './infra/lock.mjs';
 import { notionProps } from './notion-props.mjs';
 import { getText, getSelectName, getCheckbox, getRelationId, getMultiSelectNames } from './notion-helpers.mjs';
@@ -389,8 +390,12 @@ const governanceWorker = new Worker(
 
     // Enforce on the ticket itself (snap-back risk) and then on parents that reference it.
     const self = await recomputeTicketRisk({ ticketId });
+
+    // Append explicit lifetime logs when meaningful state changes occur.
+    const life = await appendLifecycleLogIfChanged({ ticketId, reason: 'ticket.updated' });
+
     const parents = await recomputeParentsForChild({ childTicketId: ticketId });
-    return { ok: true, self, parents };
+    return { ok: true, self, life, parents };
   },
   { connection, concurrency: GOVERNANCE_CONCURRENCY },
 );
