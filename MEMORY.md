@@ -9,13 +9,14 @@
 - Dog: Bentley (Yorkie).
 
 ## Current priority projects
+- PMS work: Completed PMS-A-01 (demo runbook), PMS-E-01/E-02 (pricing decisions: Express + tiered fees). PMS-A-02 in progress (local startup + seed).
 - Property management suite with AI: predictive maintenance from inspections → work plan/cost/timeline; rent optimization; chatbot.
 - Art book (metamorphosis/change; Jordan as subject).
 - Early-stage production company (live theater, concerts, film).
 - Stationery + business card selection.
 
 ## Working style
-- Timezone: Wichita, Kansas (Central Time; America/Chicago).
+- Timezone: Wichita, Kansas (America/Chicago).
 - Requested a 5–7 day orientation.
 - Twice-daily check-ins: 9:00 AM + 8:30 PM CT (5–10 questions); random questions okay.
 
