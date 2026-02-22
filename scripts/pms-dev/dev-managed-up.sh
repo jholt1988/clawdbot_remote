@@ -142,14 +142,14 @@ migrate_and_seed() {
 start_servers() {
   log "Starting backend + frontend (two processes)."
   log "Backend: npm run start"
-  log "Frontend: npm run dev"
+  log "Frontend: npm run start"
 
   (cd "$BE_DIR" && npm run start) &
   BE_PID=$!
 
   sleep 2
 
-  (cd "$FE_DIR" && npm run dev) &
+  (cd "$FE_DIR" && npm run start) &
   FE_PID=$!
 
   trap 'log "Stopping..."; kill $BE_PID $FE_PID 2>/dev/null || true' INT TERM
