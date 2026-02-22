@@ -129,6 +129,9 @@ migrate_and_seed() {
   log "Running Prisma migrations (deploy)..."
   (cd "$BE_DIR" && npx prisma migrate deploy)
 
+  log "Generating Prisma client..."
+  (cd "$BE_DIR" && npx prisma generate)
+
   log "Seeding base demo data (db:seed)..."
   (cd "$BE_DIR" && npm run db:seed)
 
