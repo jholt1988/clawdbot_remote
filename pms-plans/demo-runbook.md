@@ -1,7 +1,7 @@
 # PMS MVP Demo Runbook
 
-**Version:** 1.0  
-**Date:** 2026-02-21  
+**Version:** 1.1  
+**Date:** 2026-02-22  
 **Task:** PMS-A-01  
 **Status:** Draft
 
@@ -92,6 +92,7 @@ The demo has **three selectable paths**. Choose based on what you want to showca
      - Employer: Wichita General Hospital
      - Income: $3,500/month
      - Desired move-in: 2026-03-01
+     - **Legal:** Must accept Terms of Service + Privacy Policy (versioned)
 
 3. Taylor submits application
    - **Expected UI:** Confirmation screen "Application Submitted"
@@ -108,7 +109,7 @@ The demo has **three selectable paths**. Choose based on what you want to showca
    - **Expected UI:** Welcome screen with lease for Unit 204
 
 7. Taylor accepts lease → becomes "Alex" (tenant)
-   - **Note:** Taylor → Alex name change represents "applicant becomes tenant"
+   - **Note:** Taylor → Alex name change is a narrative device. In the actual data, keep the same person unless you intentionally remap.
    - **Expected UI:** Lease active in tenant dashboard
 
 ---
@@ -210,14 +211,14 @@ AI Inspections generate:
 **Goal:** Confirm the end-to-end Inspection Detail → Generate/Regenerate Estimate flow with seeded data.
 
 **Prereqs (local):**
-- Backend running on `http://localhost:3001`
-- Frontend running on `http://localhost:3000`
+- Backend running on `http://localhost:3005`
+- Frontend running on `http://localhost:3001`
 - Frontend env:
   - `tenant_portal_app/.env.local`
     - `VITE_USE_MSW=false`
-    - `VITE_API_URL=http://localhost:3001/api`
+    - `VITE_API_URL=http://localhost:3005/api`
 - Seed data:
-  - From `tenant_portal_backend/`: `npm run seed:inspection-demo`
+  - From `tenant_portal_backend/`: `npm run seed:inspection-demo:robust`
   - Login: **admin / Admin123!@#**
 
 **Steps:**
@@ -404,12 +405,11 @@ AI Inspections generate:
    - **Expected UI:** Routine inspection summary for Unit 204
    - Cost projections shown
 
-5. Jordan comments on AC request
-   - **Expected UI:** Comment field → "Please prioritize. This tenant has been great."
-   - Comment appears in thread
+5. Jordan reviews AC request details
+   - **Expected UI:** Read-only request detail view
 
-6. Jordan initiates follow-up request
-   - **Expected UI:** "Request PM Review" → "Add to next PM meeting agenda"
+6. Jordan flags concern for PM (read-only Owner role)
+   - **Expected UI:** Owner copies a note or uses external channel to request PM follow-up
 
 ---
 
@@ -424,6 +424,7 @@ AI Inspections generate:
 | Jordan | Owner, email: jordan@owner.com |
 | Lease | Start: 2026-03-01, End: 2027-02-28, Deposit: $1,200 |
 | Rent | Due: 1st, Grace: 5th, Late Fee: $25 |
+| Legal | Terms v0.1 + Privacy v0.1 accepted at submission |
 
 ---
 
@@ -432,7 +433,7 @@ AI Inspections generate:
 | # | Criteria | Pass/Fail | Notes |
 |---|----------|-----------|-------|
 | 1 | PM can create property + unit | [ ] | |
-| 2 | Applicant can submit application | [ ] | |
+| 2 | Applicant can submit application (legal acceptance captured) | [ ] | |
 | 3 | PM can approve application → create lease | [ ] | |
 | 4 | Tenant can view lease and documents | [ ] | |
 | 5 | Tenant can add payment method (Stripe) | [ ] | |
@@ -449,7 +450,7 @@ AI Inspections generate:
 | 16 | Owner can view maintenance history | [ ] | |
 | 17 | Owner can comment on requests | [ ] | |
 | 18 | All UI is responsive on mobile | [ ] | |
-| 19 | Demo can be reset to clean state | [ ] | |
+| 19 | Demo can be reset to clean state (dev-managed-up.sh + robust seed) | [ ] | |
 
 ---
 
@@ -484,3 +485,4 @@ AI Inspections generate:
 - Screenshots should be captured on **mobile viewport** for inspection scenes
 - AI inspection feature is the **primary differentiation** — spend extra time here
 - Demo reset script must clear all data back to Scene 1 state
+- Owner path is **read-only** (no mutations) by design
