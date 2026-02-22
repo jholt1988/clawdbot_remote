@@ -435,7 +435,7 @@ AI Inspections generate:
 
 ## Mobile Responsiveness Validation
 
-**Goal:** Demonstrate the UI remains fully usable on mobile breakpoints.
+**Goal:** Demonstrate the UI remains fully usable and responsive on mobile breakpoints.
 
 **Viewports to verify (DevTools):**
 - iPhone 14 Pro: **393 × 852**
