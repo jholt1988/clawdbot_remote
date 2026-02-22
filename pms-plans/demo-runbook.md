@@ -1,9 +1,9 @@
 # PMS MVP Demo Runbook
 
-**Version:** 1.1  
+**Version:** 1.2  
 **Date:** 2026-02-22  
-**Task:** PMS-A-01  
-**Status:** Draft
+**Task:** PMS-A-09  
+**Status:** Updated
 
 ---
 
@@ -408,8 +408,13 @@ AI Inspections generate:
 5. Jordan reviews AC request details
    - **Expected UI:** Read-only request detail view
 
-6. Jordan flags concern for PM (read-only Owner role)
-   - **Expected UI:** Owner copies a note or uses external channel to request PM follow-up
+6. Jordan adds a comment on the AC request (Owner role)
+   - **Expected UI:** Comment box enabled on request detail → submits "Please prioritize this—tenant is without cooling"
+   - Comment appears in request thread with **Owner** badge
+   - PM receives notification of owner comment
+
+7. Jordan remains read-only for status/actions (no reassignment or status change)
+   - **Expected UI:** Status controls disabled for Owner role
 
 ---
 
@@ -425,6 +430,27 @@ AI Inspections generate:
 | Lease | Start: 2026-03-01, End: 2027-02-28, Deposit: $1,200 |
 | Rent | Due: 1st, Grace: 5th, Late Fee: $25 |
 | Legal | Terms v0.1 + Privacy v0.1 accepted at submission |
+
+---
+
+## Mobile Responsiveness Validation
+
+**Goal:** Demonstrate the UI remains fully usable on mobile breakpoints.
+
+**Viewports to verify (DevTools):**
+- iPhone 14 Pro: **393 × 852**
+- Pixel 7: **412 × 915**
+
+**Pages to capture:**
+1. PM Dashboard (cards stack, no horizontal scroll)
+2. Maintenance request form (inputs full-width, photo upload visible)
+3. Inspection checklist (sections collapse/expand cleanly, buttons reachable)
+4. Owner maintenance request detail (comment box visible, thread readable)
+
+**Expected:**
+- No horizontal scrolling
+- Navigation collapses to mobile menu
+- Primary CTA buttons remain visible without overlap
 
 ---
 
@@ -448,8 +474,8 @@ AI Inspections generate:
 | 14 | AI generates work plan + cost estimate for Move-Out | [ ] | |
 | 15 | Owner can view property dashboard | [ ] | |
 | 16 | Owner can view maintenance history | [ ] | |
-| 17 | Owner can comment on requests | [ ] | |
-| 18 | All UI is responsive on mobile | [ ] | |
+| 17 | Owner can comment on requests | [ ] | Evidence: Owner comment screenshot + PM notification note |
+| 18 | All UI is responsive on mobile | [ ] | Evidence: Mobile viewport screenshots + no horizontal scroll |
 | 19 | Demo can be reset to clean state (dev-managed-up.sh + robust seed) | [ ] | |
 
 ---
@@ -476,6 +502,17 @@ AI Inspections generate:
 | 6.4 | AI report (Move-Out) |
 | 7.1 | Owner dashboard |
 | 7.2 | Owner maintenance view |
+| 7.3 | Owner comment on request (with Owner badge) |
+| 8.1 | Mobile: PM dashboard (stacked cards, no overflow) |
+| 8.2 | Mobile: Maintenance request form |
+| 8.3 | Mobile: Inspection checklist |
+| 8.4 | Mobile: Owner request detail with comment box |
+
+---
+
+## Evidence Index
+
+- See `pms-plans/demo-evidence.md` for required artifacts and filenames.
 
 ---
 
