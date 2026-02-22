@@ -205,6 +205,33 @@ AI Inspections generate:
 - **Timeline:** Suggested completion timeframe
 - **Explainability:** Why the AI made these recommendations
 
+### Demo Seed: Inspection → Estimate (Local)
+
+**Goal:** Confirm the end-to-end Inspection Detail → Generate/Regenerate Estimate flow with seeded data.
+
+**Prereqs (local):**
+- Backend running on `http://localhost:3001`
+- Frontend running on `http://localhost:3000`
+- Frontend env:
+  - `tenant_portal_app/.env.local`
+    - `VITE_USE_MSW=false`
+    - `VITE_API_URL=http://localhost:3001/api`
+- Seed data:
+  - From `tenant_portal_backend/`: `npm run seed:inspection-demo`
+  - Login: **admin / Admin123!@#**
+
+**Steps:**
+1. Open **Inspection Management** (`/inspection-management`).
+2. Click the most recent **Unit 101** inspection (IN_PROGRESS).
+3. On **Inspection Detail**, click **Regenerate Estimate** → confirm.
+4. Verify:
+   - **Estimate** section appears with bid range + line items.
+   - **Estimate history** shows the newest estimate at top.
+   - **Last generated** updates to current timestamp.
+
+**Expected:**
+- Estimate is created (may be **LOW** confidence with fallback if AI is unavailable).
+
 ---
 
 ### Scenario B1: Move-In Inspection
