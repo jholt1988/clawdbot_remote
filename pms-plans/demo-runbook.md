@@ -482,6 +482,9 @@ AI Inspections generate:
 ## Notes
 
 - This runbook assumes a **seeded demo org** with no pre-existing data
+- **Demo reset (hard reset + reseed):**
+  - `bash scripts/pms-dev/demo-reset.sh --root ./pms-master`
+  - Verify only: `cd pms-master/tenant_portal_backend && npm run seed:verify:demo`
 - Screenshots should be captured on **mobile viewport** for inspection scenes
 - AI inspection feature is the **primary differentiation** — spend extra time here
 - Demo reset script must clear all data back to Scene 1 state
