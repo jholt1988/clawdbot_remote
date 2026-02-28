@@ -40,7 +40,30 @@
 
 ---
 
-## 4) Technical Risk Map
+## 4) Resonance Analysis
+- **Resonance map by section:**
+  - **Verse:** speech-forward chest/mix resonance, clear text-first tone
+  - **Pre/transition:** slightly lifted mask resonance to prep chorus intensity
+  - **Chorus:** firm chest-dominant mix with forward ring (avoid throat push)
+  - **Final section/outro:** maintain ring while slightly widening emotional color, not volume-only escalation
+- **Placement targets:**
+  - Main target = forward oral resonance with stable laryngeal freedom
+  - Keep sternum energy without pressing the root of tongue
+  - On repeated hooks, think “spin forward” instead of “push harder”
+- **Vowel-resonance pairing:**
+  - “survivor” / “fighter” — keep bright core, slightly round if pitch rises
+  - “stronger” / “harder” — avoid over-wide spread; maintain vertical space
+  - Long declarations — anchor breath + release jaw to keep resonance stable
+- **Trouble-note resonance fixes:**
+  - If chorus tightens: run line on "ng-ah" then restore lyric
+  - If final section gets shouty: switch to "mum" pass at 70% then rebuild
+  - If diction kills tone: speak rhythm with buoyant airflow, then re-sing
+- **Tone goal references:**
+  - Verses: confident, conversational steel
+  - Choruses: bright resilient ring
+  - Final pass: triumphant without strain (controlled intensity)
+
+## 5) Technical Risk Map
 - **Risk 1:** Over-belting early choruses → fatigue by final section
 - **Risk 2:** Jaw/tongue tension from aggressive diction
 - **Risk 3:** Breath compression during rapid lyric lines

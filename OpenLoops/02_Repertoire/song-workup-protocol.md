@@ -23,6 +23,7 @@ Purpose: Standard process for turning a new song choice into a performance-ready
 - Musical breakdown
 - Lyric/interpretation map
 - Vowel strategy
+- Resonance analysis (required)
 - Technical risk map
 - Warm-up sequence
 - Tough-area exercises
@@ -33,6 +34,7 @@ Purpose: Standard process for turning a new song choice into a performance-ready
 - Start at easier coordination (SOVT, hum, lip trill, NG) before full lyric.
 - Use tempo progression: 60% → 75% → 90% → 100%.
 - Keep drills short, specific, repeatable.
+- Include at least one resonance-placement drill for each major hard section.
 
 ## Quality gate (definition of done)
 A song is “rep-ready” when:

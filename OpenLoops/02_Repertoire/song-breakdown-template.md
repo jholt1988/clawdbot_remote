@@ -45,7 +45,16 @@ Use this template whenever Jordan adds a new song.
 
 ---
 
-## 4) Technical Risk Map
+## 4) Resonance Analysis (Required)
+- **Resonance map by section (verse/pre/chorus/bridge):**
+- **Placement targets (chest/mix/head blend + forward/back cues):**
+- **Vowel-resonance pairing (where to modify and why):**
+- **Trouble-note resonance fixes (line-specific):**
+- **Tone goal references (bright/warm/metallic/breathy moments):**
+
+---
+
+## 5) Technical Risk Map
 - **Passaggio pressure points:**
 - **Stamina hotspots:**
 - **Breath plan (landmarks):**
@@ -56,7 +65,7 @@ Use this template whenever Jordan adds a new song.
 
 ---
 
-## 5) Song-Specific Warm-Up Protocol (8–12 min)
+## 6) Song-Specific Warm-Up Protocol (8–12 min)
 1. **Body/breath reset (1–2 min):**
 2. **Semi-occluded work (2–3 min):**
 3. **Register bridge prep (2–3 min):**
@@ -65,7 +74,7 @@ Use this template whenever Jordan adds a new song.
 
 ---
 
-## 6) Targeted Exercises for Tough Areas
+## 7) Targeted Exercises for Tough Areas
 For each hard moment:
 - **Moment:**
 - **Likely cause:**
@@ -75,7 +84,7 @@ For each hard moment:
 
 ---
 
-## 7) Interpretation + Performance Plan
+## 8) Interpretation + Performance Plan
 - **Character/energy stance:**
 - **Dynamic plan:**
 - **Micro-choices:** (word stress, rubato, restraint vs release)
@@ -83,7 +92,7 @@ For each hard moment:
 
 ---
 
-## 8) Rehearsal Ladder
+## 9) Rehearsal Ladder
 - **Pass 1:** text + rhythm only
 - **Pass 2:** pitch + clean vowels
 - **Pass 3:** phrasing + dynamics
@@ -92,7 +101,7 @@ For each hard moment:
 
 ---
 
-## 9) 7-Day Micro Plan
+## 10) 7-Day Micro Plan
 - **Day 1:** mapping + light run
 - **Day 2:** section A surgery
 - **Day 3:** section B surgery
@@ -103,7 +112,7 @@ For each hard moment:
 
 ---
 
-## 10) Output Artifacts
+## 11) Output Artifacts
 - `song-brief-[title].md`
 - `drill-sheet-[title].md`
 - `7-day-plan-[title].md`
