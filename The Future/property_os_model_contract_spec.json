@@ -1,0 +1,66 @@
+{
+    "model_identity": {
+        "name": "CashFlowStabilityEngine",
+        "architecture": "hybrid_hierarchical_time_series",
+        "learning_mode": "federated",
+        "version": "1.0.0",
+        "generated_at": "2026-02-28T05:16:23.911120"
+    },
+    "definitions": {
+        "core_net_receipts": "settled rent payments applied to rent ledger",
+        "non_core_cash_events": [
+            "late_fee",
+            "credit",
+            "refund",
+            "chargeback"
+        ],
+        "stability_objective": "predictability_of_net_receipts"
+    },
+    "input_schema": {
+        "required_fields": [
+            "unit_id",
+            "property_id",
+            "tenant_id",
+            "event_date",
+            "settlement_date",
+            "amount",
+            "category",
+            "is_settled",
+            "applied_to"
+        ]
+    },
+    "forecasting": {
+        "hierarchical": true,
+        "weights": [
+            "w_u",
+            "w_p",
+            "w_g"
+        ],
+        "weight_constraints": "sum_to_one"
+    },
+    "stability_score": {
+        "formula": "100 - \u03b1*CV(revenue_forecast) - \u03b2*P(disruption_30d) - \u03b3*expense_volatility - deterministic_penalties",
+        "range": [
+            0,
+            100
+        ]
+    },
+    "federated_protocol": {
+        "raw_data_shared": false,
+        "parameter_updates_shared": true,
+        "versioning_required": true
+    },
+    "output_schema": {
+        "unit_level": [
+            "stability_score",
+            "revenue_confidence_30d",
+            "delinquency_probability_30d",
+            "maintenance_spike_probability",
+            "forecasted_receipts_30d"
+        ],
+        "property_level": [
+            "property_stability_score",
+            "aggregated_revenue_confidence"
+        ]
+    }
+}

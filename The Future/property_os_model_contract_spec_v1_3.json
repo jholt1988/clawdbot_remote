@@ -1,0 +1,283 @@
+{
+  "model_identity": {
+    "name": "CashFlowStabilityEngine",
+    "version": "1.3.0",
+    "generated_at": "2026-02-28T06:15:32.035033",
+    "architecture": [
+      "hybrid",
+      "hierarchical_time_series",
+      "shrinkage",
+      "deterministic_guardrails"
+    ],
+    "learning_mode": [
+      "federated_parameter_aggregation",
+      "global_priors",
+      "regime_detection"
+    ]
+  },
+  "segmentation_keys": {
+    "region": {
+      "type": "string",
+      "examples": [
+        "US-KS-Wichita",
+        "US-KS"
+      ]
+    },
+    "property_class": {
+      "type": "enum",
+      "values": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    "rent_band": {
+      "type": "enum",
+      "values": [
+        "LT900",
+        "B900_1199",
+        "B1200_1499",
+        "B1500_1999",
+        "GE2000"
+      ]
+    },
+    "building_age_bucket": {
+      "type": "enum",
+      "values": [
+        "PRE1970",
+        "B1970_1979",
+        "B1980_1989",
+        "B1990_1999",
+        "B2000_2009",
+        "B2010_2019",
+        "GE2020"
+      ]
+    }
+  },
+  "definitions": {
+    "cnr": {
+      "description": "Settled rent payments applied to rent ledger",
+      "include_categories": [
+        "rent",
+        "pet_rent",
+        "rubs",
+        "parking_rent"
+      ],
+      "exclude_categories": [
+        "deposit",
+        "late_fee",
+        "credit",
+        "refund",
+        "chargeback",
+        "other"
+      ]
+    },
+    "ncce": {
+      "description": "Non-core cash events used as shock/volatility indicators",
+      "categories": [
+        "late_fee",
+        "credit",
+        "refund",
+        "chargeback"
+      ]
+    },
+    "payment_plan": {
+      "authorized_flag_field": "is_payment_plan_authorized",
+      "id_field": "payment_plan_id",
+      "status_field": "payment_plan_status"
+    },
+    "residual_risk_memory": {
+      "window_days": 90,
+      "decay_curve_default": "linear",
+      "cumulative": true,
+      "description": "Mandatory 90-day residual risk tail after each plan ends; each plan adds tail memory"
+    }
+  },
+  "input_schema": {
+    "ledger_event_required_fields": [
+      {
+        "name": "unit_id",
+        "type": "string"
+      },
+      {
+        "name": "property_id",
+        "type": "string"
+      },
+      {
+        "name": "tenant_id",
+        "type": "string",
+        "nullable": true
+      },
+      {
+        "name": "event_date",
+        "type": "datetime_iso"
+      },
+      {
+        "name": "settlement_date",
+        "type": "datetime_iso"
+      },
+      {
+        "name": "amount",
+        "type": "float"
+      },
+      {
+        "name": "category",
+        "type": "enum",
+        "values": [
+          "rent",
+          "pet_rent",
+          "rubs",
+          "late_fee",
+          "credit",
+          "refund",
+          "chargeback",
+          "deposit",
+          "other"
+        ]
+      },
+      {
+        "name": "is_settled",
+        "type": "bool"
+      },
+      {
+        "name": "applied_to",
+        "type": "enum",
+        "values": [
+          "rent_balance",
+          "fee_balance",
+          "deposit",
+          "other"
+        ]
+      }
+    ],
+    "context_required_fields": [
+      {
+        "name": "region",
+        "type": "string"
+      },
+      {
+        "name": "property_class",
+        "type": "enum",
+        "values": [
+          "A",
+          "B",
+          "C"
+        ]
+      },
+      {
+        "name": "rent_band",
+        "type": "enum",
+        "values": [
+          "LT900",
+          "B900_1199",
+          "B1200_1499",
+          "B1500_1999",
+          "GE2000"
+        ]
+      },
+      {
+        "name": "building_age_bucket",
+        "type": "enum",
+        "values": [
+          "PRE1970",
+          "B1970_1979",
+          "B1980_1989",
+          "B1990_1999",
+          "B2000_2009",
+          "B2010_2019",
+          "GE2020"
+        ]
+      }
+    ],
+    "payment_plan_fields": [
+      {
+        "name": "is_payment_plan_authorized",
+        "type": "bool",
+        "default": false
+      },
+      {
+        "name": "payment_plan_id",
+        "type": "string",
+        "nullable": true
+      },
+      {
+        "name": "payment_plan_start_date",
+        "type": "date_iso",
+        "nullable": true
+      },
+      {
+        "name": "payment_plan_end_date",
+        "type": "date_iso",
+        "nullable": true
+      },
+      {
+        "name": "payment_plan_status",
+        "type": "enum",
+        "values": [
+          "ACTIVE",
+          "COMPLETED",
+          "CANCELLED"
+        ],
+        "nullable": true
+      }
+    ]
+  },
+  "derived_features_minimum": [
+    "receipts_cnr_30d",
+    "receipts_cnr_90d",
+    "cnr_volatility_90d",
+    "delinquency_days_30d",
+    "vacancy_flag",
+    "shock_event_count_90d",
+    "concession_amount_90d",
+    "maintenance_cost_variance_90d",
+    "partial_payment_rate_90d",
+    "authorized_partial_rate_90d",
+    "unauthorized_partial_rate_90d",
+    "time_to_completion_p50",
+    "installment_pattern_score",
+    "payment_plan_residual_days_remaining",
+    "payment_plan_residual_risk_multiplier",
+    "payment_plan_event_count_180d"
+  ],
+  "horizons_supported": [
+    "D5",
+    "D15",
+    "R30",
+    "R90"
+  ],
+  "behavioral_hazard_adjustment": {
+    "equation": "logit(P)=logit(P0)+\u03b8_u*unauthorized_partial_rate_90d+\u03b8_a*authorized_partial_rate_90d+\u03b8_r*payment_plan_residual_risk_multiplier",
+    "constraints": {
+      "theta_u": "> theta_a >= 0",
+      "theta_r": ">= 0"
+    }
+  },
+  "residual_risk_memory_rules": {
+    "window_days": 90,
+    "days_remaining": "clamp(90-days_since_end,0,90)",
+    "default_decay_curve": "linear",
+    "cumulative": true
+  },
+  "prior_pack_additions": {
+    "prior_parameters_per_segment_added": [
+      "payment_plan_rate_90d",
+      "authorized_plan_share_90d",
+      "residual_risk_prior"
+    ],
+    "regime_type_added": [
+      "PAYMENT_PLANS"
+    ]
+  },
+  "output_additions": {
+    "unit_level_added": [
+      "authorized_plan_active",
+      "payment_plan_residual_days_remaining",
+      "payment_plan_residual_risk_multiplier"
+    ],
+    "explainability_added": [
+      "payment_plan_effect.authorized_vs_unauthorized",
+      "payment_plan_effect.residual_memory_contribution"
+    ]
+  }
+}
