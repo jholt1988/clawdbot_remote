@@ -3,31 +3,43 @@
   "skills": {
     "sonoscli": {
       "version": "1.0.0",
-      "installedAt": 1771150689895
+      "installedAt": 1772268417839
     },
     "desktop-control": {
       "version": "1.0.0",
-      "installedAt": 1771161947799
+      "installedAt": 1772268426707
     },
     "Summarize": {
       "version": "1.0.0",
-      "installedAt": 1771162043677
+      "installedAt": 1772268428591
     },
     "SuperDesign": {
       "version": "1.0.0",
-      "installedAt": 1771162270510
+      "installedAt": 1772268430399
     },
     "prompt-engineering-expert": {
       "version": "1.0.0",
-      "installedAt": 1771162525067
+      "installedAt": 1772268432792
     },
     "automation-workflows": {
       "version": "0.1.0",
-      "installedAt": 1771162694190
+      "installedAt": 1772268434393
     },
     "agent-autonomy-kit": {
       "version": "1.0.0",
-      "installedAt": 1771162744423
+      "installedAt": 1772268436578
+    },
+    "marketing-mode": {
+      "version": "1.0.0",
+      "installedAt": 1772268442855
+    },
+    "fix-life-in-1-day": {
+      "version": "1.0.0",
+      "installedAt": 1772268446632
+    },
+    "clawdiscover": {
+      "version": "1.0.0",
+      "installedAt": 1772268449150
     }
   }
 }

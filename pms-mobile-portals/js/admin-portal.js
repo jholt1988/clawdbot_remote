@@ -74,7 +74,12 @@ const AdminApp = {
         property: null,
         stats: null,
         units: [],
-        tasks: []
+        inspections: [],
+        tasks: [],
+        unitFilters: {
+            search: '',
+            status: 'all'
+        }
     },
 
     async init() {
@@ -84,6 +89,8 @@ const AdminApp = {
         }
 
         this.setupNavigation();
+        this.setupUnitFilters();
+        this.setupInteractions();
         
         try {
             this.renderDemoAccountSwitcher();
@@ -116,7 +123,80 @@ const AdminApp = {
 
             // Lazy load data for specific pages
             if (pageName === 'units') this.loadUnits();
+            if (pageName === 'inspections') this.loadInspections();
         };
+    },
+
+    setupUnitFilters() {
+        const searchInput = document.querySelector('#page-units input[type="text"]');
+        if (searchInput) {
+            searchInput.addEventListener('input', (e) => {
+                this.state.unitFilters.search = e.target.value.toLowerCase();
+                this.renderUnitsList();
+            });
+        }
+
+        const filterContainer = document.querySelector('#page-units .overflow-x-auto');
+        if (filterContainer) {
+            const buttons = filterContainer.querySelectorAll('button');
+            buttons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    // Update UI
+                    buttons.forEach(b => {
+                        b.classList.remove('bg-primary', 'text-white');
+                        b.classList.add('bg-surface', 'border', 'border-border', 'text-xs');
+                    });
+                    btn.classList.remove('bg-surface', 'border', 'border-border');
+                    btn.classList.add('bg-primary', 'text-white');
+
+                    // Update State
+                    const text = btn.textContent.toLowerCase();
+                    if (text.includes('all')) this.state.unitFilters.status = 'all';
+                    else if (text.includes('occupied')) this.state.unitFilters.status = 'occupied';
+                    else if (text.includes('vacant')) this.state.unitFilters.status = 'vacant';
+                    else if (text.includes('late')) this.state.unitFilters.status = 'late_rent';
+                    
+                    this.renderUnitsList();
+                });
+            });
+        }
+    },
+
+    setupInteractions() {
+        // AI Inspection Button
+        const buttons = Array.from(document.querySelectorAll('button'));
+        const aiBtn = buttons.find(b => b.textContent.includes('Start AI Inspection'));
+        if (aiBtn) {
+            aiBtn.addEventListener('click', () => {
+                // In a real app, this would open the camera or file picker
+                const confirm = window.confirm("Start AI Inspection?\n\nThis would open the camera to capture photos for analysis.");
+                if (confirm) {
+                    setTimeout(() => alert("Photos processed! Work plan generated."), 1000);
+                }
+            });
+        }
+
+        // Sign Out
+        const signOutBtn = buttons.find(b => b.textContent.includes('Sign Out'));
+        if (signOutBtn) {
+            signOutBtn.addEventListener('click', () => {
+                if(confirm('Are you sure you want to sign out?')) {
+                    ApiClient.token = null;
+                    window.location.reload();
+                }
+            });
+        }
+
+        // Generic "Not Implemented" for More page grid
+        const moreGrid = document.querySelector('#page-more .grid');
+        if (moreGrid) {
+            moreGrid.querySelectorAll('button').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const feature = btn.querySelector('span')?.textContent;
+                    alert(`${feature} feature coming soon!`);
+                });
+            });
+        }
     },
 
     async loadDashboard() {
@@ -287,6 +367,87 @@ const AdminApp = {
         if (window.lucide) lucide.createIcons();
     },
 
+    async loadInspections() {
+        // If already loaded, maybe skip? For now, refresh always to get latest state
+        const res = await ApiClient.get('/inspections');
+        this.state.inspections = res.data;
+        this.renderInspections();
+    },
+
+    renderInspections() {
+        const containers = document.querySelectorAll('#page-inspections .space-y-3');
+        const upcomingEl = containers[0];
+        const completedEl = containers[1];
+        
+        if (!upcomingEl || !completedEl) return;
+
+        upcomingEl.innerHTML = '';
+        completedEl.innerHTML = '';
+
+        const upcoming = this.state.inspections.filter(i => i.status !== 'completed').sort((a,b) => new Date(a.scheduledDate) - new Date(b.scheduledDate));
+        const completed = this.state.inspections.filter(i => i.status === 'completed').sort((a,b) => new Date(b.scheduledDate) - new Date(a.scheduledDate));
+
+        const renderItem = (insp, isCompleted) => {
+            const date = new Date(insp.scheduledDate);
+            const month = date.toLocaleString('default', { month: 'short' });
+            const day = date.getDate();
+            const time = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            
+            const unit = insp.unit || 'Unit 4B'; 
+            const tenant = insp.tenant || 'Jordan Davis';
+            
+            let bgDate = 'bg-accent/10';
+            let textDate = 'text-accent';
+            let borderDate = 'border-accent/20';
+
+            if (isCompleted) {
+                bgDate = 'bg-green-100';
+                textDate = 'text-green-600';
+                borderDate = 'border-transparent';
+            } else if (insp.type.toLowerCase().includes('move')) {
+                bgDate = 'bg-blue-50';
+                textDate = 'text-blue-600';
+                borderDate = 'border-blue-200';
+            }
+
+            return `
+            <div class="bg-surface rounded-xl p-4 border border-border card-hover ${isCompleted ? 'opacity-75' : ''}">
+              <div class="flex items-start gap-3">
+                <div class="w-14 h-16 rounded-xl ${bgDate} flex flex-col items-center justify-center shrink-0 border ${borderDate}">
+                  <span class="text-xs font-semibold ${textDate} uppercase">${month}</span>
+                  <span class="text-xl font-bold ${textDate}">${day}</span>
+                </div>
+                <div class="flex-1">
+                  <div class="flex items-start justify-between">
+                    <div>
+                      <p class="font-semibold text-sm">${insp.type} Inspection</p>
+                      <p class="text-xs text-muted-foreground">${unit} • ${tenant}</p>
+                    </div>
+                    ${isCompleted ? '<span class="text-xs text-green-600 font-medium">Passed</span>' : ''}
+                  </div>
+                  <p class="text-xs text-muted-foreground mt-1">${isCompleted ? date.toLocaleDateString() : time + ' • ' + (insp.durationMinutes || 30) + ' min'}</p>
+                  ${!isCompleted ? `
+                  <div class="mt-3 flex items-center gap-2">
+                    <button class="px-3 py-1.5 bg-primary text-white rounded-lg text-xs font-medium touch-feedback">Start</button>
+                    <button class="px-3 py-1.5 border border-border rounded-lg text-xs font-medium touch-feedback">Reschedule</button>
+                  </div>` : ''}
+                </div>
+                ${isCompleted ? `<div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center shrink-0 ml-auto"><i data-lucide="check" class="w-5 h-5 text-green-600"></i></div>` : ''}
+              </div>
+            </div>`;
+        };
+
+        upcoming.forEach(insp => {
+            upcomingEl.insertAdjacentHTML('beforeend', renderItem(insp, false));
+        });
+
+        completed.forEach(insp => {
+            completedEl.insertAdjacentHTML('beforeend', renderItem(insp, true));
+        });
+
+        if (window.lucide) lucide.createIcons();
+    },
+
     async loadUnits() {
         const res = await ApiClient.get('/units');
         this.state.units = res.data;
@@ -299,7 +460,19 @@ const AdminApp = {
         
         container.innerHTML = '';
 
-        this.state.units.forEach(unit => {
+        const filter = this.state.unitFilters;
+        const filteredUnits = this.state.units.filter(unit => {
+            // Apply Search
+            if (filter.search && !unit.number.toLowerCase().includes(filter.search) && 
+                !(unit.tenant || '').toLowerCase().includes(filter.search)) return false;
+            
+            // Apply Status Filter
+            if (filter.status !== 'all' && unit.status !== filter.status) return false;
+            
+            return true;
+        });
+
+        filteredUnits.forEach(unit => {
             let statusBadge = '';
             let borderColor = 'border-border';
             let iconBg = 'bg-primary';

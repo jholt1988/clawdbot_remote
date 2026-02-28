@@ -29,20 +29,26 @@ log "Starting backup"
 
 # 1) Commit workspace changes (if any)
 cd "$WORKDIR"
-if ! git diff --quiet || ! git diff --cached --quiet; then
-  log "Workspace has changes; committing"
-  git add -A
-  git commit -m "backup: snapshot $STAMP" || true
+if [ -d .git ]; then
+  if ! git diff --quiet || ! git diff --cached --quiet; then
+    log "Workspace has changes; committing"
+    git add -A
+    git commit -m "backup: snapshot $STAMP" || true
+  else
+    log "Workspace clean; no commit needed"
+  fi
 else
-  log "Workspace clean; no commit needed"
+  log "WARN: $WORKDIR is not a git repository; skipping commit"
 fi
 
 # 2) Push if remote exists
-if git remote get-url origin >/dev/null 2>&1; then
+if [ -d .git ] && git remote get-url origin >/dev/null 2>&1; then
   log "Pushing workspace to origin"
   git push origin HEAD || log "WARN: git push failed"
-else
+elif [ -d .git ]; then
   log "WARN: no git remote 'origin' configured; skipping push"
+else
+  log "WARN: skipping push because workspace is not a git repository"
 fi
 
 # 3) Archive ~/.clawdbot (+ briefings)

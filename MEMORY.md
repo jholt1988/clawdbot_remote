@@ -11,6 +11,8 @@
 ## Current priority projects
 - PMS work: Completed PMS-A-01 (demo runbook), PMS-E-01/E-02 (pricing decisions: Express + tiered fees). PMS-A-02 in progress (local startup + seed).
 - Property management suite with AI: predictive maintenance from inspections → work plan/cost/timeline; rent optimization; chatbot.
+- Backend services fixed (syntax/schema compliance): `maintenance`, `payments`, `quickbooks` (main service), `rent-estimator`, `rent-optimization`, `rental-application`, `schedule`.
+- Build verification pending for backend.
 - Art book (metamorphosis/change; Jordan as subject).
 - Early-stage production company (live theater, concerts, film).
 - Stationery + business card selection.
