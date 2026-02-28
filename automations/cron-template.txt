@@ -1,0 +1,8 @@
+# Suggested cron schedule (CT)
+45 8 * * *  cd /home/jordanh316/.openclaw/workspace && bash scripts/daily_execution_brief.sh am
+15 20 * * * cd /home/jordanh316/.openclaw/workspace && bash scripts/daily_execution_brief.sh pm
+0 9 * * 1   cd /home/jordanh316/.openclaw/workspace && bash scripts/brand_metrics_snapshot.sh
+30 9 * * 1  cd /home/jordanh316/.openclaw/workspace && bash scripts/lead_pipeline_followup.sh
+0 18 * * 5  cd /home/jordanh316/.openclaw/workspace && bash scripts/open_loops_weekly_closer.sh
+15 18 * * * cd /home/jordanh316/.openclaw/workspace && bash scripts/eod_changelog.sh
+0 10 * * *  cd /home/jordanh316/.openclaw/workspace && bash scripts/queue_autopilot_notion_sync.sh
