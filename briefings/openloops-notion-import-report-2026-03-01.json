@@ -1,0 +1,51 @@
+[
+  {
+    "name": "AI Assistant",
+    "status": "IMPORTED",
+    "file": "OpenLoops/01_Strategy/AI_Assistant/Unified_AI_Assistant_Plan_CANONICAL.md",
+    "pageId": "31500994e5b88159a3f5e04dd2b04af9",
+    "blocks": 79
+  },
+  {
+    "name": "Property Suite",
+    "status": "IMPORTED",
+    "file": "OpenLoops/01_Strategy/Property_Suite/PMS_MASTER_INDEX.md",
+    "pageId": "31500994e5b881eeb469f9b555062553",
+    "blocks": 51
+  },
+  {
+    "name": "Repertoire",
+    "status": "IMPORTED",
+    "file": "OpenLoops/02_Repertoire/repertoire-index.md",
+    "pageId": "31500994e5b88175a2baf97b0ffd4727",
+    "blocks": 41
+  },
+  {
+    "name": "Finance",
+    "status": "IMPORTED",
+    "file": "OpenLoops/03_Finance/FINANCIAL_PACKET_CANONICAL.md",
+    "pageId": "31500994e5b881c1ace5eaa9edf1eb5c",
+    "blocks": 33
+  },
+  {
+    "name": "Legal Ops",
+    "status": "IMPORTED",
+    "file": "OpenLoops/04_Legal_Operations/LEASE_OPS_CHECKLIST.md",
+    "pageId": "31500994e5b881ea9601f11dfa7aabb2",
+    "blocks": 49
+  },
+  {
+    "name": "Production Company",
+    "status": "IMPORTED",
+    "file": "pms-plans/production-company-launch-brief-v1.md",
+    "pageId": "31500994e5b8814caf8dd58c6d5540ca",
+    "blocks": 64
+  },
+  {
+    "name": "Automation Stack",
+    "status": "IMPORTED",
+    "file": "automations/INDEX.md",
+    "pageId": "31500994e5b8810fbeabdaec0397de9f",
+    "blocks": 20
+  }
+]
