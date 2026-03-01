@@ -40,28 +40,6 @@ Owner: Jordan + Aden
 - [ ] **PMS-R-03** — Audit log coverage matrix for sensitive endpoints (Track: Reliability/Security, Priority: P1)
 
 ### Ready
-- [ ] **PMS-B-01** — Backend verification pass for fixed services  
-  - Track: Reliability/Security  
-  - Priority: P0  
-  - Owner: Aden  
-  - Definition of Done: Validate startup and basic health checks for `maintenance`, `payments`, `quickbooks`, `rent-estimator`, `rent-optimization`, `rental-application`, `schedule`.  
-  - Acceptance Tests: Service boot logs clean; smoke checks pass; issues documented with exact repro.  
-  - Dependencies: Env consistency + local startup scripts.  
-  - Estimate: M (4–6h)  
-  - Due Window: This week  
-  - Links: `scripts/pms-dev/dev-managed-up.sh`, `scripts/pms/ci-fast.mjs`
-
-- [ ] **PMS-A-04** — Owner maintenance flow polish (request + comment boundaries)  
-  - Track: MVP Core  
-  - Priority: P0  
-  - Owner: Aden  
-  - Definition of Done: Owner can create request (with required `propertyId`) and comment; owner cannot perform operational mutations.  
-  - Acceptance Tests: Permission tests pass for allowed/denied paths; UI messages are explicit.  
-  - Dependencies: Existing guardrails in maintenance service.  
-  - Estimate: S-M (2–4h)  
-  - Due Window: This week  
-  - Links: `tenant_portal_backend` maintenance auth tests
-
 - [ ] **PMS-D-01** — MVP demo script finalization + acceptance checklist  
   - Track: Launch/GTM  
   - Priority: P0  
@@ -86,6 +64,8 @@ Owner: Jordan + Aden
   - Links: `tenant_portal_app/src/InspectionDetailPage.tsx`, `tenant_portal_app/src/components/ui/AIOperatingSystem.tsx`
 
 ### Done
+- [x] **PMS-A-04** — Owner maintenance flow polish completed (see `pms-plans/PMS-A-04_VERIFICATION_2026-03-01.md`)
+- [x] **PMS-B-01** — Backend verification pass completed (see `pms-plans/PMS-B-01_VERIFICATION_2026-03-01.md`)
 - [x] **PMS-A-01** — Demo runbook drafted (see `pms-plans/demo-runbook.md`)
 - [x] **PMS-E-01** — Pricing decision baseline completed
 - [x] **PMS-E-02** — Tiered fee structure decisions completed
