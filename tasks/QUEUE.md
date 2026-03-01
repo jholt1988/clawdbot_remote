@@ -4,11 +4,7 @@ Last updated: 2026-03-01
 Mirror source: `pms-plans/PMS_EXECUTION_BOARD.md`
 
 ## Ready
-- [ ] **PMS-R-03** — Audit log coverage matrix for sensitive endpoints  
-  - Track: Reliability/Security  
-  - Priority: P1  
-  - Owner: Aden  
-  - DoD: Endpoint-level matrix complete, with coverage gaps and priorities.
+- [ ] _(empty)_
 
 ## In Progress
 - [ ] _(empty)_
@@ -21,6 +17,7 @@ Mirror source: `pms-plans/PMS_EXECUTION_BOARD.md`
   **Reason:** Permission denied + directory-not-empty errors persist; requires manual user intervention.
 
 ## Done
+- [x] **PMS-R-03** — Audit log coverage matrix completed (`pms-plans/PMS-R-03_AUDIT_LOG_COVERAGE_MATRIX_2026-03-01.md`)
 - [x] **PMS-UX-02** — Empty/loading/error state consistency sweep completed (`PropertySearchPage` standardized empty/error cards)
 - [x] **PMS-L-01** — Launch-day checklist completed (`pms-plans/PMS-L-01_LAUNCH_DAY_CHECKLIST.md`)
 - [x] **PMS-A-03** — Inspection → estimate demo path hardening completed (`pms-plans/PMS-A-03_EVIDENCE_2026-03-01.md`)

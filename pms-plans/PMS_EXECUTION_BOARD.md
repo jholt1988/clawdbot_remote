@@ -35,7 +35,7 @@ Owner: Jordan + Aden
 ## Board
 
 ### Inbox
-- [ ] **PMS-R-03** — Audit log coverage matrix for sensitive endpoints (Track: Reliability/Security, Priority: P1)
+- [ ] _(empty)_
 
 ### Ready
 - [ ] _(empty)_
@@ -47,6 +47,7 @@ Owner: Jordan + Aden
 - [ ] _(empty)_
 
 ### Done
+- [x] **PMS-R-03** — Audit log coverage matrix completed (see `pms-plans/PMS-R-03_AUDIT_LOG_COVERAGE_MATRIX_2026-03-01.md`)
 - [x] **PMS-UX-02** — Empty/loading/error state consistency sweep completed (PropertySearchPage standardized empty/error cards)
 - [x] **PMS-L-01** — Launch-day checklist completed (see `pms-plans/PMS-L-01_LAUNCH_DAY_CHECKLIST.md`)
 - [x] **PMS-A-03** — Inspection → estimate demo path hardening completed (see `pms-plans/PMS-A-03_EVIDENCE_2026-03-01.md`)
