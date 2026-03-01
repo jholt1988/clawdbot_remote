@@ -40,16 +40,7 @@ Owner: Jordan + Aden
 - [ ] **PMS-R-03** — Audit log coverage matrix for sensitive endpoints (Track: Reliability/Security, Priority: P1)
 
 ### Ready
-- [ ] **PMS-D-01** — MVP demo script finalization + acceptance checklist  
-  - Track: Launch/GTM  
-  - Priority: P0  
-  - Owner: Jordan + Aden  
-  - Definition of Done: Single runbook for tenant→PM→owner journey with acceptance checklist and fallback plan.  
-  - Acceptance Tests: Dry run complete in <15 minutes with no ambiguity in steps.  
-  - Dependencies: Above P0 cards.  
-  - Estimate: S (1–2h)  
-  - Due Window: This week  
-  - Links: `pms-plans/demo-runbook.md`, `pms-plans/DEMO_GUIDE.md`
+- [ ] _(empty)_
 
 ### In Progress
 - [ ] _(empty)_
@@ -64,6 +55,7 @@ Owner: Jordan + Aden
   - Links: `tenant_portal_app/src/InspectionDetailPage.tsx`, `tenant_portal_app/src/components/ui/AIOperatingSystem.tsx`
 
 ### Done
+- [x] **PMS-D-01** — MVP demo script finalization + acceptance checklist completed (see `pms-plans/PMS-D-01_DEMO_FINALIZATION_2026-03-01.md`)
 - [x] **PMS-A-04** — Owner maintenance flow polish completed (see `pms-plans/PMS-A-04_VERIFICATION_2026-03-01.md`)
 - [x] **PMS-B-01** — Backend verification pass completed (see `pms-plans/PMS-B-01_VERIFICATION_2026-03-01.md`)
 - [x] **PMS-A-01** — Demo runbook drafted (see `pms-plans/demo-runbook.md`)
