@@ -36,6 +36,8 @@ Mirror source: `pms-plans/PMS_EXECUTION_BOARD.md`
   **Status:** PaymentAttempt schema + per-org locked autopay worker transitions implemented; pending timed-run QA with due invoices.
 - [ ] **PMS-PAY-08**: Off-session failure recovery UX (needs_auth)
   **Status:** Tenant `NEEDS_AUTH` attempt visibility + recover endpoint/UI flow implemented; pending live 3DS/on-session auth QA.
+- [ ] **PMS-A-08**: Maintenance state machine + assignment + closure with validated transitions
+  **Status:** Explicit transition guard + assignment/closure constraints implemented; pending full QA pass for invalid transition scenarios.
 
 ## Blocked
 - [ ] **Organize Files**: Move files from `home_downloads` to a structured set of folders in `home_documents`.  
