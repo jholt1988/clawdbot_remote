@@ -48,6 +48,8 @@ Mirror source: `pms-plans/PMS_EXECUTION_BOARD.md`
   **Status:** Deterministic range synthesis + stable line-item ordering + explainability reason text implemented in estimate service; pending repeat-run consistency QA.
 - [ ] **PMS-B-02**: E2E boundary tests (org/lease/payment isolation + webhook replay)
   **Status:** Added boundary/replay e2e test suite (`test/pms-boundary.e2e.spec.ts`); execution blocked by local e2e DB auth failure (`postgres` 28P01) in test setup.
+- [ ] **PMS-B-03**: Audit log v1 (payments, maintenance, messaging, lease changes) append-only
+  **Status:** Added/normalized maintenance and lease audit emissions to complement existing payments/messaging coverage; append-only event stream expanded pending final event taxonomy QA.
 
 ## Blocked
 - [ ] **Organize Files**: Move files from `home_downloads` to a structured set of folders in `home_documents`.  

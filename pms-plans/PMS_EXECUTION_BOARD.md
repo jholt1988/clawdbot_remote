@@ -63,6 +63,7 @@ Owner: Jordan + Aden
 - [ ] **PMS-A-11** — Inspection capture mobile-first (checklist + photos + notes + drafts)
 - [ ] **PMS-A-12** — Inspection -> action items -> deterministic estimate range + explainability text
 - [ ] **PMS-B-02** — E2E boundary tests: org/lease/payment isolation + webhook replay
+- [ ] **PMS-B-03** — Audit log v1 append-only coverage (payments, maintenance, messaging, lease changes)
 
 ### Done
 - [x] **PMS-R-04** — Audit log implementation rollout completed (see `pms-plans/PMS-R-04_AUDIT_LOG_IMPLEMENTATION_2026-03-01.md`)
