@@ -84,7 +84,7 @@ Owner: Jordan + Aden
 - [x] **PMS-A-05** — Properties/Units CRUD + DoorsCounter active/managed scoping completed (see `pms-plans/PMS-A-05_COMPLETION_2026-03-02.md`)
 
 ### Blocked
-- [ ] _(empty)_
+- [ ] **PMS-F-01** — Staging deploy + seeded demo org pipeline (seed script/schema mismatch: `Property` now requires organization relation)
 
 ---
 

@@ -58,6 +58,8 @@ Mirror source: `pms-plans/PMS_EXECUTION_BOARD.md`
   **Status:** Added explicit aria-label/focus-friendly control labeling on core messaging + lease assignment workflows; standardized accessible empty/loading/status surfaces on key demo pages.
 
 ## Blocked
+- [ ] **PMS-F-01**: Staging deploy + seeded demo org pipeline  
+  **Reason:** Demo seed scripts are out of sync with current schema (`Property` now requires organization relation); staging pipeline script/runbook added but seed step fails until scripts are updated.
 - [ ] **Organize Files**: Move files from `home_downloads` to a structured set of folders in `home_documents`.  
   **Reason:** Permission denied + directory-not-empty errors persist; requires manual user intervention.
 
