@@ -18,8 +18,7 @@ Mirror source: `pms-plans/PMS_EXECUTION_BOARD.md`
 
 - [ ] **PMS-PRIC-02**: PlanCycle scheduler job (monthly open/close + nightly tier projection)
   **Status:** Scheduler + org-scoped advisory locks implemented; pending scheduled-run QA in integrated environment.
-- [ ] **PMS-PRIC-03**: FeeEngine library (tiered % + min fee + fee<amount guard)
-  **Status:** FeeEngine + unit tests implemented and passing; integrated into nightly pricing projection calculations.
+
 - [ ] **PMS-PAY-04**: PaymentIntents direct charges + application_fee_amount from active PlanCycle
   **Status:** Stripe direct-charge path wired with connected account + FeeEngine-computed application fee; validated via payment create flow.
 - [ ] **PMS-PAY-05**: Connect webhooks endpoint (raw-body signature + org routing + idempotency)
@@ -77,3 +76,4 @@ Mirror source: `pms-plans/PMS_EXECUTION_BOARD.md`
 - [x] **PMS-PRIC-01** — Fee schedule + plan cycle + pricing snapshot CRUD validated
 - [x] **PMS-A-09** — Tenant↔PM threaded messaging with attachments validated (conversation+message 201; attachment metadata + AUDIT_EVENT)
 - [x] **PMS-A-10** — Owner portal minimum accepted (owner-safe boundaries retained; no PM operational mutation rights)
+- [x] **PMS-PRIC-03** — FeeEngine unit suite passing + integration in nightly projection confirmed
