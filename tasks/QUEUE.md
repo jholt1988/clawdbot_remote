@@ -38,6 +38,8 @@ Mirror source: `pms-plans/PMS_EXECUTION_BOARD.md`
   **Status:** Tenant `NEEDS_AUTH` attempt visibility + recover endpoint/UI flow implemented; pending live 3DS/on-session auth QA.
 - [ ] **PMS-A-08**: Maintenance state machine + assignment + closure with validated transitions
   **Status:** Explicit transition guard + assignment/closure constraints implemented; pending full QA pass for invalid transition scenarios.
+- [ ] **PMS-A-09**: Messaging threads tenant↔PM with attachments + audit trail
+  **Status:** Threaded messaging now supports attachment URL payload + UI rendering and audit event logging for conversation/message actions; pending role-flow QA.
 
 ## Blocked
 - [ ] **Organize Files**: Move files from `home_downloads` to a structured set of folders in `home_documents`.  

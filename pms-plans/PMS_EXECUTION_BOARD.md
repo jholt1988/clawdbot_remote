@@ -58,6 +58,7 @@ Owner: Jordan + Aden
 - [ ] **PMS-PAY-07** — Autopay scheduler worker (per org) + PaymentAttempt state machine
 - [ ] **PMS-PAY-08** — Off-session failure recovery UX (`NEEDS_AUTH`) with tenant re-entry flow
 - [ ] **PMS-A-08** — Maintenance state machine + assignment + closure with validated transitions
+- [ ] **PMS-A-09** — Messaging threads tenant↔PM with attachments + audit trail
 
 ### Done
 - [x] **PMS-R-04** — Audit log implementation rollout completed (see `pms-plans/PMS-R-04_AUDIT_LOG_IMPLEMENTATION_2026-03-01.md`)
