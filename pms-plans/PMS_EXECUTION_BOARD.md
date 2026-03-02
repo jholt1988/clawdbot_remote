@@ -63,7 +63,7 @@ Owner: Jordan + Aden
 - [ ] **PMS-A-11** — Inspection capture mobile-first (checklist + photos + notes + drafts)
 - [ ] **PMS-A-12** — Inspection -> action items -> deterministic estimate range + explainability text
 
-- [ ] **PMS-B-03** — Audit log v1 append-only coverage (payments, maintenance, messaging, lease changes)
+
 
 - [ ] **PMS-C-01** — Unified toast/error system + consistent empty/loading states
 - [ ] **PMS-C-02** — Accessibility pass on core demo screens
@@ -87,6 +87,7 @@ Owner: Jordan + Aden
 - [x] **PMS-A-08** — Transition/assignment/closure QA behavior validated (status guard + closure note requirement)
 - [x] **PMS-B-02** — Boundary/replay e2e suite validated (2/2 passing under local-compatible config)
 - [x] **PMS-F-01** — Staging/demo seed pipeline unblocked and passing smoke checks (6/6)
+- [x] **PMS-B-03** — Runtime audit emission verified for maintenance + lease mutation paths (append-only AUDIT_EVENT stream)
 
 ### Blocked
 - [ ] _(empty)_

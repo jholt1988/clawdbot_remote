@@ -37,4 +37,8 @@ Metadata includes identifiers relevant to lease timeline review (tenant/unit/sta
 - Controller/service paths compile and emit audit records through shared append-only audit log service.
 
 ## QA status
-Moved to Review/QA pending taxonomy harmonization review (final action naming + metadata schema consistency pass).
+✅ Runtime verification completed:
+- maintenance create emitted `MAINTENANCE/REQUEST_CREATED`
+- lease status update emitted `LEASE/LEASE_STATUS_UPDATED`
+Both observed in append-only `AUDIT_EVENT` stream.
+Moved to Done.

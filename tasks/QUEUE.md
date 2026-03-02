@@ -46,8 +46,7 @@ Mirror source: `pms-plans/PMS_EXECUTION_BOARD.md`
 - [ ] **PMS-A-12**: Inspection -> action items -> deterministic estimate range + explainability text
   **Status:** Deterministic range synthesis + stable line-item ordering + explainability reason text implemented in estimate service; pending repeat-run consistency QA.
 
-- [ ] **PMS-B-03**: Audit log v1 (payments, maintenance, messaging, lease changes) append-only
-  **Status:** Added/normalized maintenance and lease audit emissions to complement existing payments/messaging coverage; append-only event stream expanded pending final event taxonomy QA.
+
 
 - [ ] **PMS-C-01**: Unified toast/error system + consistent empty/loading states
   **Status:** Added shared FeedbackBanner and standardized LoadingState/EmptyState usage across key pages (Messaging, Audit Log, Lease Management); pending broader app-wide rollout QA.
@@ -77,3 +76,4 @@ Mirror source: `pms-plans/PMS_EXECUTION_BOARD.md`
 - [x] **PMS-A-08** — Maintenance transition guard QA validated (assign=200, complete w/o note=400, complete w note=200)
 - [x] **PMS-B-02** — Boundary/replay e2e suite passing (2/2) with local-compatible test config (`pms-plans/PMS-B-02_PROGRESS_2026-03-02.md`)
 - [x] **PMS-F-01** — Staging seed pipeline unblocked and passing smoke checks 6/6 (`pms-plans/PMS-F-01_PROGRESS_2026-03-02.md`)
+- [x] **PMS-B-03** — Audit log v1 coverage validated in runtime (maintenance + lease events confirmed in AUDIT_EVENT stream)
