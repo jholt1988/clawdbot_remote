@@ -20,6 +20,8 @@ Mirror source: `pms-plans/PMS_EXECUTION_BOARD.md`
   **Status:** Onboarding link generation + status refresh endpoints validated; pending callback wiring QA.
 - [ ] **PMS-PAY-03**: Tenant add-card flow using SetupIntent (off_session ready)
   **Status:** SetupIntent init + tenant add-card save path validated; pending live Stripe UI QA.
+- [ ] **PMS-PRIC-01**: OrgPlanCycle schema + FeeScheduleVersion + snapshots
+  **Status:** Schema/migration + billing pricing endpoints validated with sample cycle/version/snapshot records; pending broader pricing integration QA.
 
 ## Blocked
 - [ ] **Organize Files**: Move files from `home_downloads` to a structured set of folders in `home_documents`.  
