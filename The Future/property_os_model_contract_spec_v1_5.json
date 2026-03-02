@@ -1,0 +1,45 @@
+{
+  "version": "1.5",
+  "model_name": "Probability-First Hybrid Survival Model",
+  "cycle_anchor": "Lease Rent Due Date (unit-specific)",
+  "milestone_states": [
+    {
+      "state": "0a",
+      "range": "<30% collected"
+    },
+    {
+      "state": "0b",
+      "range": "30-70% collected"
+    },
+    {
+      "state": "1",
+      "range": "70-90% collected"
+    },
+    {
+      "state": "2",
+      "range": "90-100% collected"
+    },
+    {
+      "state": "3",
+      "range": "100% collected"
+    }
+  ],
+  "baseline_intensity": {
+    "type": "Gamma Mixture",
+    "components": 3,
+    "normalized_over_cycle": true
+  },
+  "hazard_structure": "h_ab(t) = kappa_ab,g * lambda_u(t)",
+  "unit_intensity": "lambda_u(t) = lambda_base(t;g) * exp(eta_u + phi_u(t))",
+  "checkpoint_learning": "Direct from event-time likelihood via federated sufficient statistics (N, X)",
+  "expected_shortfall": "Derived from milestone occupancy probabilities and context-specific scaled Beta priors",
+  "regime_detection": "Jensen-Shannon divergence on baseline shape + log-kappa drift",
+  "confidence_score": "Monotone function of evidence, drift, and unit history richness",
+  "coupling": "Adaptive convex combination of unit and property estimates",
+  "federated_statistics": [
+    "Event counts (N)",
+    "Exposure integrals (X)",
+    "Bucket counts",
+    "Bucket means"
+  ]
+}

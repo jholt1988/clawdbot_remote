@@ -1,0 +1,893 @@
+openapi: 3.1.0
+info:
+  title: Property OS Model Contract API
+  version: 1.5.0
+  description: Typesafe API contract for the Probability-First Hybrid Survival Model (v1.5). Includes prior pack distribution,
+    federated sufficient-stat telemetry submission, and evaluation endpoints.
+servers:
+- url: https://api.example.com
+tags:
+- name: PriorPacks
+- name: Telemetry
+- name: Evaluation
+- name: Regime
+paths:
+  /v1/prior-packs/request:
+    post:
+      tags:
+      - PriorPacks
+      summary: Request applicable prior packs for a node
+      description: Node requests segment/cluster-scoped prior packs for contexts it serves. Coordinator returns matching packs
+        with transparent deltas, confidence, and regime metadata.
+      operationId: requestPriorPacks
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PriorPackRequest'
+      responses:
+        '200':
+          description: Prior packs returned
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PriorPackResponse'
+  /v1/telemetry/federated-stats:
+    post:
+      tags:
+      - Telemetry
+      summary: Submit federated sufficient statistics
+      description: "Nodes submit aggregated (privacy-preserving) statistics for \u03BA estimation (N, X), ES15 bucket priors,\
+        \ and optional diagnostics. No raw unit-level events are transmitted."
+      operationId: submitFederatedStats
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FederatedStatsSubmitRequest'
+      responses:
+        '202':
+          description: Accepted for processing
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Ack'
+  /v1/model/evaluate:
+    post:
+      tags:
+      - Evaluation
+      summary: Evaluate a unit-cycle using v1.5 model contract
+      description: Compute milestone probabilities (Day-5, Day-15), ES15, confidence, and explainability fields for a unit-cycle
+        anchored to lease due date. Intended for local scoring or coordinator verification.
+      operationId: evaluateUnitCycle
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UnitCycleEvaluateRequest'
+      responses:
+        '200':
+          description: Evaluation result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnitCycleEvaluateResponse'
+  /v1/regime/status:
+    get:
+      tags:
+      - Regime
+      summary: Get current regime status for a context
+      operationId: getRegimeStatus
+      parameters:
+      - name: context_id
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: context_type
+        in: query
+        required: true
+        schema:
+          $ref: '#/components/schemas/ContextType'
+      responses:
+        '200':
+          description: Regime status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegimeStatus'
+components:
+  schemas:
+    ContextType:
+      type: string
+      enum:
+      - segment
+      - cluster
+      description: Whether the context_id refers to a static segment taxonomy node or an adaptive learned cluster context.
+    ISODateTime:
+      type: string
+      format: date-time
+    Ack:
+      type: object
+      additionalProperties: false
+      properties:
+        status:
+          type: string
+          enum:
+          - accepted
+        received_at:
+          $ref: '#/components/schemas/ISODateTime'
+        request_id:
+          type: string
+      required:
+      - status
+      - received_at
+      - request_id
+    RegimeState:
+      type: string
+      enum:
+      - NORMAL
+      - WATCH
+      - SHIFT
+      description: "Regime state computed from baseline-shape drift and log-\u03BA drift."
+    DriftStats:
+      type: object
+      additionalProperties: false
+      properties:
+        js_divergence_baseline:
+          type: number
+          minimum: 0.0
+        log_kappa_drift:
+          type: number
+          minimum: 0.0
+        composite_drift:
+          type: number
+          minimum: 0.0
+        threshold_watch:
+          type: number
+          minimum: 0.0
+        threshold_shift:
+          type: number
+          minimum: 0.0
+      required:
+      - js_divergence_baseline
+      - log_kappa_drift
+      - composite_drift
+      - threshold_watch
+      - threshold_shift
+    RegimeStatus:
+      type: object
+      additionalProperties: false
+      properties:
+        context_id:
+          type: string
+        context_type:
+          $ref: '#/components/schemas/ContextType'
+        regime_state:
+          $ref: '#/components/schemas/RegimeState'
+        regime_multiplier:
+          type: number
+          minimum: 0.0
+        variance_inflation:
+          type: number
+          minimum: 0.0
+        drift:
+          $ref: '#/components/schemas/DriftStats'
+        as_of:
+          $ref: '#/components/schemas/ISODateTime'
+      required:
+      - context_id
+      - context_type
+      - regime_state
+      - regime_multiplier
+      - variance_inflation
+      - drift
+      - as_of
+    ConfidenceBreakdown:
+      type: object
+      additionalProperties: false
+      properties:
+        overall:
+          type: number
+          minimum: 0.0
+          maximum: 1.0
+        evidence:
+          type: number
+          minimum: 0.0
+          maximum: 1.0
+        drift:
+          type: number
+          minimum: 0.0
+          maximum: 1.0
+        unit_richness:
+          type: number
+          minimum: 0.0
+          maximum: 1.0
+      required:
+      - overall
+      - evidence
+      - drift
+      - unit_richness
+    GammaComponent:
+      type: object
+      additionalProperties: false
+      properties:
+        weight:
+          type: number
+          minimum: 0.0
+          maximum: 1.0
+        shape_k:
+          type: number
+          exclusiveMinimum: 0.0
+        scale_theta:
+          type: number
+          exclusiveMinimum: 0.0
+        mean_day:
+          type: number
+          exclusiveMinimum: 0.0
+          description: 'Derived: k*theta'
+      required:
+      - weight
+      - shape_k
+      - scale_theta
+      - mean_day
+    BaselineIntensityGammaMixture:
+      type: object
+      additionalProperties: false
+      properties:
+        components:
+          type: array
+          minItems: 3
+          maxItems: 3
+          items:
+            $ref: '#/components/schemas/GammaComponent'
+        normalized_over_cycle:
+          type: boolean
+          const: true
+        cycle_horizon_days:
+          type: number
+          exclusiveMinimum: 0.0
+        derived:
+          type: object
+          additionalProperties: false
+          properties:
+            peak_day:
+              type: number
+              minimum: 0.0
+            mass_0_5:
+              type: number
+              minimum: 0.0
+              maximum: 1.0
+            mass_6_15:
+              type: number
+              minimum: 0.0
+              maximum: 1.0
+            mass_16_35:
+              type: number
+              minimum: 0.0
+              maximum: 1.0
+          required:
+          - peak_day
+          - mass_0_5
+          - mass_6_15
+          - mass_16_35
+      required:
+      - components
+      - normalized_over_cycle
+      - cycle_horizon_days
+      - derived
+    KappaSet:
+      type: object
+      additionalProperties: false
+      properties:
+        kappa_0a0b:
+          type: number
+          exclusiveMinimum: 0.0
+        kappa_0b1:
+          type: number
+          exclusiveMinimum: 0.0
+        kappa_12:
+          type: number
+          exclusiveMinimum: 0.0
+        kappa_23:
+          type: number
+          exclusiveMinimum: 0.0
+        deltas_weekly:
+          type: object
+          additionalProperties: false
+          properties:
+            kappa_0a0b:
+              type: number
+            kappa_0b1:
+              type: number
+            kappa_12:
+              type: number
+            kappa_23:
+              type: number
+          required:
+          - kappa_0a0b
+          - kappa_0b1
+          - kappa_12
+          - kappa_23
+        learning_stats:
+          type: object
+          additionalProperties: false
+          properties:
+            n_events:
+              type: object
+              additionalProperties: false
+              properties:
+                0a0b:
+                  type: number
+                  minimum: 0.0
+                '0b1':
+                  type: number
+                  minimum: 0.0
+                '12':
+                  type: number
+                  minimum: 0.0
+                '23':
+                  type: number
+                  minimum: 0.0
+              required:
+              - 0a0b
+              - '0b1'
+              - '12'
+              - '23'
+            exposure_integral:
+              type: object
+              additionalProperties: false
+              properties:
+                0a0b:
+                  type: number
+                  minimum: 0.0
+                '0b1':
+                  type: number
+                  minimum: 0.0
+                '12':
+                  type: number
+                  minimum: 0.0
+                '23':
+                  type: number
+                  minimum: 0.0
+              required:
+              - 0a0b
+              - '0b1'
+              - '12'
+              - '23'
+          required:
+          - n_events
+          - exposure_integral
+      required:
+      - kappa_0a0b
+      - kappa_0b1
+      - kappa_12
+      - kappa_23
+      - deltas_weekly
+      - learning_stats
+    ScaledBetaBucketPrior:
+      type: object
+      additionalProperties: false
+      properties:
+        bucket:
+          type: string
+          enum:
+          - 0a
+          - 0b
+          - '1'
+          - '2'
+        range_low:
+          type: number
+        range_high:
+          type: number
+        c_bar:
+          type: number
+          minimum: 0.0
+          maximum: 1.0
+        delta_weekly:
+          type: number
+        alpha:
+          type: number
+          exclusiveMinimum: 0.0
+        beta:
+          type: number
+          exclusiveMinimum: 0.0
+        n_bucket:
+          type: number
+          minimum: 0.0
+        confidence:
+          $ref: '#/components/schemas/ConfidenceBreakdown'
+      required:
+      - bucket
+      - range_low
+      - range_high
+      - c_bar
+      - delta_weekly
+      - alpha
+      - beta
+      - n_bucket
+      - confidence
+    BucketPriorsSet:
+      type: object
+      additionalProperties: false
+      properties:
+        day:
+          type: integer
+          enum:
+          - 15
+        priors:
+          type: array
+          minItems: 4
+          maxItems: 4
+          items:
+            $ref: '#/components/schemas/ScaledBetaBucketPrior'
+      required:
+      - day
+      - priors
+    ResidualRiskPriors:
+      type: object
+      additionalProperties: false
+      properties:
+        r0_authorized:
+          type: number
+          minimum: 0.0
+          maximum: 1.0
+        r0_unauthorized:
+          type: number
+          minimum: 0.0
+          maximum: 1.0
+        delta_weekly:
+          type: object
+          additionalProperties: false
+          properties:
+            r0_authorized:
+              type: number
+            r0_unauthorized:
+              type: number
+          required:
+          - r0_authorized
+          - r0_unauthorized
+      required:
+      - r0_authorized
+      - r0_unauthorized
+      - delta_weekly
+    PriorPack:
+      type: object
+      additionalProperties: false
+      properties:
+        prior_pack_id:
+          type: string
+        model_version:
+          type: string
+          const: '1.5'
+        context_id:
+          type: string
+        context_type:
+          $ref: '#/components/schemas/ContextType'
+        published_at:
+          $ref: '#/components/schemas/ISODateTime'
+        valid_from:
+          $ref: '#/components/schemas/ISODateTime'
+        expires_at:
+          $ref: '#/components/schemas/ISODateTime'
+        baseline_intensity:
+          $ref: '#/components/schemas/BaselineIntensityGammaMixture'
+        kappa:
+          $ref: '#/components/schemas/KappaSet'
+        residual_risk_priors:
+          $ref: '#/components/schemas/ResidualRiskPriors'
+        bucket_priors:
+          $ref: '#/components/schemas/BucketPriorsSet'
+        regime:
+          $ref: '#/components/schemas/RegimeStatus'
+        confidence:
+          $ref: '#/components/schemas/ConfidenceBreakdown'
+        changelog:
+          type: string
+      required:
+      - prior_pack_id
+      - model_version
+      - context_id
+      - context_type
+      - published_at
+      - valid_from
+      - expires_at
+      - baseline_intensity
+      - kappa
+      - residual_risk_priors
+      - bucket_priors
+      - regime
+      - confidence
+      - changelog
+    PriorPackRequest:
+      type: object
+      additionalProperties: false
+      properties:
+        node_id:
+          type: string
+        node_version:
+          type: string
+        requested_at:
+          $ref: '#/components/schemas/ISODateTime'
+        contexts:
+          type: array
+          minItems: 1
+          items:
+            type: object
+            additionalProperties: false
+            properties:
+              context_id:
+                type: string
+              context_type:
+                $ref: '#/components/schemas/ContextType'
+            required:
+            - context_id
+            - context_type
+      required:
+      - node_id
+      - node_version
+      - requested_at
+      - contexts
+    PriorPackResponse:
+      type: object
+      additionalProperties: false
+      properties:
+        node_id:
+          type: string
+        request_id:
+          type: string
+        returned_at:
+          $ref: '#/components/schemas/ISODateTime'
+        prior_packs:
+          type: array
+          items:
+            $ref: '#/components/schemas/PriorPack'
+      required:
+      - node_id
+      - request_id
+      - returned_at
+      - prior_packs
+    FederatedKappaStats:
+      type: object
+      additionalProperties: false
+      properties:
+        context_id:
+          type: string
+        context_type:
+          $ref: '#/components/schemas/ContextType'
+        cycle_horizon_days:
+          type: number
+          exclusiveMinimum: 0.0
+        n_events:
+          type: object
+          additionalProperties: false
+          properties:
+            0a0b:
+              type: number
+              minimum: 0.0
+            '0b1':
+              type: number
+              minimum: 0.0
+            '12':
+              type: number
+              minimum: 0.0
+            '23':
+              type: number
+              minimum: 0.0
+          required:
+          - 0a0b
+          - '0b1'
+          - '12'
+          - '23'
+        exposure_integral:
+          type: object
+          additionalProperties: false
+          properties:
+            0a0b:
+              type: number
+              minimum: 0.0
+            '0b1':
+              type: number
+              minimum: 0.0
+            '12':
+              type: number
+              minimum: 0.0
+            '23':
+              type: number
+              minimum: 0.0
+          required:
+          - 0a0b
+          - '0b1'
+          - '12'
+          - '23'
+      required:
+      - context_id
+      - context_type
+      - cycle_horizon_days
+      - n_events
+      - exposure_integral
+    FederatedBucketStats:
+      type: object
+      additionalProperties: false
+      properties:
+        context_id:
+          type: string
+        context_type:
+          $ref: '#/components/schemas/ContextType'
+        day:
+          type: integer
+          enum:
+          - 15
+        buckets:
+          type: array
+          minItems: 4
+          maxItems: 4
+          items:
+            type: object
+            additionalProperties: false
+            properties:
+              bucket:
+                type: string
+                enum:
+                - 0a
+                - 0b
+                - '1'
+                - '2'
+              n_bucket:
+                type: number
+                minimum: 0.0
+              mean_collected_fraction:
+                type: number
+                minimum: 0.0
+                maximum: 1.0
+              mean_square_collected_fraction:
+                type: number
+                minimum: 0.0
+                maximum: 1.0
+            required:
+            - bucket
+            - n_bucket
+            - mean_collected_fraction
+      required:
+      - context_id
+      - context_type
+      - day
+      - buckets
+    FederatedStatsSubmitRequest:
+      type: object
+      additionalProperties: false
+      properties:
+        node_id:
+          type: string
+        node_version:
+          type: string
+        submitted_at:
+          $ref: '#/components/schemas/ISODateTime'
+        kappa_stats:
+          type: array
+          items:
+            $ref: '#/components/schemas/FederatedKappaStats'
+        bucket_stats:
+          type: array
+          items:
+            $ref: '#/components/schemas/FederatedBucketStats'
+        notes:
+          type: string
+      required:
+      - node_id
+      - node_version
+      - submitted_at
+      - kappa_stats
+      - bucket_stats
+    UnitCycleEvaluateRequest:
+      type: object
+      additionalProperties: false
+      properties:
+        model_version:
+          type: string
+          const: '1.5'
+        unit_id:
+          type: string
+        property_id:
+          type: string
+        cycle_id:
+          type: string
+        due_date:
+          $ref: '#/components/schemas/ISODateTime'
+        cycle_horizon_days:
+          type: number
+          exclusiveMinimum: 0.0
+        expected_rent_amount:
+          type: number
+          exclusiveMinimum: 0.0
+        context_id:
+          type: string
+        context_type:
+          $ref: '#/components/schemas/ContextType'
+        features:
+          type: object
+          additionalProperties: false
+          properties:
+            unauthorized_partial_rate_90d:
+              type: number
+              minimum: 0.0
+              maximum: 1.0
+            authorized_partial_rate_90d:
+              type: number
+              minimum: 0.0
+              maximum: 1.0
+            residual_plans:
+              type: array
+              items:
+                type: object
+                additionalProperties: false
+                properties:
+                  type:
+                    type: string
+                    enum:
+                    - authorized
+                    - unauthorized
+                  days_since_end:
+                    type: number
+                    minimum: 0.0
+                    maximum: 90.0
+                required:
+                - type
+                - days_since_end
+            unit_history_months:
+              type: number
+              minimum: 0.0
+            data_quality_score:
+              type: number
+              minimum: 0.0
+              maximum: 1.0
+          required:
+          - unauthorized_partial_rate_90d
+          - authorized_partial_rate_90d
+          - residual_plans
+          - unit_history_months
+          - data_quality_score
+        prior_pack:
+          $ref: '#/components/schemas/PriorPack'
+        evaluation_horizons_days:
+          type: array
+          items:
+            type: integer
+            enum:
+            - 5
+            - 15
+          minItems: 1
+      required:
+      - model_version
+      - unit_id
+      - property_id
+      - cycle_id
+      - due_date
+      - cycle_horizon_days
+      - expected_rent_amount
+      - context_id
+      - context_type
+      - features
+      - prior_pack
+      - evaluation_horizons_days
+    MilestoneProbabilities:
+      type: object
+      additionalProperties: false
+      properties:
+        p_lt_30:
+          type: number
+          minimum: 0.0
+          maximum: 1.0
+        p_ge_70:
+          type: number
+          minimum: 0.0
+          maximum: 1.0
+        p_ge_90:
+          type: number
+          minimum: 0.0
+          maximum: 1.0
+        p_eq_100:
+          type: number
+          minimum: 0.0
+          maximum: 1.0
+      required:
+      - p_lt_30
+      - p_ge_70
+      - p_ge_90
+      - p_eq_100
+    UnitCycleEvaluateResponse:
+      type: object
+      additionalProperties: false
+      properties:
+        model_version:
+          type: string
+          const: '1.5'
+        unit_id:
+          type: string
+        cycle_id:
+          type: string
+        context_id:
+          type: string
+        context_type:
+          $ref: '#/components/schemas/ContextType'
+        prior_pack_id:
+          type: string
+        as_of:
+          $ref: '#/components/schemas/ISODateTime'
+        horizons:
+          type: object
+          additionalProperties: false
+          properties:
+            day_5:
+              $ref: '#/components/schemas/MilestoneProbabilities'
+            day_15:
+              $ref: '#/components/schemas/MilestoneProbabilities'
+          required:
+          - day_5
+          - day_15
+        es15:
+          type: object
+          additionalProperties: false
+          properties:
+            expected_shortfall_amount:
+              type: number
+              minimum: 0.0
+            normalized_ns15:
+              type: number
+              minimum: 0.0
+              maximum: 1.0
+            ci95_low:
+              type: number
+              minimum: 0.0
+            ci95_high:
+              type: number
+              minimum: 0.0
+          required:
+          - expected_shortfall_amount
+          - normalized_ns15
+          - ci95_low
+          - ci95_high
+        confidence:
+          $ref: '#/components/schemas/ConfidenceBreakdown'
+        explainability:
+          type: object
+          additionalProperties: false
+          properties:
+            lambda_mix:
+              type: number
+              minimum: 0.0
+              maximum: 1.0
+            drivers:
+              type: array
+              items:
+                type: object
+                additionalProperties: false
+                properties:
+                  factor:
+                    type: string
+                  effect_log_multiplier:
+                    type: number
+                  note:
+                    type: string
+                required:
+                - factor
+                - effect_log_multiplier
+                - note
+          required:
+          - lambda_mix
+          - drivers
+      required:
+      - model_version
+      - unit_id
+      - cycle_id
+      - context_id
+      - context_type
+      - prior_pack_id
+      - as_of
+      - horizons
+      - es15
+      - confidence
+      - explainability
