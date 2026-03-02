@@ -42,6 +42,8 @@ Mirror source: `pms-plans/PMS_EXECUTION_BOARD.md`
   **Status:** Threaded messaging now supports attachment URL payload + UI rendering and audit event logging for conversation/message actions; pending role-flow QA.
 - [ ] **PMS-A-10**: Owner portal minimum (view + comment + initiate maintenance request)
   **Status:** Owner read/comment/create-maintenance paths confirmed with PM-only mutation guards preserved; messaging conversation send path now audit-logged including attachments.
+- [ ] **PMS-A-11**: Inspection capture mobile-first (checklist + photos + notes + drafts)
+  **Status:** Added resilient local draft persistence/restore for inspection checklist edits and mobile-friendly draft recovery notice; pending mobile device walkthrough QA.
 
 ## Blocked
 - [ ] **Organize Files**: Move files from `home_downloads` to a structured set of folders in `home_documents`.  

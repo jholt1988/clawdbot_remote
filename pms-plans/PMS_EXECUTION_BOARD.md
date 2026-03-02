@@ -60,6 +60,7 @@ Owner: Jordan + Aden
 - [ ] **PMS-A-08** — Maintenance state machine + assignment + closure with validated transitions
 - [ ] **PMS-A-09** — Messaging threads tenant↔PM with attachments + audit trail
 - [ ] **PMS-A-10** — Owner portal minimum: view + comment + initiate maintenance request (read-only ops posture)
+- [ ] **PMS-A-11** — Inspection capture mobile-first (checklist + photos + notes + drafts)
 
 ### Done
 - [x] **PMS-R-04** — Audit log implementation rollout completed (see `pms-plans/PMS-R-04_AUDIT_LOG_IMPLEMENTATION_2026-03-01.md`)
