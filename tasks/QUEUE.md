@@ -40,6 +40,8 @@ Mirror source: `pms-plans/PMS_EXECUTION_BOARD.md`
   **Status:** Explicit transition guard + assignment/closure constraints implemented; pending full QA pass for invalid transition scenarios.
 - [ ] **PMS-A-09**: Messaging threads tenant↔PM with attachments + audit trail
   **Status:** Threaded messaging now supports attachment URL payload + UI rendering and audit event logging for conversation/message actions; pending role-flow QA.
+- [ ] **PMS-A-10**: Owner portal minimum (view + comment + initiate maintenance request)
+  **Status:** Owner read/comment/create-maintenance paths confirmed with PM-only mutation guards preserved; messaging conversation send path now audit-logged including attachments.
 
 ## Blocked
 - [ ] **Organize Files**: Move files from `home_downloads` to a structured set of folders in `home_documents`.  
