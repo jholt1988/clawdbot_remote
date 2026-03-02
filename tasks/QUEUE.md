@@ -22,6 +22,8 @@ Mirror source: `pms-plans/PMS_EXECUTION_BOARD.md`
   **Status:** SetupIntent init + tenant add-card save path validated; pending live Stripe UI QA.
 - [ ] **PMS-PRIC-01**: OrgPlanCycle schema + FeeScheduleVersion + snapshots
   **Status:** Schema/migration + billing pricing endpoints validated with sample cycle/version/snapshot records; pending broader pricing integration QA.
+- [ ] **PMS-PRIC-02**: PlanCycle scheduler job (monthly open/close + nightly tier projection)
+  **Status:** Scheduler + org-scoped advisory locks implemented; pending scheduled-run QA in integrated environment.
 
 ## Blocked
 - [ ] **Organize Files**: Move files from `home_downloads` to a structured set of folders in `home_documents`.  
