@@ -28,3 +28,4 @@ Mirror source: `pms-plans/PMS_EXECUTION_BOARD.md`
 - [x] **PMS-A-01** — Demo runbook drafted (`pms-plans/demo-runbook.md`)
 - [x] **PMS-E-01** — Pricing decision baseline completed
 - [x] **PMS-E-02** — Tiered fee structure decisions completed
+- [x] **PMS-A-02** — Local startup + demo seed data verified; ML startup compatibility fixed (`pms-plans/PMS-A-02_STARTUP_AND_SEED_VERIFICATION_2026-03-02.md`)
