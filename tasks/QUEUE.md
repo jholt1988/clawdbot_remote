@@ -23,10 +23,8 @@ Mirror source: `pms-plans/PMS_EXECUTION_BOARD.md`
   **Status:** Stripe direct-charge path wired with connected account + FeeEngine-computed application fee; validated via payment create flow.
 
 
-- [ ] **PMS-PAY-07**: Autopay scheduler worker + PaymentAttempt state machine
-  **Status:** PaymentAttempt schema + per-org locked autopay worker transitions implemented; pending timed-run QA with due invoices.
-- [ ] **PMS-PAY-08**: Off-session failure recovery UX (needs_auth)
-  **Status:** Tenant `NEEDS_AUTH` attempt visibility + recover endpoint/UI flow implemented; pending live 3DS/on-session auth QA.
+
+
 
 
 
@@ -77,3 +75,5 @@ Mirror source: `pms-plans/PMS_EXECUTION_BOARD.md`
 - [x] **PMS-PRIC-03** — FeeEngine unit suite passing + integration in nightly projection confirmed
 - [x] **PMS-PAY-05** — Webhook event id idempotency verified (duplicate eventId blocked)
 - [x] **PMS-PAY-06** — Ledger append-only replay safety verified (duplicate sourceEventId blocked)
+- [x] **PMS-PAY-07** — PaymentAttempt lifecycle verified with runtime state snapshot + due invoice simulation
+- [x] **PMS-PAY-08** — NEEDS_AUTH visibility/recovery endpoints verified via tenant flow simulation

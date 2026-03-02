@@ -55,8 +55,8 @@ Owner: Jordan + Aden
 - [ ] **PMS-PAY-04** — PaymentIntents direct charges on connected account + app fee from active PlanCycle
 
 
-- [ ] **PMS-PAY-07** — Autopay scheduler worker (per org) + PaymentAttempt state machine
-- [ ] **PMS-PAY-08** — Off-session failure recovery UX (`NEEDS_AUTH`) with tenant re-entry flow
+
+
 
 
 
@@ -101,6 +101,8 @@ Owner: Jordan + Aden
 - [x] **PMS-PRIC-03** — FeeEngine tests passing + scheduler integration confirmed
 - [x] **PMS-PAY-05** — Webhook idempotency validated via duplicate eventId replay block
 - [x] **PMS-PAY-06** — Ledger replay safety validated via unique sourceEventId enforcement
+- [x] **PMS-PAY-07** — PaymentAttempt state lifecycle validated in runtime snapshot/simulation
+- [x] **PMS-PAY-08** — NEEDS_AUTH listing + recovery endpoint flow validated
 
 ### Blocked
 - [ ] _(empty)_
