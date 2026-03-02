@@ -22,7 +22,8 @@ Summary includes:
 
 ## Validation status
 - Backend boots successfully after controller changes.
-- Existing runtime did not expose monitoring controller routes in this environment (received 404 on monitoring paths), so endpoint behavior is implemented but route-exposure QA remains pending.
+- Monitoring route exposure verified in runtime:
+  - `GET /api/monitoring/performance/ops-summary` returns 200 with queue depth + failure metrics payload.
 
 ## QA status
-Moved to Review/QA with follow-up to confirm route exposure/auth guard configuration for monitoring module in runtime environment.
+Moved to Review/QA with endpoint exposure confirmed; remaining step is deciding dashboard/UI surfacing for these metrics.

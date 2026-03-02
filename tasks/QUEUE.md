@@ -51,7 +51,7 @@ Mirror source: `pms-plans/PMS_EXECUTION_BOARD.md`
 - [ ] **PMS-B-03**: Audit log v1 (payments, maintenance, messaging, lease changes) append-only
   **Status:** Added/normalized maintenance and lease audit emissions to complement existing payments/messaging coverage; append-only event stream expanded pending final event taxonomy QA.
 - [ ] **PMS-B-04**: Monitoring MVP (errors visible, queue depth, webhook failures surfaced)
-  **Status:** Added monitoring ops-summary aggregation (payment attempt queue depth + webhook failures); endpoint wiring added pending route exposure QA in this runtime.
+  **Status:** Ops-summary endpoint now exposed and validated (`/api/monitoring/performance/ops-summary` returns queue/failure metrics); pending dashboard/UI surfacing decision.
 - [ ] **PMS-C-01**: Unified toast/error system + consistent empty/loading states
   **Status:** Added shared FeedbackBanner and standardized LoadingState/EmptyState usage across key pages (Messaging, Audit Log, Lease Management); pending broader app-wide rollout QA.
 - [ ] **PMS-C-02**: Accessibility pass on core demo screens
