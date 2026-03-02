@@ -14,6 +14,8 @@ Mirror source: `pms-plans/PMS_EXECUTION_BOARD.md`
   **Status:** Backend UUID lease-path fixes + PM assignment UI delivered; pending manual PM UI walkthrough QA.
 - [ ] **PMS-A-07**: Maintenance request (tenant) + photos + PM queue
   **Status:** Tenant submit+photo E2E validated; PM queue fields verified (status/priority/assignee). Pending UI walkthrough QA.
+- [ ] **PMS-PAY-01**: Org -> Connected Account model + migrations
+  **Status:** Schema + migration + billing read/write endpoints validated; pending integration QA.
 
 ## Blocked
 - [ ] **Organize Files**: Move files from `home_downloads` to a structured set of folders in `home_documents`.  
