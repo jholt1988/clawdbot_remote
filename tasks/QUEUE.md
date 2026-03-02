@@ -54,6 +54,8 @@ Mirror source: `pms-plans/PMS_EXECUTION_BOARD.md`
   **Status:** Added monitoring ops-summary aggregation (payment attempt queue depth + webhook failures); endpoint wiring added pending route exposure QA in this runtime.
 - [ ] **PMS-C-01**: Unified toast/error system + consistent empty/loading states
   **Status:** Added shared FeedbackBanner and standardized LoadingState/EmptyState usage across key pages (Messaging, Audit Log, Lease Management); pending broader app-wide rollout QA.
+- [ ] **PMS-C-02**: Accessibility pass on core demo screens
+  **Status:** Added explicit aria-label/focus-friendly control labeling on core messaging + lease assignment workflows; standardized accessible empty/loading/status surfaces on key demo pages.
 
 ## Blocked
 - [ ] **Organize Files**: Move files from `home_downloads` to a structured set of folders in `home_documents`.  
