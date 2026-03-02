@@ -50,6 +50,8 @@ Mirror source: `pms-plans/PMS_EXECUTION_BOARD.md`
   **Status:** Added boundary/replay e2e test suite (`test/pms-boundary.e2e.spec.ts`); execution blocked by local e2e DB auth failure (`postgres` 28P01) in test setup.
 - [ ] **PMS-B-03**: Audit log v1 (payments, maintenance, messaging, lease changes) append-only
   **Status:** Added/normalized maintenance and lease audit emissions to complement existing payments/messaging coverage; append-only event stream expanded pending final event taxonomy QA.
+- [ ] **PMS-B-04**: Monitoring MVP (errors visible, queue depth, webhook failures surfaced)
+  **Status:** Added monitoring ops-summary aggregation (payment attempt queue depth + webhook failures); endpoint wiring added pending route exposure QA in this runtime.
 
 ## Blocked
 - [ ] **Organize Files**: Move files from `home_downloads` to a structured set of folders in `home_documents`.  
