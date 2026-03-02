@@ -22,13 +22,29 @@ Includes:
 - step breakdown
 - known blocker + next fix guidance
 
-## Blocker encountered
-Seed stage fails due script/schema drift:
-- current schema requires property organization relation
-- existing deterministic seed script omits org linkage
+## Blocker evolution
+### Fixed
+- Seed stage schema drift resolved:
+  - updated `dev-seed-inspection-demo.ts` to upsert deterministic organization
+  - linked property via `organizationId`
+- Seed now completes successfully.
 
-Observed error:
-- `TS2322 ... Property 'organization' is missing ... required in type 'PropertyCreateInput'`
+### Current blocker
+Smoke checks now fail due missing expected health routes in runtime:
+- `/api/health`
+- `/api/health/readiness`
+- `/api/health/liveness`
+(all returning 404)
 
 ## Status
-Moved to **Blocked** pending seed script update for organization-aware property creation.
+Still **Blocked** pending health endpoint exposure (or smoke expectation alignment) for staging smoke pass.
+
+## Final unblock update
+- Added backend health endpoints in `app.controller.ts`:
+  - `/api/health`
+  - `/api/health/readiness`
+  - `/api/health/liveness`
+- Resolved DI/runtime regressions uncovered during restart (module providers for newly introduced audit dependencies).
+- Re-ran `scripts/staging-seed-pipeline.sh`: **completed successfully**, smoke checks **6/6 passing**.
+
+Status recommendation: move PMS-F-01 from Blocked to Review/QA (or Done after staging host confirmation).

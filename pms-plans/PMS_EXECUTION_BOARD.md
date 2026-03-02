@@ -67,6 +67,7 @@ Owner: Jordan + Aden
 - [ ] **PMS-B-04** — Monitoring MVP: error visibility, queue depth, webhook failure surfacing
 - [ ] **PMS-C-01** — Unified toast/error system + consistent empty/loading states
 - [ ] **PMS-C-02** — Accessibility pass on core demo screens
+- [ ] **PMS-F-01** — Staging deploy + seeded demo org pipeline (pipeline now passes; pending final staging host confirmation)
 
 ### Done
 - [x] **PMS-R-04** — Audit log implementation rollout completed (see `pms-plans/PMS-R-04_AUDIT_LOG_IMPLEMENTATION_2026-03-01.md`)
@@ -84,7 +85,7 @@ Owner: Jordan + Aden
 - [x] **PMS-A-05** — Properties/Units CRUD + DoorsCounter active/managed scoping completed (see `pms-plans/PMS-A-05_COMPLETION_2026-03-02.md`)
 
 ### Blocked
-- [ ] **PMS-F-01** — Staging deploy + seeded demo org pipeline (seed script/schema mismatch: `Property` now requires organization relation)
+- [ ] _(empty)_
 
 ---
 
