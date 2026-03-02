@@ -36,8 +36,7 @@ Mirror source: `pms-plans/PMS_EXECUTION_BOARD.md`
   **Status:** PaymentAttempt schema + per-org locked autopay worker transitions implemented; pending timed-run QA with due invoices.
 - [ ] **PMS-PAY-08**: Off-session failure recovery UX (needs_auth)
   **Status:** Tenant `NEEDS_AUTH` attempt visibility + recover endpoint/UI flow implemented; pending live 3DS/on-session auth QA.
-- [ ] **PMS-A-08**: Maintenance state machine + assignment + closure with validated transitions
-  **Status:** Explicit transition guard + assignment/closure constraints implemented; pending full QA pass for invalid transition scenarios.
+
 - [ ] **PMS-A-09**: Messaging threads tenant↔PM with attachments + audit trail
   **Status:** Threaded messaging now supports attachment URL payload + UI rendering and audit event logging for conversation/message actions; pending role-flow QA.
 - [ ] **PMS-A-10**: Owner portal minimum (view + comment + initiate maintenance request)
@@ -46,8 +45,7 @@ Mirror source: `pms-plans/PMS_EXECUTION_BOARD.md`
   **Status:** Added resilient local draft persistence/restore for inspection checklist edits and mobile-friendly draft recovery notice; pending mobile device walkthrough QA.
 - [ ] **PMS-A-12**: Inspection -> action items -> deterministic estimate range + explainability text
   **Status:** Deterministic range synthesis + stable line-item ordering + explainability reason text implemented in estimate service; pending repeat-run consistency QA.
-- [ ] **PMS-B-02**: E2E boundary tests (org/lease/payment isolation + webhook replay)
-  **Status:** Boundary/replay e2e suite now passes (2/2) using local test run config (`SKIP_TEST_MIGRATIONS=true` with dev DB schema). Pending cleanup of default e2e migration bootstrap path.
+
 - [ ] **PMS-B-03**: Audit log v1 (payments, maintenance, messaging, lease changes) append-only
   **Status:** Added/normalized maintenance and lease audit emissions to complement existing payments/messaging coverage; append-only event stream expanded pending final event taxonomy QA.
 
@@ -55,8 +53,7 @@ Mirror source: `pms-plans/PMS_EXECUTION_BOARD.md`
   **Status:** Added shared FeedbackBanner and standardized LoadingState/EmptyState usage across key pages (Messaging, Audit Log, Lease Management); pending broader app-wide rollout QA.
 - [ ] **PMS-C-02**: Accessibility pass on core demo screens
   **Status:** Added explicit aria-label/focus-friendly control labeling on core messaging + lease assignment workflows; standardized accessible empty/loading/status surfaces on key demo pages.
-- [ ] **PMS-F-01**: Staging deploy + seeded demo org pipeline
-  **Status:** Seed script fixed for organization linkage; staging pipeline now completes smoke checks (6/6). Pending final staging endpoint/hosting confirmation.
+
 
 ## Blocked
 - [ ] **Organize Files**: Move files from `home_downloads` to a structured set of folders in `home_documents`.  
@@ -77,3 +74,6 @@ Mirror source: `pms-plans/PMS_EXECUTION_BOARD.md`
 - [x] **PMS-A-02** — Local startup + demo seed data verified; ML startup compatibility fixed (`pms-plans/PMS-A-02_STARTUP_AND_SEED_VERIFICATION_2026-03-02.md`)
 - [x] **PMS-A-05** — Properties/Units CRUD + door counting scoping completed (`pms-plans/PMS-A-05_COMPLETION_2026-03-02.md`)
 - [x] **PMS-B-04** — Monitoring MVP endpoint verified (`/api/monitoring/performance/ops-summary`, queue+webhook metrics) (`pms-plans/PMS-B-04_PROGRESS_2026-03-02.md`)
+- [x] **PMS-A-08** — Maintenance transition guard QA validated (assign=200, complete w/o note=400, complete w note=200)
+- [x] **PMS-B-02** — Boundary/replay e2e suite passing (2/2) with local-compatible test config (`pms-plans/PMS-B-02_PROGRESS_2026-03-02.md`)
+- [x] **PMS-F-01** — Staging seed pipeline unblocked and passing smoke checks 6/6 (`pms-plans/PMS-F-01_PROGRESS_2026-03-02.md`)

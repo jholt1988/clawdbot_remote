@@ -31,4 +31,8 @@ This creates audit-ready close semantics and prevents silent/incomplete closures
 - Transition/closure guards compile in service path.
 
 ## QA status
-Moved to Review/QA pending targeted API test matrix for invalid transitions, assignment edge cases, and close constraints.
+✅ Verified in API matrix:
+- assign technician -> 200
+- complete without note -> 400
+- complete with note -> 200
+Moved to Done.

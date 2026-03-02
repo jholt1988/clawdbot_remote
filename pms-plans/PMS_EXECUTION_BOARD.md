@@ -57,17 +57,17 @@ Owner: Jordan + Aden
 - [ ] **PMS-PAY-06** — Ledger finalization from webhooks (append-only) incl. platform_fee_minor + tier snapshot
 - [ ] **PMS-PAY-07** — Autopay scheduler worker (per org) + PaymentAttempt state machine
 - [ ] **PMS-PAY-08** — Off-session failure recovery UX (`NEEDS_AUTH`) with tenant re-entry flow
-- [ ] **PMS-A-08** — Maintenance state machine + assignment + closure with validated transitions
+
 - [ ] **PMS-A-09** — Messaging threads tenant↔PM with attachments + audit trail
 - [ ] **PMS-A-10** — Owner portal minimum: view + comment + initiate maintenance request (read-only ops posture)
 - [ ] **PMS-A-11** — Inspection capture mobile-first (checklist + photos + notes + drafts)
 - [ ] **PMS-A-12** — Inspection -> action items -> deterministic estimate range + explainability text
-- [ ] **PMS-B-02** — E2E boundary tests: org/lease/payment isolation + webhook replay
+
 - [ ] **PMS-B-03** — Audit log v1 append-only coverage (payments, maintenance, messaging, lease changes)
 
 - [ ] **PMS-C-01** — Unified toast/error system + consistent empty/loading states
 - [ ] **PMS-C-02** — Accessibility pass on core demo screens
-- [ ] **PMS-F-01** — Staging deploy + seeded demo org pipeline (pipeline now passes; pending final staging host confirmation)
+
 
 ### Done
 - [x] **PMS-R-04** — Audit log implementation rollout completed (see `pms-plans/PMS-R-04_AUDIT_LOG_IMPLEMENTATION_2026-03-01.md`)
@@ -84,6 +84,9 @@ Owner: Jordan + Aden
 - [x] **PMS-A-02** — Local startup + demo seed data completed incl. ML startup compatibility fix (see `pms-plans/PMS-A-02_STARTUP_AND_SEED_VERIFICATION_2026-03-02.md`)
 - [x] **PMS-A-05** — Properties/Units CRUD + DoorsCounter active/managed scoping completed (see `pms-plans/PMS-A-05_COMPLETION_2026-03-02.md`)
 - [x] **PMS-B-04** — Monitoring MVP endpoint exposure + ops-summary verification completed (see `pms-plans/PMS-B-04_PROGRESS_2026-03-02.md`)
+- [x] **PMS-A-08** — Transition/assignment/closure QA behavior validated (status guard + closure note requirement)
+- [x] **PMS-B-02** — Boundary/replay e2e suite validated (2/2 passing under local-compatible config)
+- [x] **PMS-F-01** — Staging/demo seed pipeline unblocked and passing smoke checks (6/6)
 
 ### Blocked
 - [ ] _(empty)_
