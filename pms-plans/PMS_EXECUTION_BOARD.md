@@ -44,7 +44,7 @@ Owner: Jordan + Aden
 - [ ] _(empty)_
 
 ### Review/QA
-- [ ] _(empty)_
+- [ ] **PMS-A-06** — Lease assign flow + tenant doc visibility (minimal)
 
 ### Done
 - [x] **PMS-R-04** — Audit log implementation rollout completed (see `pms-plans/PMS-R-04_AUDIT_LOG_IMPLEMENTATION_2026-03-01.md`)
