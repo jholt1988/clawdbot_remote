@@ -51,6 +51,7 @@ Owner: Jordan + Aden
 - [ ] **PMS-PAY-03** — Tenant add-card flow via SetupIntent (off_session-ready) with org scope
 - [ ] **PMS-PRIC-01** — OrgPlanCycle schema + FeeScheduleVersion + pricing snapshots
 - [ ] **PMS-PRIC-02** — PlanCycle scheduler job (monthly open/close + nightly projection) with org-scoped locks
+- [ ] **PMS-PRIC-03** — FeeEngine library (tiered % + minimum fee + fee<amount guard) + unit tests
 
 ### Done
 - [x] **PMS-R-04** — Audit log implementation rollout completed (see `pms-plans/PMS-R-04_AUDIT_LOG_IMPLEMENTATION_2026-03-01.md`)

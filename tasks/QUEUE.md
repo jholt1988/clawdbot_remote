@@ -24,6 +24,8 @@ Mirror source: `pms-plans/PMS_EXECUTION_BOARD.md`
   **Status:** Schema/migration + billing pricing endpoints validated with sample cycle/version/snapshot records; pending broader pricing integration QA.
 - [ ] **PMS-PRIC-02**: PlanCycle scheduler job (monthly open/close + nightly tier projection)
   **Status:** Scheduler + org-scoped advisory locks implemented; pending scheduled-run QA in integrated environment.
+- [ ] **PMS-PRIC-03**: FeeEngine library (tiered % + min fee + fee<amount guard)
+  **Status:** FeeEngine + unit tests implemented and passing; integrated into nightly pricing projection calculations.
 
 ## Blocked
 - [ ] **Organize Files**: Move files from `home_downloads` to a structured set of folders in `home_documents`.  
