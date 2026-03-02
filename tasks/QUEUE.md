@@ -28,6 +28,8 @@ Mirror source: `pms-plans/PMS_EXECUTION_BOARD.md`
   **Status:** FeeEngine + unit tests implemented and passing; integrated into nightly pricing projection calculations.
 - [ ] **PMS-PAY-04**: PaymentIntents direct charges + application_fee_amount from active PlanCycle
   **Status:** Stripe direct-charge path wired with connected account + FeeEngine-computed application fee; validated via payment create flow.
+- [ ] **PMS-PAY-05**: Connect webhooks endpoint (raw-body signature + org routing + idempotency)
+  **Status:** Raw-body signature path, org routing, and event id idempotency persistence implemented; pending live Stripe replay QA.
 
 ## Blocked
 - [ ] **Organize Files**: Move files from `home_downloads` to a structured set of folders in `home_documents`.  

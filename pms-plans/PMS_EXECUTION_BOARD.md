@@ -53,6 +53,7 @@ Owner: Jordan + Aden
 - [ ] **PMS-PRIC-02** — PlanCycle scheduler job (monthly open/close + nightly projection) with org-scoped locks
 - [ ] **PMS-PRIC-03** — FeeEngine library (tiered % + minimum fee + fee<amount guard) + unit tests
 - [ ] **PMS-PAY-04** — PaymentIntents direct charges on connected account + app fee from active PlanCycle
+- [ ] **PMS-PAY-05** — Connect webhooks endpoint with signature verification, org routing, and idempotent event handling
 
 ### Done
 - [x] **PMS-R-04** — Audit log implementation rollout completed (see `pms-plans/PMS-R-04_AUDIT_LOG_IMPLEMENTATION_2026-03-01.md`)
