@@ -34,6 +34,8 @@ Mirror source: `pms-plans/PMS_EXECUTION_BOARD.md`
   **Status:** Append-only ledger model + webhook finalization write path implemented with source-event dedupe; pending live signed webhook replay QA.
 - [ ] **PMS-PAY-07**: Autopay scheduler worker + PaymentAttempt state machine
   **Status:** PaymentAttempt schema + per-org locked autopay worker transitions implemented; pending timed-run QA with due invoices.
+- [ ] **PMS-PAY-08**: Off-session failure recovery UX (needs_auth)
+  **Status:** Tenant `NEEDS_AUTH` attempt visibility + recover endpoint/UI flow implemented; pending live 3DS/on-session auth QA.
 
 ## Blocked
 - [ ] **Organize Files**: Move files from `home_downloads` to a structured set of folders in `home_documents`.  

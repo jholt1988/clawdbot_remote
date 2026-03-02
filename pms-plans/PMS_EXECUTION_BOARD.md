@@ -56,6 +56,7 @@ Owner: Jordan + Aden
 - [ ] **PMS-PAY-05** — Connect webhooks endpoint with signature verification, org routing, and idempotent event handling
 - [ ] **PMS-PAY-06** — Ledger finalization from webhooks (append-only) incl. platform_fee_minor + tier snapshot
 - [ ] **PMS-PAY-07** — Autopay scheduler worker (per org) + PaymentAttempt state machine
+- [ ] **PMS-PAY-08** — Off-session failure recovery UX (`NEEDS_AUTH`) with tenant re-entry flow
 
 ### Done
 - [x] **PMS-R-04** — Audit log implementation rollout completed (see `pms-plans/PMS-R-04_AUDIT_LOG_IMPLEMENTATION_2026-03-01.md`)
