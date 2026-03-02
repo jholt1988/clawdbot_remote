@@ -26,6 +26,8 @@ Mirror source: `pms-plans/PMS_EXECUTION_BOARD.md`
   **Status:** Scheduler + org-scoped advisory locks implemented; pending scheduled-run QA in integrated environment.
 - [ ] **PMS-PRIC-03**: FeeEngine library (tiered % + min fee + fee<amount guard)
   **Status:** FeeEngine + unit tests implemented and passing; integrated into nightly pricing projection calculations.
+- [ ] **PMS-PAY-04**: PaymentIntents direct charges + application_fee_amount from active PlanCycle
+  **Status:** Stripe direct-charge path wired with connected account + FeeEngine-computed application fee; validated via payment create flow.
 
 ## Blocked
 - [ ] **Organize Files**: Move files from `home_downloads` to a structured set of folders in `home_documents`.  
