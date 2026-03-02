@@ -15,11 +15,12 @@ Covers:
    - Verifies duplicate insert for same `eventId` fails and only one row remains.
 
 ## Execution result
-- Test execution attempted via:
-  - `npm run test:e2e -- test/pms-boundary.e2e.spec.ts`
-- Blocked by local e2e DB auth setup issue:
-  - `password authentication failed for user "postgres"` (`28P01`) in `test/setup.ts` migration/bootstrap step.
+- Initial default e2e run was blocked by setup assumptions (postgres auth + migration chain drift).
+- Successful run achieved with local-compatible config:
+  - `SKIP_TEST_MIGRATIONS=true`
+  - `TEST_DATABASE_URL=postgresql://pms_app:pms_app_dev_pw@localhost:5432/pms_dev?schema=public`
+  - Command: `npm run test:e2e -- test/pms-boundary.e2e.spec.ts`
+- Result: ✅ **PASS** (2/2 tests)
 
 ## Status
-Implementation complete; **execution blocked by environment auth config**, not test logic.
-Moved to Review/QA with blocker note for e2e DB credentials.
+Execution validated with local-compatible test configuration. Remaining follow-up is hardening default e2e bootstrap path in `test/setup.ts` to avoid environment-specific migration/auth assumptions.
