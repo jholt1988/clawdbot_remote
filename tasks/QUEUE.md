@@ -6,8 +6,6 @@ Mirror source: `pms-plans/PMS_EXECUTION_BOARD.md`
 ## Ready
 
 ## In Progress
-- [~] _(empty)_
-- [ ] _(empty)_
 
 ## Review/QA
 

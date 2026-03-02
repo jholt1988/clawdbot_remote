@@ -2,7 +2,8 @@
 set -euo pipefail
 
 NOTION_KEY=${NOTION_API_KEY:-$(cat ~/.config/notion/api_key 2>/dev/null || true)}
-DS_ID="2d100994-e5b8-80a0-9f30-000bfb908b7e"
+# PMS execution board data source (override with NOTION_PMS_DS_ID)
+DS_ID="${NOTION_PMS_DS_ID:-31600994-e5b8-81ab-92a7-000b227b3c31}"
 TODAY=$(date -u +%F)
 DRY_RUN="${DRY_RUN:-0}"
 LOG_DIR="/home/jordanh316/.openclaw/workspace/automations/queue-autopilot/logs"
@@ -18,8 +19,9 @@ OUT=$(bash /home/jordanh316/.openclaw/workspace/scripts/queue_autopilot.sh 2>&1)
 log "$OUT"
 
 TASK=$(echo "$OUT" | awk -F': ' '/^MOVED_TASK:/{print $2}')
-if [[ -z "$TASK" ]]; then
-  log "NOTION_SYNC_SKIPPED: no moved task"
+TASK_CLEAN=$(echo "$TASK" | sed -E 's/^\s+|\s+$//g')
+if [[ -z "$TASK_CLEAN" || "$TASK_CLEAN" == "_(empty)_" ]]; then
+  log "NOTION_SYNC_SKIPPED: no valid moved task"
   exit 0
 fi
 
@@ -32,16 +34,38 @@ SEARCH_RESP=$(curl -s -X POST "https://api.notion.com/v1/search" \
   -H "Authorization: Bearer $NOTION_KEY" \
   -H "Notion-Version: 2025-09-03" \
   -H "Content-Type: application/json" \
-  -d "{\"query\":$(jq -Rn --arg v "$TASK" '$v'),\"page_size\":20}")
+  -d "{\"query\":$(jq -Rn --arg v "$TASK_CLEAN" '$v'),\"page_size\":50}")
 
-PAGE_ID=$(echo "$SEARCH_RESP" | jq -r --arg DS "$DS_ID" '
+# Prefer exact title match inside configured PMS data source.
+PAGE_ID=$(echo "$SEARCH_RESP" | jq -r --arg DS "$DS_ID" --arg T "$TASK_CLEAN" '
   .results[]?
   | select(.object=="page")
+  | . as $p
+  | (($p.properties.Title.title[0].plain_text // $p.properties.Name.title[0].plain_text // "") == $T)
+  | select(. == true)
+  | $p
   | select(.parent.data_source_id==$DS)
   | .id' | head -n 1)
 
+# Fallback: exact title match in any data source (log the detected DS).
 if [[ -z "$PAGE_ID" ]]; then
-  log "NOTION_SYNC_SKIPPED: no matching task page for '$TASK'"
+  PAGE_ID=$(echo "$SEARCH_RESP" | jq -r --arg T "$TASK_CLEAN" '
+    .results[]?
+    | select(.object=="page")
+    | . as $p
+    | (($p.properties.Title.title[0].plain_text // $p.properties.Name.title[0].plain_text // "") == $T)
+    | select(. == true)
+    | $p.id' | head -n 1)
+
+  if [[ -n "$PAGE_ID" ]]; then
+    FOUND_DS=$(echo "$SEARCH_RESP" | jq -r --arg PID "$PAGE_ID" '
+      .results[]? | select(.id==$PID) | (.parent.data_source_id // "")' | head -n 1)
+    log "NOTION_SYNC_FALLBACK_DS: task found outside configured DS ($FOUND_DS)"
+  fi
+fi
+
+if [[ -z "$PAGE_ID" ]]; then
+  log "NOTION_SYNC_SKIPPED: no matching task page for '$TASK_CLEAN'"
   exit 0
 fi
 

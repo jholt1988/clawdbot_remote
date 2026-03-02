@@ -2,9 +2,17 @@
 set -euo pipefail
 Q="/home/jordanh316/.openclaw/workspace/tasks/QUEUE.md"
 TMP="$(mktemp)"
+TMP_CLEAN="$(mktemp)"
 MOVED_FILE="/tmp/queue_autopilot_moved_task.txt"
 : > "$MOVED_FILE"
 [[ -f "$Q" ]] || { echo "QUEUE missing"; exit 1; }
+
+# Guard 1: remove placeholder/empty task rows globally before any move logic.
+awk '
+  /^[[:space:]]*- \[[ ~x]\][[:space:]]*[_*]?\(empty\)[_*]?[[:space:]]*$/ { next }
+  { print }
+' "$Q" > "$TMP_CLEAN"
+mv "$TMP_CLEAN" "$Q"
 
 # Move first unchecked item under "## Ready" into "## In Progress" as [~]
 awk -v moved_file="$MOVED_FILE" '
@@ -39,7 +47,7 @@ END{
 awk 'BEGIN{prev=""}
 { if($0 ~ /^## / && $0==prev) next; print; prev=$0 }
 ' "$TMP" > "$Q"
-rm -f "$TMP"
+rm -f "$TMP" "$TMP_CLEAN"
 
 if [[ -s "$MOVED_FILE" ]]; then
   echo "MOVED_TASK: $(cat "$MOVED_FILE")"
