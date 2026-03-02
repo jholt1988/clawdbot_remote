@@ -50,8 +50,7 @@ Mirror source: `pms-plans/PMS_EXECUTION_BOARD.md`
   **Status:** Boundary/replay e2e suite now passes (2/2) using local test run config (`SKIP_TEST_MIGRATIONS=true` with dev DB schema). Pending cleanup of default e2e migration bootstrap path.
 - [ ] **PMS-B-03**: Audit log v1 (payments, maintenance, messaging, lease changes) append-only
   **Status:** Added/normalized maintenance and lease audit emissions to complement existing payments/messaging coverage; append-only event stream expanded pending final event taxonomy QA.
-- [ ] **PMS-B-04**: Monitoring MVP (errors visible, queue depth, webhook failures surfaced)
-  **Status:** Ops-summary endpoint now exposed and validated (`/api/monitoring/performance/ops-summary` returns queue/failure metrics); pending dashboard/UI surfacing decision.
+
 - [ ] **PMS-C-01**: Unified toast/error system + consistent empty/loading states
   **Status:** Added shared FeedbackBanner and standardized LoadingState/EmptyState usage across key pages (Messaging, Audit Log, Lease Management); pending broader app-wide rollout QA.
 - [ ] **PMS-C-02**: Accessibility pass on core demo screens
@@ -77,3 +76,4 @@ Mirror source: `pms-plans/PMS_EXECUTION_BOARD.md`
 - [x] **PMS-E-02** — Tiered fee structure decisions completed
 - [x] **PMS-A-02** — Local startup + demo seed data verified; ML startup compatibility fixed (`pms-plans/PMS-A-02_STARTUP_AND_SEED_VERIFICATION_2026-03-02.md`)
 - [x] **PMS-A-05** — Properties/Units CRUD + door counting scoping completed (`pms-plans/PMS-A-05_COMPLETION_2026-03-02.md`)
+- [x] **PMS-B-04** — Monitoring MVP endpoint verified (`/api/monitoring/performance/ops-summary`, queue+webhook metrics) (`pms-plans/PMS-B-04_PROGRESS_2026-03-02.md`)
