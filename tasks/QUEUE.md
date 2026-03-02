@@ -52,6 +52,8 @@ Mirror source: `pms-plans/PMS_EXECUTION_BOARD.md`
   **Status:** Added/normalized maintenance and lease audit emissions to complement existing payments/messaging coverage; append-only event stream expanded pending final event taxonomy QA.
 - [ ] **PMS-B-04**: Monitoring MVP (errors visible, queue depth, webhook failures surfaced)
   **Status:** Added monitoring ops-summary aggregation (payment attempt queue depth + webhook failures); endpoint wiring added pending route exposure QA in this runtime.
+- [ ] **PMS-C-01**: Unified toast/error system + consistent empty/loading states
+  **Status:** Added shared FeedbackBanner and standardized LoadingState/EmptyState usage across key pages (Messaging, Audit Log, Lease Management); pending broader app-wide rollout QA.
 
 ## Blocked
 - [ ] **Organize Files**: Move files from `home_downloads` to a structured set of folders in `home_documents`.  

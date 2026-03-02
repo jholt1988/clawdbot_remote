@@ -65,6 +65,7 @@ Owner: Jordan + Aden
 - [ ] **PMS-B-02** — E2E boundary tests: org/lease/payment isolation + webhook replay
 - [ ] **PMS-B-03** — Audit log v1 append-only coverage (payments, maintenance, messaging, lease changes)
 - [ ] **PMS-B-04** — Monitoring MVP: error visibility, queue depth, webhook failure surfacing
+- [ ] **PMS-C-01** — Unified toast/error system + consistent empty/loading states
 
 ### Done
 - [x] **PMS-R-04** — Audit log implementation rollout completed (see `pms-plans/PMS-R-04_AUDIT_LOG_IMPLEMENTATION_2026-03-01.md`)
