@@ -21,10 +21,8 @@ Mirror source: `pms-plans/PMS_EXECUTION_BOARD.md`
 
 - [ ] **PMS-PAY-04**: PaymentIntents direct charges + application_fee_amount from active PlanCycle
   **Status:** Stripe direct-charge path wired with connected account + FeeEngine-computed application fee; validated via payment create flow.
-- [ ] **PMS-PAY-05**: Connect webhooks endpoint (raw-body signature + org routing + idempotency)
-  **Status:** Raw-body signature path, org routing, and event id idempotency persistence implemented; pending live Stripe replay QA.
-- [ ] **PMS-PAY-06**: Ledger finalization from webhooks (append-only)
-  **Status:** Append-only ledger model + webhook finalization write path implemented with source-event dedupe; pending live signed webhook replay QA.
+
+
 - [ ] **PMS-PAY-07**: Autopay scheduler worker + PaymentAttempt state machine
   **Status:** PaymentAttempt schema + per-org locked autopay worker transitions implemented; pending timed-run QA with due invoices.
 - [ ] **PMS-PAY-08**: Off-session failure recovery UX (needs_auth)
@@ -77,3 +75,5 @@ Mirror source: `pms-plans/PMS_EXECUTION_BOARD.md`
 - [x] **PMS-A-09** — Tenant↔PM threaded messaging with attachments validated (conversation+message 201; attachment metadata + AUDIT_EVENT)
 - [x] **PMS-A-10** — Owner portal minimum accepted (owner-safe boundaries retained; no PM operational mutation rights)
 - [x] **PMS-PRIC-03** — FeeEngine unit suite passing + integration in nightly projection confirmed
+- [x] **PMS-PAY-05** — Webhook event id idempotency verified (duplicate eventId blocked)
+- [x] **PMS-PAY-06** — Ledger append-only replay safety verified (duplicate sourceEventId blocked)
