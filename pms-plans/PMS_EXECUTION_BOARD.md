@@ -58,8 +58,8 @@ Owner: Jordan + Aden
 - [ ] **PMS-PAY-07** — Autopay scheduler worker (per org) + PaymentAttempt state machine
 - [ ] **PMS-PAY-08** — Off-session failure recovery UX (`NEEDS_AUTH`) with tenant re-entry flow
 
-- [ ] **PMS-A-09** — Messaging threads tenant↔PM with attachments + audit trail
-- [ ] **PMS-A-10** — Owner portal minimum: view + comment + initiate maintenance request (read-only ops posture)
+
+
 - [ ] **PMS-A-11** — Inspection capture mobile-first (checklist + photos + notes + drafts)
 - [ ] **PMS-A-12** — Inspection -> action items -> deterministic estimate range + explainability text
 
@@ -96,6 +96,8 @@ Owner: Jordan + Aden
 - [x] **PMS-PAY-02** — Connected account onboarding link + refresh endpoint verification completed
 - [x] **PMS-PAY-03** — SetupIntent add-card backend flow verification completed
 - [x] **PMS-PRIC-01** — Fee schedule/cycle/snapshot endpoint verification completed
+- [x] **PMS-A-09** — Runtime tenant↔PM message thread + attachment metadata + audit emission verified
+- [x] **PMS-A-10** — Owner portal minimum accepted with owner-safe operational boundaries
 
 ### Blocked
 - [ ] _(empty)_

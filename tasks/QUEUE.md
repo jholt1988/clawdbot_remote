@@ -31,10 +31,8 @@ Mirror source: `pms-plans/PMS_EXECUTION_BOARD.md`
 - [ ] **PMS-PAY-08**: Off-session failure recovery UX (needs_auth)
   **Status:** Tenant `NEEDS_AUTH` attempt visibility + recover endpoint/UI flow implemented; pending live 3DS/on-session auth QA.
 
-- [ ] **PMS-A-09**: Messaging threads tenant↔PM with attachments + audit trail
-  **Status:** Threaded messaging now supports attachment URL payload + UI rendering and audit event logging for conversation/message actions; pending role-flow QA.
-- [ ] **PMS-A-10**: Owner portal minimum (view + comment + initiate maintenance request)
-  **Status:** Owner read/comment/create-maintenance paths confirmed with PM-only mutation guards preserved; messaging conversation send path now audit-logged including attachments.
+
+
 - [ ] **PMS-A-11**: Inspection capture mobile-first (checklist + photos + notes + drafts)
   **Status:** Added resilient local draft persistence/restore for inspection checklist edits and mobile-friendly draft recovery notice; pending mobile device walkthrough QA.
 - [ ] **PMS-A-12**: Inspection -> action items -> deterministic estimate range + explainability text
@@ -77,3 +75,5 @@ Mirror source: `pms-plans/PMS_EXECUTION_BOARD.md`
 - [x] **PMS-PAY-02** — Connected account onboarding link + refresh endpoints validated
 - [x] **PMS-PAY-03** — SetupIntent init + payment method save path validated
 - [x] **PMS-PRIC-01** — Fee schedule + plan cycle + pricing snapshot CRUD validated
+- [x] **PMS-A-09** — Tenant↔PM threaded messaging with attachments validated (conversation+message 201; attachment metadata + AUDIT_EVENT)
+- [x] **PMS-A-10** — Owner portal minimum accepted (owner-safe boundaries retained; no PM operational mutation rights)
