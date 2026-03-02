@@ -59,6 +59,7 @@ Owner: Jordan + Aden
 - [x] **PMS-E-01** — Pricing decision baseline completed
 - [x] **PMS-E-02** — Tiered fee structure decisions completed
 - [x] **PMS-A-02** — Local startup + demo seed data completed incl. ML startup compatibility fix (see `pms-plans/PMS-A-02_STARTUP_AND_SEED_VERIFICATION_2026-03-02.md`)
+- [x] **PMS-A-05** — Properties/Units CRUD + DoorsCounter active/managed scoping completed (see `pms-plans/PMS-A-05_COMPLETION_2026-03-02.md`)
 
 ### Blocked
 - [ ] _(empty)_
