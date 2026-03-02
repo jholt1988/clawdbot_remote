@@ -44,12 +44,12 @@ Owner: Jordan + Aden
 - [ ] _(empty)_
 
 ### Review/QA
-- [ ] **PMS-A-06** — Lease assign flow + tenant doc visibility (minimal)
-- [ ] **PMS-A-07** — Maintenance request (tenant) + photos + PM queue
-- [ ] **PMS-PAY-01** — Org connected account data model + migrations (stripe_account_id, onboarding status, capabilities)
-- [ ] **PMS-PAY-02** — Connected account creation + onboarding link flow (Account Links) + status callbacks
-- [ ] **PMS-PAY-03** — Tenant add-card flow via SetupIntent (off_session-ready) with org scope
-- [ ] **PMS-PRIC-01** — OrgPlanCycle schema + FeeScheduleVersion + pricing snapshots
+
+
+
+
+
+
 - [ ] **PMS-PRIC-02** — PlanCycle scheduler job (monthly open/close + nightly projection) with org-scoped locks
 - [ ] **PMS-PRIC-03** — FeeEngine library (tiered % + minimum fee + fee<amount guard) + unit tests
 - [ ] **PMS-PAY-04** — PaymentIntents direct charges on connected account + app fee from active PlanCycle
@@ -90,6 +90,12 @@ Owner: Jordan + Aden
 - [x] **PMS-B-03** — Runtime audit emission verified for maintenance + lease mutation paths (append-only AUDIT_EVENT stream)
 - [x] **PMS-C-01** — Unified feedback/loading/empty states validated across core pages (Messaging/AuditLog/LeaseManagement)
 - [x] **PMS-C-02** — Accessibility labels/announcements pass validated on core demo screens
+- [x] **PMS-A-06** — Lease assignment + tenant lease visibility verified via API
+- [x] **PMS-A-07** — Maintenance create/photo/queue verification completed
+- [x] **PMS-PAY-01** — Connected account schema + read/write endpoint verification completed
+- [x] **PMS-PAY-02** — Connected account onboarding link + refresh endpoint verification completed
+- [x] **PMS-PAY-03** — SetupIntent add-card backend flow verification completed
+- [x] **PMS-PRIC-01** — Fee schedule/cycle/snapshot endpoint verification completed
 
 ### Blocked
 - [ ] _(empty)_

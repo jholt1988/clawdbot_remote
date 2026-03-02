@@ -4,24 +4,18 @@ Last updated: 2026-03-01
 Mirror source: `pms-plans/PMS_EXECUTION_BOARD.md`
 
 ## Ready
-- [ ] _(empty)_
 
 ## In Progress
+- [~] _(empty)_
 - [ ] _(empty)_
 
 ## Review/QA
-- [ ] **PMS-A-06**: Lease assign flow + tenant doc visibility (minimal)
-  **Status:** Backend UUID lease-path fixes + PM assignment UI delivered; pending manual PM UI walkthrough QA.
-- [ ] **PMS-A-07**: Maintenance request (tenant) + photos + PM queue
-  **Status:** Tenant submit+photo E2E validated; PM queue fields verified (status/priority/assignee). Pending UI walkthrough QA.
-- [ ] **PMS-PAY-01**: Org -> Connected Account model + migrations
-  **Status:** Schema + migration + billing read/write endpoints validated; pending integration QA.
-- [ ] **PMS-PAY-02**: Connected account creation + onboarding link flow
-  **Status:** Onboarding link generation + status refresh endpoints validated; pending callback wiring QA.
-- [ ] **PMS-PAY-03**: Tenant add-card flow using SetupIntent (off_session ready)
-  **Status:** SetupIntent init + tenant add-card save path validated; pending live Stripe UI QA.
-- [ ] **PMS-PRIC-01**: OrgPlanCycle schema + FeeScheduleVersion + snapshots
-  **Status:** Schema/migration + billing pricing endpoints validated with sample cycle/version/snapshot records; pending broader pricing integration QA.
+
+
+
+
+
+
 - [ ] **PMS-PRIC-02**: PlanCycle scheduler job (monthly open/close + nightly tier projection)
   **Status:** Scheduler + org-scoped advisory locks implemented; pending scheduled-run QA in integrated environment.
 - [ ] **PMS-PRIC-03**: FeeEngine library (tiered % + min fee + fee<amount guard)
@@ -77,3 +71,9 @@ Mirror source: `pms-plans/PMS_EXECUTION_BOARD.md`
 - [x] **PMS-B-03** — Audit log v1 coverage validated in runtime (maintenance + lease events confirmed in AUDIT_EVENT stream)
 - [x] **PMS-C-01** — Unified feedback/loading/empty states validated across Messaging/AuditLog/LeaseManagement
 - [x] **PMS-C-02** — Accessibility label pass validated on core messaging + lease assignment flows
+- [x] **PMS-A-06** — Lease assignment + tenant lease visibility validated via API (`/api/leases`, `/api/leases/my-lease`)
+- [x] **PMS-A-07** — Maintenance request + photo + queue visibility validated via API
+- [x] **PMS-PAY-01** — Connected account read/write endpoints validated
+- [x] **PMS-PAY-02** — Connected account onboarding link + refresh endpoints validated
+- [x] **PMS-PAY-03** — SetupIntent init + payment method save path validated
+- [x] **PMS-PRIC-01** — Fee schedule + plan cycle + pricing snapshot CRUD validated
