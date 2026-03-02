@@ -62,6 +62,7 @@ Owner: Jordan + Aden
 - [ ] **PMS-A-10** — Owner portal minimum: view + comment + initiate maintenance request (read-only ops posture)
 - [ ] **PMS-A-11** — Inspection capture mobile-first (checklist + photos + notes + drafts)
 - [ ] **PMS-A-12** — Inspection -> action items -> deterministic estimate range + explainability text
+- [ ] **PMS-B-02** — E2E boundary tests: org/lease/payment isolation + webhook replay
 
 ### Done
 - [x] **PMS-R-04** — Audit log implementation rollout completed (see `pms-plans/PMS-R-04_AUDIT_LOG_IMPLEMENTATION_2026-03-01.md`)

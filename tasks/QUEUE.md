@@ -46,6 +46,8 @@ Mirror source: `pms-plans/PMS_EXECUTION_BOARD.md`
   **Status:** Added resilient local draft persistence/restore for inspection checklist edits and mobile-friendly draft recovery notice; pending mobile device walkthrough QA.
 - [ ] **PMS-A-12**: Inspection -> action items -> deterministic estimate range + explainability text
   **Status:** Deterministic range synthesis + stable line-item ordering + explainability reason text implemented in estimate service; pending repeat-run consistency QA.
+- [ ] **PMS-B-02**: E2E boundary tests (org/lease/payment isolation + webhook replay)
+  **Status:** Added boundary/replay e2e test suite (`test/pms-boundary.e2e.spec.ts`); execution blocked by local e2e DB auth failure (`postgres` 28P01) in test setup.
 
 ## Blocked
 - [ ] **Organize Files**: Move files from `home_downloads` to a structured set of folders in `home_documents`.  
