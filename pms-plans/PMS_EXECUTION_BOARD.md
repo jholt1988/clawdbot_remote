@@ -54,6 +54,7 @@ Owner: Jordan + Aden
 - [ ] **PMS-PRIC-03** — FeeEngine library (tiered % + minimum fee + fee<amount guard) + unit tests
 - [ ] **PMS-PAY-04** — PaymentIntents direct charges on connected account + app fee from active PlanCycle
 - [ ] **PMS-PAY-05** — Connect webhooks endpoint with signature verification, org routing, and idempotent event handling
+- [ ] **PMS-PAY-06** — Ledger finalization from webhooks (append-only) incl. platform_fee_minor + tier snapshot
 
 ### Done
 - [x] **PMS-R-04** — Audit log implementation rollout completed (see `pms-plans/PMS-R-04_AUDIT_LOG_IMPLEMENTATION_2026-03-01.md`)

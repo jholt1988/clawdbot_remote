@@ -30,6 +30,8 @@ Mirror source: `pms-plans/PMS_EXECUTION_BOARD.md`
   **Status:** Stripe direct-charge path wired with connected account + FeeEngine-computed application fee; validated via payment create flow.
 - [ ] **PMS-PAY-05**: Connect webhooks endpoint (raw-body signature + org routing + idempotency)
   **Status:** Raw-body signature path, org routing, and event id idempotency persistence implemented; pending live Stripe replay QA.
+- [ ] **PMS-PAY-06**: Ledger finalization from webhooks (append-only)
+  **Status:** Append-only ledger model + webhook finalization write path implemented with source-event dedupe; pending live signed webhook replay QA.
 
 ## Blocked
 - [ ] **Organize Files**: Move files from `home_downloads` to a structured set of folders in `home_documents`.  
