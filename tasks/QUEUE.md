@@ -12,6 +12,8 @@ Mirror source: `pms-plans/PMS_EXECUTION_BOARD.md`
 ## Review/QA
 - [ ] **PMS-A-06**: Lease assign flow + tenant doc visibility (minimal)
   **Status:** Backend UUID lease-path fixes + PM assignment UI delivered; pending manual PM UI walkthrough QA.
+- [ ] **PMS-A-07**: Maintenance request (tenant) + photos + PM queue
+  **Status:** Tenant submit+photo E2E validated; PM queue fields verified (status/priority/assignee). Pending UI walkthrough QA.
 
 ## Blocked
 - [ ] **Organize Files**: Move files from `home_downloads` to a structured set of folders in `home_documents`.  
