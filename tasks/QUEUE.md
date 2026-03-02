@@ -48,10 +48,8 @@ Mirror source: `pms-plans/PMS_EXECUTION_BOARD.md`
 
 
 
-- [ ] **PMS-C-01**: Unified toast/error system + consistent empty/loading states
-  **Status:** Added shared FeedbackBanner and standardized LoadingState/EmptyState usage across key pages (Messaging, Audit Log, Lease Management); pending broader app-wide rollout QA.
-- [ ] **PMS-C-02**: Accessibility pass on core demo screens
-  **Status:** Added explicit aria-label/focus-friendly control labeling on core messaging + lease assignment workflows; standardized accessible empty/loading/status surfaces on key demo pages.
+
+
 
 
 ## Blocked
@@ -77,3 +75,5 @@ Mirror source: `pms-plans/PMS_EXECUTION_BOARD.md`
 - [x] **PMS-B-02** — Boundary/replay e2e suite passing (2/2) with local-compatible test config (`pms-plans/PMS-B-02_PROGRESS_2026-03-02.md`)
 - [x] **PMS-F-01** — Staging seed pipeline unblocked and passing smoke checks 6/6 (`pms-plans/PMS-F-01_PROGRESS_2026-03-02.md`)
 - [x] **PMS-B-03** — Audit log v1 coverage validated in runtime (maintenance + lease events confirmed in AUDIT_EVENT stream)
+- [x] **PMS-C-01** — Unified feedback/loading/empty states validated across Messaging/AuditLog/LeaseManagement
+- [x] **PMS-C-02** — Accessibility label pass validated on core messaging + lease assignment flows

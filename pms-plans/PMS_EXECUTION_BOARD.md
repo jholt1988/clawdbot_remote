@@ -65,8 +65,8 @@ Owner: Jordan + Aden
 
 
 
-- [ ] **PMS-C-01** — Unified toast/error system + consistent empty/loading states
-- [ ] **PMS-C-02** — Accessibility pass on core demo screens
+
+
 
 
 ### Done
@@ -88,6 +88,8 @@ Owner: Jordan + Aden
 - [x] **PMS-B-02** — Boundary/replay e2e suite validated (2/2 passing under local-compatible config)
 - [x] **PMS-F-01** — Staging/demo seed pipeline unblocked and passing smoke checks (6/6)
 - [x] **PMS-B-03** — Runtime audit emission verified for maintenance + lease mutation paths (append-only AUDIT_EVENT stream)
+- [x] **PMS-C-01** — Unified feedback/loading/empty states validated across core pages (Messaging/AuditLog/LeaseManagement)
+- [x] **PMS-C-02** — Accessibility labels/announcements pass validated on core demo screens
 
 ### Blocked
 - [ ] _(empty)_
