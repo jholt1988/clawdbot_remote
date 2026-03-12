@@ -17,8 +17,8 @@ Created: 2026-02-28
 
 ## Project Docs (local)
 - AI Assistant: [[../01_Strategy/AI_Assistant/Unified_AI_Assistant_Plan_CANONICAL.md]]
-- Property Suite: [[../01_Strategy/Property_Suite/PMS_MASTER_INDEX.md]]
-- Production Company: [[../../pms-plans/production-company-launch-brief-v1.md]]
+- Property Suite: [[../../pms-plans/references/PMS_MASTER_INDEX.md]]
+- Production Company: [[../../pms-plans/marketing/production-company-launch-brief-v1.md]]
 - Repertoire: [[../02_Repertoire/repertoire-index.md]]
 - Finance: [[../03_Finance/FINANCIAL_PACKET_CANONICAL.md]]
 - Legal Ops: [[../04_Legal_Operations/LEASE_OPS_CHECKLIST.md]]
