@@ -230,3 +230,46 @@ Date: 2026-03-12 (UTC)
 ## Unresolved / intentionally left in place
 
 - None. All files under `pms-plans` were assigned to a topical folder with conservative naming retained.
+
+---
+
+## Additional cross-repo PMS relocation pass (outside `pms-master`)
+
+Scope: moved PMS-related documentation found outside `pms-plans/` and outside `pms-master/` into `pms-plans/` topical folders.
+
+### Move log (old -> new)
+
+- `OpenLoops/01_Strategy/Property_Suite/PMS_MVP_Master_Plan_NOTION.md` -> `pms-plans/strategy/legacy-openloops/PMS_MVP_Master_Plan_NOTION.md`  
+  Rationale: core PMS strategy anchor from legacy Property Suite area.
+- `OpenLoops/01_Strategy/Property_Suite/PROPERTY_MANAGEMENT_SUITE_MARKETING.md` -> `pms-plans/marketing/PROPERTY_MANAGEMENT_SUITE_MARKETING.md`  
+  Rationale: PMS positioning/marketing artifact.
+- `OpenLoops/01_Strategy/Property_Suite/PMS_MASTER_INDEX.md` -> `pms-plans/references/PMS_MASTER_INDEX.md`  
+  Rationale: canonical PMS navigation/index belongs in references.
+- `OpenLoops/01_Strategy/Property_Suite/property_management_gap_analysis.md` -> `pms-plans/strategy/legacy-openloops/property_management_gap_analysis.md`  
+  Rationale: PMS gap analysis (strategy input).
+- `briefings/PMS_MVP_Master_Plan_NOTION.md` -> `pms-plans/references/briefings/PMS_MVP_Master_Plan_NOTION.md`  
+  Rationale: PMS briefing artifact consolidated under references.
+- `briefings/PMS_MVP_Master_Plan.md` -> `pms-plans/references/briefings/PMS_MVP_Master_Plan.md`  
+  Rationale: PMS briefing artifact consolidated under references.
+- `briefings/PMS_MVP_Master_Plan.pdf` -> `pms-plans/references/briefings/PMS_MVP_Master_Plan.pdf`  
+  Rationale: PMS briefing export consolidated under references.
+- `briefings/PMS_EXECUTION_BOARD_NOTION.md` -> `pms-plans/references/briefings/PMS_EXECUTION_BOARD_NOTION.md`  
+  Rationale: PMS execution-board briefing artifact.
+- `scripts/notion-governance/CREATE-PMS-TEMPLATES.md` -> `pms-plans/runbooks/notion/CREATE-PMS-TEMPLATES.md`  
+  Rationale: PMS Notion template creation runbook moved to PMS runbooks.
+
+### Markdown link updates performed
+
+- Updated links in `pms-plans/references/PMS_MASTER_INDEX.md` to reflect new file locations.
+- Updated Obsidian-style workspace link in `OpenLoops/00_Workspace/OpenLoops-Workspace.md` for moved PMS index.
+- Updated one path reference in `pms-plans/references/open-loops-top-10-this-month-2026-02-28.md`.
+
+### Ambiguous files intentionally left in place
+
+- `OpenLoops/01_Strategy/Property_Suite/Rental-Application.md`  
+  Reason: domain/process document adjacent to legal/ops flows; PMS-adjacent but not clearly a PMS planning artifact.
+- `scripts/pms-dev/README.md`  
+  Reason: project-local developer documentation for script tooling; moving could harm local discoverability.
+- `pms-mobile-portals/README.md`, `pms-mobile-portals/api-spec.md`, `pms-mobile-portals/design-system.md`, `pms-mobile-portals/CHANGELOG.md`  
+  Reason: module-local technical docs tightly coupled to the `pms-mobile-portals` project.
+

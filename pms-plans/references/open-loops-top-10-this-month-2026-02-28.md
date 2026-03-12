@@ -11,7 +11,7 @@ Scope: OpenLoops pass + long-term goals alignment
 
 ## 2) PMS master-plan anchor
 - **Outcome:** One master index for product strategy
-- **Primary file:** `OpenLoops/01_Strategy/Property_Suite/PMS_MVP_Master_Plan_NOTION.md`
+- **Primary file:** `pms-plans/strategy/legacy-openloops/PMS_MVP_Master_Plan_NOTION.md`
 - **Action:** Add links to marketing, lease lifecycle, rental app, tenant screening docs
 - **DoD:** `PMS_MASTER_INDEX.md` created and linked
 

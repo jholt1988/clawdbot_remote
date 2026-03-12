@@ -11,8 +11,10 @@ This directory is organized by topic, with delivery artifacts split by document 
   - `audit/` — audit log coverage/implementation docs
   - `checklists/` — acceptance, completion, and execution checklists
 - `strategy/` — business plans, launch plans, long-term goals, pricing, and integration strategy
+  - `legacy-openloops/` — migrated legacy Property Suite strategy docs
 - `roadmap/` — milestone-level readiness/finalization/changelog docs
 - `marketing/` — launch messaging, briefs, social/email/blog copy
+- `runbooks/` — operational/runbook docs (including Notion governance templates)
 - `technical/` — rendering/tooling files (`package.json`, lockfile, PDF renderer)
 - `evidence/` — demo guide/runbook/evidence snapshots
 - `references/` — supporting logs/inventories/recommendations
